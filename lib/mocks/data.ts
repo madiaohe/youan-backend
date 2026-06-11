@@ -1478,3 +1478,261 @@ export const mockScreenConfigs: ScreenConfig[] = [
     createdAt: "2024-02-01",
   },
 ];
+
+// ========== 日志管理相关 ==========
+
+// 系统操作日志
+export interface SystemLog {
+  id: string;
+  operator: string;
+  operatorRole: string;
+  operationType: string;
+  operationModule: string;
+  operationContent: string;
+  operationTime: string;
+  ipAddress: string;
+  browser?: string;
+}
+
+export const mockSystemLogs: SystemLog[] = [
+  {
+    id: "1",
+    operator: "admin",
+    operatorRole: "超级管理员",
+    operationType: "登录",
+    operationModule: "系统",
+    operationContent: "登录系统成功",
+    operationTime: "2024-06-11 10:30:00",
+    ipAddress: "192.168.1.1",
+    browser: "Chrome 125",
+  },
+  {
+    id: "2",
+    operator: "user01",
+    operatorRole: "普通管理员",
+    operationType: "导出",
+    operationModule: "检测管理",
+    operationContent: "导出检测记录Excel，共156条",
+    operationTime: "2024-06-11 09:15:00",
+    ipAddress: "192.168.1.2",
+    browser: "Chrome 125",
+  },
+  {
+    id: "3",
+    operator: "admin",
+    operatorRole: "超级管理员",
+    operationType: "编辑",
+    operationModule: "设备管理",
+    operationContent: "修改检测柜A-01参数配置",
+    operationTime: "2024-06-10 16:45:00",
+    ipAddress: "192.168.1.1",
+    browser: "Chrome 125",
+  },
+  {
+    id: "4",
+    operator: "user02",
+    operatorRole: "数据查看员",
+    operationType: "查看",
+    operationModule: "报表统计",
+    operationContent: "查看区队不合格率排名报表",
+    operationTime: "2024-06-10 14:30:00",
+    ipAddress: "192.168.1.3",
+    browser: "Firefox 126",
+  },
+  {
+    id: "5",
+    operator: "admin",
+    operatorRole: "超级管理员",
+    operationType: "新增",
+    operationModule: "员工管理",
+    operationContent: "新增员工：郑十五",
+    operationTime: "2024-06-10 11:00:00",
+    ipAddress: "192.168.1.1",
+    browser: "Chrome 125",
+  },
+];
+
+// AI推荐面罩日志
+export interface AIRecommendLog {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  teamName: string;
+  faceShape: string;
+  faceSize: string;
+  recommendedMask: string;
+  confidence: number;
+  recommendTime: string;
+  deviceId: string;
+  deviceName: string;
+}
+
+export const mockAIRecommendLogs: AIRecommendLog[] = [
+  {
+    id: "1",
+    employeeId: "E001",
+    employeeName: "张三",
+    teamName: "采煤一队",
+    faceShape: "椭圆型",
+    faceSize: "中号",
+    recommendedMask: "3M 6200 M号",
+    confidence: 95.6,
+    recommendTime: "2024-06-11 08:35:00",
+    deviceId: "D001",
+    deviceName: "检测柜A-01",
+  },
+  {
+    id: "2",
+    employeeId: "E002",
+    employeeName: "李四",
+    teamName: "采煤一队",
+    faceShape: "方型",
+    faceSize: "大号",
+    recommendedMask: "3M 6200 L号",
+    confidence: 92.3,
+    recommendTime: "2024-06-11 08:40:00",
+    deviceId: "D001",
+    deviceName: "检测柜A-01",
+  },
+  {
+    id: "3",
+    employeeId: "E006",
+    employeeName: "孙八",
+    teamName: "掘进一队",
+    faceShape: "圆型",
+    faceSize: "小号",
+    recommendedMask: "3M 6200 S号",
+    confidence: 88.7,
+    recommendTime: "2024-06-11 09:15:00",
+    deviceId: "D003",
+    deviceName: "检测柜B-01",
+  },
+  {
+    id: "4",
+    employeeId: "E008",
+    employeeName: "吴十",
+    teamName: "掘进二队",
+    faceShape: "长型",
+    faceSize: "中号",
+    recommendedMask: "3M 6200 M号",
+    confidence: 91.2,
+    recommendTime: "2024-06-11 09:30:00",
+    deviceId: "D002",
+    deviceName: "检测柜A-02",
+  },
+  {
+    id: "5",
+    employeeId: "E011",
+    employeeName: "陈十三",
+    teamName: "通风队",
+    faceShape: "椭圆型",
+    faceSize: "中号",
+    recommendedMask: "3M 6200 M号",
+    confidence: 94.1,
+    recommendTime: "2024-06-11 10:30:00",
+    deviceId: "D001",
+    deviceName: "检测柜A-01",
+  },
+];
+
+// ========== 系统设置相关 ==========
+
+// 设备参数配置
+export interface DeviceParamConfig {
+  id: string;
+  paramName: string;
+  paramKey: string;
+  paramValue: string;
+  description: string;
+  updatedAt: string;
+}
+
+export const mockDeviceParamConfigs: DeviceParamConfig[] = [
+  {
+    id: "1",
+    paramName: "检测超时时间",
+    paramKey: "detection_timeout",
+    paramValue: "30",
+    description: "单次检测最大等待时间（秒）",
+    updatedAt: "2024-06-01 10:00:00",
+  },
+  {
+    id: "2",
+    paramName: "心跳检测间隔",
+    paramKey: "heartbeat_interval",
+    paramValue: "60",
+    description: "设备心跳检测间隔（秒）",
+    updatedAt: "2024-06-01 10:00:00",
+  },
+  {
+    id: "3",
+    paramName: "库存预警阈值",
+    paramKey: "stock_warning_threshold",
+    paramValue: "20",
+    description: "发放柜库存低于此值时预警",
+    updatedAt: "2024-05-15 14:30:00",
+  },
+  {
+    id: "4",
+    paramName: "滤盒使用周期",
+    paramKey: "filter_box_cycle",
+    paramValue: "30",
+    description: "滤盒标准使用周期（天）",
+    updatedAt: "2024-05-15 14:30:00",
+  },
+  {
+    id: "5",
+    paramName: "数据同步时间",
+    paramKey: "sync_schedule",
+    paramValue: "08:00,18:00",
+    description: "每日自动同步WMS时间点",
+    updatedAt: "2024-05-20 09:00:00",
+  },
+];
+
+// 界面与通知配置
+export interface UIConfig {
+  id: string;
+  configName: string;
+  configKey: string;
+  configValue: string;
+  description: string;
+}
+
+export const mockUIConfigs: UIConfig[] = [
+  {
+    id: "1",
+    configName: "系统名称",
+    configKey: "system_name",
+    configValue: "滤盒全生命周期管理系统",
+    description: "显示在页面标题和登录页",
+  },
+  {
+    id: "2",
+    configName: "登录验证码",
+    configKey: "login_captcha",
+    configValue: "true",
+    description: "是否启用登录验证码",
+  },
+  {
+    id: "3",
+    configName: "短信通知",
+    configKey: "sms_notification",
+    configValue: "true",
+    description: "是否启用短信通知功能",
+  },
+  {
+    id: "4",
+    configName: "邮件通知",
+    configKey: "email_notification",
+    configValue: "false",
+    description: "是否启用邮件通知功能",
+  },
+  {
+    id: "5",
+    configName: "回收提醒提前天数",
+    configKey: "recycle_remind_days",
+    configValue: "3",
+    description: "提前多少天发送回收提醒",
+  },
+];
