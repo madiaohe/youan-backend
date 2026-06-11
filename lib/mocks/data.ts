@@ -1408,3 +1408,73 @@ export const mockWMSSyncRecords: WMSSyncRecord[] = [
 
 // 设备状态列表
 export const deviceStatuses = ["在线", "离线", "维护中"];
+
+// ========== 报表统计相关 ==========
+
+// 检测统计数据
+export interface DetectionStats {
+  date: string;
+  totalCount: number;
+  qualifiedCount: number;
+  unqualifiedCount: number;
+  recycleCount: number;
+  dispenseCount: number;
+}
+
+export const mockDetectionStats: DetectionStats[] = [
+  { date: "2024-06-11", totalCount: 156, qualifiedCount: 142, unqualifiedCount: 14, recycleCount: 45, dispenseCount: 50 },
+  { date: "2024-06-10", totalCount: 189, qualifiedCount: 175, unqualifiedCount: 14, recycleCount: 52, dispenseCount: 48 },
+  { date: "2024-06-09", totalCount: 167, qualifiedCount: 158, unqualifiedCount: 9, recycleCount: 38, dispenseCount: 55 },
+  { date: "2024-06-08", totalCount: 145, qualifiedCount: 132, unqualifiedCount: 13, recycleCount: 41, dispenseCount: 42 },
+  { date: "2024-06-07", totalCount: 178, qualifiedCount: 165, unqualifiedCount: 13, recycleCount: 48, dispenseCount: 60 },
+  { date: "2024-06-06", totalCount: 134, qualifiedCount: 125, unqualifiedCount: 9, recycleCount: 35, dispenseCount: 38 },
+  { date: "2024-06-05", totalCount: 198, qualifiedCount: 180, unqualifiedCount: 18, recycleCount: 55, dispenseCount: 65 },
+];
+
+// 区队不合格率排名
+export interface TeamRanking {
+  rank: number;
+  teamId: string;
+  teamName: string;
+  totalCount: number;
+  unqualifiedCount: number;
+  unqualifiedRate: number;
+}
+
+export const mockTeamRankings: TeamRanking[] = [
+  { rank: 1, teamId: "4", teamName: "掘进二队", totalCount: 45, unqualifiedCount: 8, unqualifiedRate: 17.8 },
+  { rank: 2, teamId: "2", teamName: "采煤二队", totalCount: 68, unqualifiedCount: 10, unqualifiedRate: 14.7 },
+  { rank: 3, teamId: "3", teamName: "掘进一队", totalCount: 52, unqualifiedCount: 6, unqualifiedRate: 11.5 },
+  { rank: 4, teamId: "1", teamName: "采煤一队", totalCount: 85, unqualifiedCount: 8, unqualifiedRate: 9.4 },
+  { rank: 5, teamId: "6", teamName: "通风队", totalCount: 38, unqualifiedCount: 3, unqualifiedRate: 7.9 },
+  { rank: 6, teamId: "5", teamName: "机电队", totalCount: 32, unqualifiedCount: 2, unqualifiedRate: 6.3 },
+];
+
+// 大屏配置
+export interface ScreenConfig {
+  id: string;
+  name: string;
+  enabled: boolean;
+  refreshInterval: number;
+  showItems: string[];
+  createdAt: string;
+}
+
+export const mockScreenConfigs: ScreenConfig[] = [
+  {
+    id: "1",
+    name: "主入口大屏",
+    enabled: true,
+    refreshInterval: 30,
+    showItems: ["detectionStats", "teamRanking", "realtimeStatus"],
+    createdAt: "2024-01-15",
+  },
+  {
+    id: "2",
+    name: "检测区大屏",
+    enabled: true,
+    refreshInterval: 10,
+    showItems: ["detectionStats", "deviceStatus"],
+    createdAt: "2024-02-01",
+  },
+];
