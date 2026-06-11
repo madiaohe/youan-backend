@@ -584,3 +584,375 @@ export const mockEmployees: Employee[] = [
     createdAt: "2024-03-25",
   },
 ];
+
+// ========== 检测管理相关 ==========
+
+// 检测参数类型
+export interface DetectionParam {
+  id: string;
+  name: string;
+  code: string;
+  minValue: number;
+  maxValue: number;
+  unit: string;
+  description: string;
+  updatedAt: string;
+  updatedBy: string;
+}
+
+export const mockDetectionParams: DetectionParam[] = [
+  {
+    id: "1",
+    name: "吸气阻力上限",
+    code: "INHALE_MAX",
+    minValue: 0,
+    maxValue: 350,
+    unit: "Pa",
+    description: "吸气阻力检测上限阈值",
+    updatedAt: "2024-06-01 10:00:00",
+    updatedBy: "admin",
+  },
+  {
+    id: "2",
+    name: "吸气阻力下限",
+    code: "INHALE_MIN",
+    minValue: 0,
+    maxValue: 100,
+    unit: "Pa",
+    description: "吸气阻力检测下限阈值",
+    updatedAt: "2024-06-01 10:00:00",
+    updatedBy: "admin",
+  },
+  {
+    id: "3",
+    name: "呼气阻力上限",
+    code: "EXHALE_MAX",
+    minValue: 0,
+    maxValue: 300,
+    unit: "Pa",
+    description: "呼气阻力检测上限阈值",
+    updatedAt: "2024-06-01 10:00:00",
+    updatedBy: "admin",
+  },
+  {
+    id: "4",
+    name: "呼气阻力下限",
+    code: "EXHALE_MIN",
+    minValue: 0,
+    maxValue: 80,
+    unit: "Pa",
+    description: "呼气阻力检测下限阈值",
+    updatedAt: "2024-06-01 10:00:00",
+    updatedBy: "admin",
+  },
+  {
+    id: "5",
+    name: "检测流量",
+    code: "FLOW_RATE",
+    minValue: 30,
+    maxValue: 95,
+    unit: "L/min",
+    description: "标准检测流量范围",
+    updatedAt: "2024-05-15 14:30:00",
+    updatedBy: "user01",
+  },
+  {
+    id: "6",
+    name: "检测时长",
+    code: "DURATION",
+    minValue: 5,
+    maxValue: 15,
+    unit: "s",
+    description: "单次检测持续时间",
+    updatedAt: "2024-05-15 14:30:00",
+    updatedBy: "user01",
+  },
+];
+
+// 检测记录类型
+export interface DetectionRecord {
+  id: string;
+  filterBoxCode: string;
+  employeeId: string;
+  employeeName: string;
+  teamName: string;
+  deviceId: string;
+  deviceName: string;
+  detectionTime: string;
+  inhaleResistance: number;
+  exhaleResistance: number;
+  flowRate: number;
+  result: "合格" | "不合格";
+  remark?: string;
+}
+
+export const mockDetectionRecords: DetectionRecord[] = [
+  {
+    id: "1",
+    filterBoxCode: "FB20240601001",
+    employeeId: "E001",
+    employeeName: "张三",
+    teamName: "采煤一队",
+    deviceId: "D001",
+    deviceName: "检测柜A-01",
+    detectionTime: "2024-06-11 08:30:00",
+    inhaleResistance: 180,
+    exhaleResistance: 150,
+    flowRate: 85,
+    result: "合格",
+  },
+  {
+    id: "2",
+    filterBoxCode: "FB20240601002",
+    employeeId: "E002",
+    employeeName: "李四",
+    teamName: "采煤一队",
+    deviceId: "D001",
+    deviceName: "检测柜A-01",
+    detectionTime: "2024-06-11 08:35:00",
+    inhaleResistance: 380,
+    exhaleResistance: 200,
+    flowRate: 82,
+    result: "不合格",
+    remark: "吸气阻力超标",
+  },
+  {
+    id: "3",
+    filterBoxCode: "FB20240601003",
+    employeeId: "E003",
+    employeeName: "王五",
+    teamName: "采煤二队",
+    deviceId: "D002",
+    deviceName: "检测柜A-02",
+    detectionTime: "2024-06-11 08:40:00",
+    inhaleResistance: 160,
+    exhaleResistance: 140,
+    flowRate: 88,
+    result: "合格",
+  },
+  {
+    id: "4",
+    filterBoxCode: "FB20240601004",
+    employeeId: "E004",
+    employeeName: "赵六",
+    teamName: "采煤二队",
+    deviceId: "D001",
+    deviceName: "检测柜A-01",
+    detectionTime: "2024-06-11 09:00:00",
+    inhaleResistance: 200,
+    exhaleResistance: 320,
+    flowRate: 80,
+    result: "不合格",
+    remark: "呼气阻力超标",
+  },
+  {
+    id: "5",
+    filterBoxCode: "FB20240601005",
+    employeeId: "E006",
+    employeeName: "孙八",
+    teamName: "掘进一队",
+    deviceId: "D003",
+    deviceName: "检测柜B-01",
+    detectionTime: "2024-06-11 09:15:00",
+    inhaleResistance: 150,
+    exhaleResistance: 130,
+    flowRate: 90,
+    result: "合格",
+  },
+  {
+    id: "6",
+    filterBoxCode: "FB20240601006",
+    employeeId: "E008",
+    employeeName: "吴十",
+    teamName: "掘进二队",
+    deviceId: "D002",
+    deviceName: "检测柜A-02",
+    detectionTime: "2024-06-11 09:30:00",
+    inhaleResistance: 170,
+    exhaleResistance: 145,
+    flowRate: 86,
+    result: "合格",
+  },
+  {
+    id: "7",
+    filterBoxCode: "FB20240601007",
+    employeeId: "E009",
+    employeeName: "郑十一",
+    teamName: "机电队",
+    deviceId: "D003",
+    deviceName: "检测柜B-01",
+    detectionTime: "2024-06-11 10:00:00",
+    inhaleResistance: 190,
+    exhaleResistance: 160,
+    flowRate: 84,
+    result: "合格",
+  },
+  {
+    id: "8",
+    filterBoxCode: "FB20240601008",
+    employeeId: "E011",
+    employeeName: "陈十三",
+    teamName: "通风队",
+    deviceId: "D001",
+    deviceName: "检测柜A-01",
+    detectionTime: "2024-06-11 10:30:00",
+    inhaleResistance: 165,
+    exhaleResistance: 140,
+    flowRate: 87,
+    result: "合格",
+  },
+  {
+    id: "9",
+    filterBoxCode: "FB20240610001",
+    employeeId: "E001",
+    employeeName: "张三",
+    teamName: "采煤一队",
+    deviceId: "D001",
+    deviceName: "检测柜A-01",
+    detectionTime: "2024-06-10 08:00:00",
+    inhaleResistance: 175,
+    exhaleResistance: 155,
+    flowRate: 83,
+    result: "合格",
+  },
+  {
+    id: "10",
+    filterBoxCode: "FB20240610002",
+    employeeId: "E004",
+    employeeName: "赵六",
+    teamName: "采煤二队",
+    deviceId: "D002",
+    deviceName: "检测柜A-02",
+    detectionTime: "2024-06-10 08:30:00",
+    inhaleResistance: 185,
+    exhaleResistance: 160,
+    flowRate: 85,
+    result: "合格",
+  },
+];
+
+// 检测日志类型
+export interface DetectionLog {
+  id: string;
+  filterBoxCode: string;
+  employeeId: string;
+  employeeName: string;
+  teamName: string;
+  deviceId: string;
+  deviceName: string;
+  operationType: "检测" | "回收" | "发放";
+  operationTime: string;
+  result: string;
+  remark?: string;
+}
+
+export const mockDetectionLogs: DetectionLog[] = [
+  {
+    id: "1",
+    filterBoxCode: "FB20240601001",
+    employeeId: "E001",
+    employeeName: "张三",
+    teamName: "采煤一队",
+    deviceId: "D001",
+    deviceName: "检测柜A-01",
+    operationType: "检测",
+    operationTime: "2024-06-11 08:30:00",
+    result: "合格",
+  },
+  {
+    id: "2",
+    filterBoxCode: "FB20240601002",
+    employeeId: "E002",
+    employeeName: "李四",
+    teamName: "采煤一队",
+    deviceId: "D001",
+    deviceName: "检测柜A-01",
+    operationType: "检测",
+    operationTime: "2024-06-11 08:35:00",
+    result: "不合格",
+    remark: "吸气阻力超标",
+  },
+  {
+    id: "3",
+    filterBoxCode: "FB20240501001",
+    employeeId: "E001",
+    employeeName: "张三",
+    teamName: "采煤一队",
+    deviceId: "D001",
+    deviceName: "检测柜A-01",
+    operationType: "回收",
+    operationTime: "2024-06-10 18:00:00",
+    result: "已回收",
+  },
+  {
+    id: "4",
+    filterBoxCode: "FB20240601003",
+    employeeId: "E003",
+    employeeName: "王五",
+    teamName: "采煤二队",
+    deviceId: "D002",
+    deviceName: "检测柜A-02",
+    operationType: "检测",
+    operationTime: "2024-06-10 09:00:00",
+    result: "合格",
+  },
+  {
+    id: "5",
+    filterBoxCode: "FB20240601005",
+    employeeId: "E006",
+    employeeName: "孙八",
+    teamName: "掘进一队",
+    deviceId: "D003",
+    deviceName: "检测柜B-01",
+    operationType: "发放",
+    operationTime: "2024-06-10 07:30:00",
+    result: "已发放",
+  },
+  {
+    id: "6",
+    filterBoxCode: "FB20240601004",
+    employeeId: "E004",
+    employeeName: "赵六",
+    teamName: "采煤二队",
+    deviceId: "D001",
+    deviceName: "检测柜A-01",
+    operationType: "检测",
+    operationTime: "2024-06-09 10:00:00",
+    result: "不合格",
+    remark: "呼气阻力超标",
+  },
+  {
+    id: "7",
+    filterBoxCode: "FB20240501002",
+    employeeId: "E008",
+    employeeName: "吴十",
+    teamName: "掘进二队",
+    deviceId: "D002",
+    deviceName: "检测柜A-02",
+    operationType: "回收",
+    operationTime: "2024-06-09 17:30:00",
+    result: "已回收",
+  },
+  {
+    id: "8",
+    filterBoxCode: "FB20240601006",
+    employeeId: "E009",
+    employeeName: "郑十一",
+    teamName: "机电队",
+    deviceId: "D003",
+    deviceName: "检测柜B-01",
+    operationType: "发放",
+    operationTime: "2024-06-09 07:00:00",
+    result: "已发放",
+  },
+];
+
+// 检测设备列表
+export const detectionDevices = [
+  { id: "D001", name: "检测柜A-01" },
+  { id: "D002", name: "检测柜A-02" },
+  { id: "D003", name: "检测柜B-01" },
+];
+
+// 检测结果类型
+export const detectionResults = ["合格", "不合格"];
