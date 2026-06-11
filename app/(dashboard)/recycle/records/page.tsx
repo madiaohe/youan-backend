@@ -35,7 +35,7 @@ import {
   detectionDevices,
   type RecycleRecord,
 } from "@/lib/mocks/data";
-import { Search, RotateCcw, Download, Eye } from "lucide-react";
+import { Search, RotateCcw, Download } from "lucide-react";
 
 export default function RecycleRecordsPage() {
   const [records] = useState<RecycleRecord[]>(mockRecycleRecords);

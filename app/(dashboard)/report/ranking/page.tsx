@@ -219,7 +219,7 @@ export default function TeamRankingPage() {
       </div>
 
       <div className="text-sm text-muted-foreground">
-        共 {filteredRankings} 个区队 · 排名越靠前不合格率越高，需重点关注
+        共 {filteredRankings.length} 个区队 · 排名越靠前不合格率越高，需重点关注
       </div>
     </div>
   );

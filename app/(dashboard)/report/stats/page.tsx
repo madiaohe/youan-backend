@@ -4,13 +4,6 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -22,14 +15,13 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { mockDetectionStats, mockTeams, type DetectionStats } from "@/lib/mocks/data";
-import { Search, RotateCcw, Download, TrendingUp, TrendingDown, Activity, Recycle, Package } from "lucide-react";
+import { mockDetectionStats, type DetectionStats } from "@/lib/mocks/data";
+import { Search, RotateCcw, Download, TrendingUp, TrendingDown, Activity, Package } from "lucide-react";
 
 export default function DetectionStatsPage() {
   const [stats] = useState<DetectionStats[]>(mockDetectionStats);
 
   // 筛选条件
-  const [filterTeam, setFilterTeam] = useState("all");
   const [filterStartDate, setFilterStartDate] = useState("");
   const [filterEndDate, setFilterEndDate] = useState("");
 
@@ -42,7 +34,6 @@ export default function DetectionStatsPage() {
 
   // 重置筛选
   const handleReset = () => {
-    setFilterTeam("all");
     setFilterStartDate("");
     setFilterEndDate("");
   };

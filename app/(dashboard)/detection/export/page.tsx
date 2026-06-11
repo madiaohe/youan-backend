@@ -28,7 +28,7 @@ import {
   detectionDevices,
   type DetectionLog,
 } from "@/lib/mocks/data";
-import { Search, RotateCcw, Download, FileSpreadsheet, FileText } from "lucide-react";
+import { Search, RotateCcw, FileSpreadsheet, FileText } from "lucide-react";
 
 export default function DetectionExportPage() {
   const [logs] = useState<DetectionLog[]>(mockDetectionLogs);

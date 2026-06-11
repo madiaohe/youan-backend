@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import {
   Table,
   TableBody,
@@ -84,7 +84,7 @@ export default function FaceManagementPage() {
   };
 
   // 启动摄像头
-  const startCamera = async () => {
+  const startCamera = useCallback(async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: "user", width: 640, height: 480 },
@@ -94,19 +94,19 @@ export default function FaceManagementPage() {
         videoRef.current.srcObject = stream;
       }
       setCameraActive(true);
-    } catch (error) {
+    } catch {
       toast.error("无法访问摄像头，请检查权限设置");
     }
-  };
+  }, []);
 
   // 停止摄像头
-  const stopCamera = () => {
+  const stopCamera = useCallback(() => {
     if (streamRef.current) {
       streamRef.current.getTracks().forEach((track) => track.stop());
       streamRef.current = null;
     }
     setCameraActive(false);
-  };
+  }, []);
 
   // 拍照
   const takePhoto = () => {
@@ -198,19 +198,15 @@ export default function FaceManagementPage() {
   // 弹窗打开时启动摄像头
   useEffect(() => {
     if (isCameraDialogOpen && !photoTaken) {
-      startCamera();
+      // Use queueMicrotask to defer camera start outside of effect body
+      queueMicrotask(() => {
+        startCamera();
+      });
     }
     return () => {
       stopCamera();
     };
-  }, [isCameraDialogOpen, photoTaken]);
-
-  // 弹窗关闭时停止摄像头
-  useEffect(() => {
-    if (!isCameraDialogOpen) {
-      stopCamera();
-    }
-  }, [isCameraDialogOpen]);
+  }, [isCameraDialogOpen, photoTaken, startCamera, stopCamera]);
 
   return (
     <div className="space-y-6">
@@ -385,6 +381,7 @@ export default function FaceManagementPage() {
               <div className="space-y-4">
                 <div className="relative aspect-[4/3] bg-black rounded-lg overflow-hidden">
                   {capturedPhoto && (
+                    // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={capturedPhoto}
                       alt="Captured face"

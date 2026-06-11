@@ -20,7 +20,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
   DialogContent,
@@ -31,7 +30,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 import { mockScreenConfigs, type ScreenConfig } from "@/lib/mocks/data";
-import { Plus, Pencil, Monitor, Eye, Settings } from "lucide-react";
+import { Plus, Pencil, Monitor, Eye } from "lucide-react";
 
 // 可选展示项
 const availableShowItems = [

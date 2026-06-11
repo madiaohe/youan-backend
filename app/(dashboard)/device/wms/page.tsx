@@ -22,7 +22,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { mockWMSSyncRecords, type WMSSyncRecord } from "@/lib/mocks/data";
-import { Search, RotateCcw, RefreshCw, Download, Upload, Database } from "lucide-react";
+import { Search, RotateCcw, Download, Upload, Database } from "lucide-react";
 
 export default function WMSPage() {
   const [syncRecords] = useState<WMSSyncRecord[]>(mockWMSSyncRecords);

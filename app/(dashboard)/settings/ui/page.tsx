@@ -20,6 +20,13 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { toast } from "sonner";
 import { mockUIConfigs, type UIConfig } from "@/lib/mocks/data";
 import { Pencil, Save, Bell, Palette } from "lucide-react";

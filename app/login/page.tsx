@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -171,12 +172,12 @@ export default function LoginPage() {
               </Button>
 
               <div className="text-center">
-                <a
+                <Link
                   href="/forgot-password"
                   className="text-sm text-primary hover:underline"
                 >
                   忘记密码？
-                </a>
+                </Link>
               </div>
             </TabsContent>
 
@@ -242,12 +243,12 @@ export default function LoginPage() {
               </Button>
 
               <div className="text-center">
-                <a
+                <Link
                   href="/forgot-password"
                   className="text-sm text-primary hover:underline"
                 >
                   忘记密码？
-                </a>
+                </Link>
               </div>
             </TabsContent>
           </Tabs>

@@ -67,12 +67,7 @@ export default function DashboardPage() {
   ];
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">数据看板</h1>
-        <p className="text-muted-foreground">滤盒全生命周期管理系统概览</p>
-      </div>
-
+    <div className="flex flex-col gap-6">
       {/* 统计卡片 */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
