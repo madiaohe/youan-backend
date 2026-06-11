@@ -317,3 +317,270 @@ export const operationModules = [
   "日志管理",
   "系统设置",
 ];
+
+// ========== 员工管理相关 ==========
+
+// Mock 区队数据
+export interface Team {
+  id: string;
+  code: string;
+  name: string;
+  employeeCount: number;
+  leader: string;
+  leaderPhone: string;
+  createdAt: string;
+  status: "启用" | "禁用";
+}
+
+export const mockTeams: Team[] = [
+  {
+    id: "1",
+    code: "T001",
+    name: "采煤一队",
+    employeeCount: 25,
+    leader: "张队长",
+    leaderPhone: "13800138001",
+    createdAt: "2024-01-01",
+    status: "启用",
+  },
+  {
+    id: "2",
+    code: "T002",
+    name: "采煤二队",
+    employeeCount: 18,
+    leader: "李队长",
+    leaderPhone: "13800138002",
+    createdAt: "2024-01-01",
+    status: "启用",
+  },
+  {
+    id: "3",
+    code: "T003",
+    name: "掘进一队",
+    employeeCount: 12,
+    leader: "王队长",
+    leaderPhone: "13800138003",
+    createdAt: "2024-01-15",
+    status: "启用",
+  },
+  {
+    id: "4",
+    code: "T004",
+    name: "掘进二队",
+    employeeCount: 15,
+    leader: "赵队长",
+    leaderPhone: "13800138004",
+    createdAt: "2024-02-01",
+    status: "启用",
+  },
+  {
+    id: "5",
+    code: "T005",
+    name: "机电队",
+    employeeCount: 8,
+    leader: "钱队长",
+    leaderPhone: "13800138005",
+    createdAt: "2024-02-15",
+    status: "启用",
+  },
+  {
+    id: "6",
+    code: "T006",
+    name: "通风队",
+    employeeCount: 10,
+    leader: "孙队长",
+    leaderPhone: "13800138006",
+    createdAt: "2024-03-01",
+    status: "启用",
+  },
+];
+
+// Mock 员工数据
+export interface Employee {
+  id: string;
+  employeeId: string;
+  name: string;
+  teamId: string;
+  teamName: string;
+  phone: string;
+  cardNo: string;
+  hasFace: boolean;
+  faceLoginEnabled: boolean;
+  facePhoto?: string;
+  faceCreatedAt?: string;
+  status: "启用" | "禁用";
+  createdAt: string;
+}
+
+export const mockEmployees: Employee[] = [
+  {
+    id: "1",
+    employeeId: "E001",
+    name: "张三",
+    teamId: "1",
+    teamName: "采煤一队",
+    phone: "13800001001",
+    cardNo: "C00123456",
+    hasFace: true,
+    faceLoginEnabled: true,
+    facePhoto: "/avatars/face-1.jpg",
+    faceCreatedAt: "2024-06-01",
+    status: "启用",
+    createdAt: "2024-01-15",
+  },
+  {
+    id: "2",
+    employeeId: "E002",
+    name: "李四",
+    teamId: "1",
+    teamName: "采煤一队",
+    phone: "13800001002",
+    cardNo: "C00123457",
+    hasFace: false,
+    faceLoginEnabled: false,
+    status: "启用",
+    createdAt: "2024-01-20",
+  },
+  {
+    id: "3",
+    employeeId: "E003",
+    name: "王五",
+    teamId: "2",
+    teamName: "采煤二队",
+    phone: "13800001003",
+    cardNo: "C00123458",
+    hasFace: true,
+    faceLoginEnabled: false,
+    facePhoto: "/avatars/face-3.jpg",
+    faceCreatedAt: "2024-05-15",
+    status: "禁用",
+    createdAt: "2024-02-01",
+  },
+  {
+    id: "4",
+    employeeId: "E004",
+    name: "赵六",
+    teamId: "2",
+    teamName: "采煤二队",
+    phone: "13800001004",
+    cardNo: "C00123459",
+    hasFace: true,
+    faceLoginEnabled: true,
+    facePhoto: "/avatars/face-4.jpg",
+    faceCreatedAt: "2024-05-20",
+    status: "启用",
+    createdAt: "2024-02-10",
+  },
+  {
+    id: "5",
+    employeeId: "E005",
+    name: "钱七",
+    teamId: "3",
+    teamName: "掘进一队",
+    phone: "13800001005",
+    cardNo: "C00123460",
+    hasFace: false,
+    faceLoginEnabled: false,
+    status: "启用",
+    createdAt: "2024-02-15",
+  },
+  {
+    id: "6",
+    employeeId: "E006",
+    name: "孙八",
+    teamId: "3",
+    teamName: "掘进一队",
+    phone: "13800001006",
+    cardNo: "C00123461",
+    hasFace: true,
+    faceLoginEnabled: true,
+    facePhoto: "/avatars/face-6.jpg",
+    faceCreatedAt: "2024-04-10",
+    status: "启用",
+    createdAt: "2024-02-20",
+  },
+  {
+    id: "7",
+    employeeId: "E007",
+    name: "周九",
+    teamId: "4",
+    teamName: "掘进二队",
+    phone: "13800001007",
+    cardNo: "C00123462",
+    hasFace: false,
+    faceLoginEnabled: false,
+    status: "启用",
+    createdAt: "2024-03-01",
+  },
+  {
+    id: "8",
+    employeeId: "E008",
+    name: "吴十",
+    teamId: "4",
+    teamName: "掘进二队",
+    phone: "13800001008",
+    cardNo: "C00123463",
+    hasFace: true,
+    faceLoginEnabled: true,
+    facePhoto: "/avatars/face-8.jpg",
+    faceCreatedAt: "2024-03-15",
+    status: "启用",
+    createdAt: "2024-03-05",
+  },
+  {
+    id: "9",
+    employeeId: "E009",
+    name: "郑十一",
+    teamId: "5",
+    teamName: "机电队",
+    phone: "13800001009",
+    cardNo: "C00123464",
+    hasFace: true,
+    faceLoginEnabled: false,
+    facePhoto: "/avatars/face-9.jpg",
+    faceCreatedAt: "2024-04-01",
+    status: "启用",
+    createdAt: "2024-03-10",
+  },
+  {
+    id: "10",
+    employeeId: "E010",
+    name: "冯十二",
+    teamId: "5",
+    teamName: "机电队",
+    phone: "13800001010",
+    cardNo: "C00123465",
+    hasFace: false,
+    faceLoginEnabled: false,
+    status: "禁用",
+    createdAt: "2024-03-15",
+  },
+  {
+    id: "11",
+    employeeId: "E011",
+    name: "陈十三",
+    teamId: "6",
+    teamName: "通风队",
+    phone: "13800001011",
+    cardNo: "C00123466",
+    hasFace: true,
+    faceLoginEnabled: true,
+    facePhoto: "/avatars/face-11.jpg",
+    faceCreatedAt: "2024-05-01",
+    status: "启用",
+    createdAt: "2024-03-20",
+  },
+  {
+    id: "12",
+    employeeId: "E012",
+    name: "褚十四",
+    teamId: "6",
+    teamName: "通风队",
+    phone: "13800001012",
+    cardNo: "C00123467",
+    hasFace: false,
+    faceLoginEnabled: false,
+    status: "启用",
+    createdAt: "2024-03-25",
+  },
+];
