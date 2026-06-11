@@ -956,3 +956,252 @@ export const detectionDevices = [
 
 // 检测结果类型
 export const detectionResults = ["合格", "不合格"];
+
+// ========== 回收管理相关 ==========
+
+// 待回收滤盒数据
+export interface PendingRecycle {
+  id: string;
+  filterBoxCode: string;
+  employeeId: string;
+  employeeName: string;
+  teamName: string;
+  lastDetectionTime: string;
+  lastDetectionResult: "合格" | "不合格";
+  usageDays: number;
+  status: "待回收" | "已超期";
+  expireDate: string;
+}
+
+export const mockPendingRecycles: PendingRecycle[] = [
+  {
+    id: "1",
+    filterBoxCode: "FB20240501001",
+    employeeId: "E001",
+    employeeName: "张三",
+    teamName: "采煤一队",
+    lastDetectionTime: "2024-06-10 08:00:00",
+    lastDetectionResult: "合格",
+    usageDays: 30,
+    status: "待回收",
+    expireDate: "2024-06-11",
+  },
+  {
+    id: "2",
+    filterBoxCode: "FB20240501002",
+    employeeId: "E008",
+    employeeName: "吴十",
+    teamName: "掘进二队",
+    lastDetectionTime: "2024-06-09 16:00:00",
+    lastDetectionResult: "不合格",
+    usageDays: 32,
+    status: "已超期",
+    expireDate: "2024-06-09",
+  },
+  {
+    id: "3",
+    filterBoxCode: "FB20240501003",
+    employeeId: "E006",
+    employeeName: "孙八",
+    teamName: "掘进一队",
+    lastDetectionTime: "2024-06-08 14:30:00",
+    lastDetectionResult: "合格",
+    usageDays: 28,
+    status: "待回收",
+    expireDate: "2024-06-12",
+  },
+  {
+    id: "4",
+    filterBoxCode: "FB20240501004",
+    employeeId: "E011",
+    employeeName: "陈十三",
+    teamName: "通风队",
+    lastDetectionTime: "2024-06-07 10:00:00",
+    lastDetectionResult: "合格",
+    usageDays: 35,
+    status: "已超期",
+    expireDate: "2024-06-06",
+  },
+  {
+    id: "5",
+    filterBoxCode: "FB20240501005",
+    employeeId: "E009",
+    employeeName: "郑十一",
+    teamName: "机电队",
+    lastDetectionTime: "2024-06-10 09:00:00",
+    lastDetectionResult: "合格",
+    usageDays: 25,
+    status: "待回收",
+    expireDate: "2024-06-15",
+  },
+];
+
+// 回收记录
+export interface RecycleRecord {
+  id: string;
+  filterBoxCode: string;
+  employeeId: string;
+  employeeName: string;
+  teamName: string;
+  recycleTime: string;
+  deviceId: string;
+  deviceName: string;
+  recycleType: "正常回收" | "强制回收";
+  remark?: string;
+}
+
+export const mockRecycleRecords: RecycleRecord[] = [
+  {
+    id: "1",
+    filterBoxCode: "FB20240401001",
+    employeeId: "E001",
+    employeeName: "张三",
+    teamName: "采煤一队",
+    recycleTime: "2024-06-10 18:00:00",
+    deviceId: "D001",
+    deviceName: "检测柜A-01",
+    recycleType: "正常回收",
+  },
+  {
+    id: "2",
+    filterBoxCode: "FB20240401002",
+    employeeId: "E002",
+    employeeName: "李四",
+    teamName: "采煤一队",
+    recycleTime: "2024-06-10 17:30:00",
+    deviceId: "D001",
+    deviceName: "检测柜A-01",
+    recycleType: "正常回收",
+  },
+  {
+    id: "3",
+    filterBoxCode: "FB20240401003",
+    employeeId: "E004",
+    employeeName: "赵六",
+    teamName: "采煤二队",
+    recycleTime: "2024-06-09 18:00:00",
+    deviceId: "D002",
+    deviceName: "检测柜A-02",
+    recycleType: "正常回收",
+  },
+  {
+    id: "4",
+    filterBoxCode: "FB20240401004",
+    employeeId: "E003",
+    employeeName: "王五",
+    teamName: "采煤二队",
+    recycleTime: "2024-06-09 17:00:00",
+    deviceId: "D002",
+    deviceName: "检测柜A-02",
+    recycleType: "强制回收",
+    remark: "检测不合格强制回收",
+  },
+  {
+    id: "5",
+    filterBoxCode: "FB20240401005",
+    employeeId: "E006",
+    employeeName: "孙八",
+    teamName: "掘进一队",
+    recycleTime: "2024-06-08 18:00:00",
+    deviceId: "D003",
+    deviceName: "检测柜B-01",
+    recycleType: "正常回收",
+  },
+  {
+    id: "6",
+    filterBoxCode: "FB20240401006",
+    employeeId: "E008",
+    employeeName: "吴十",
+    teamName: "掘进二队",
+    recycleTime: "2024-06-08 17:30:00",
+    deviceId: "D003",
+    deviceName: "检测柜B-01",
+    recycleType: "正常回收",
+  },
+  {
+    id: "7",
+    filterBoxCode: "FB20240401007",
+    employeeId: "E009",
+    employeeName: "郑十一",
+    teamName: "机电队",
+    recycleTime: "2024-06-07 18:00:00",
+    deviceId: "D001",
+    deviceName: "检测柜A-01",
+    recycleType: "正常回收",
+  },
+];
+
+// 待领用滤盒数据
+export interface WaitingDispense {
+  id: string;
+  filterBoxCode: string;
+  status: "待领用" | "已预约";
+  batchNo: string;
+  storageTime: string;
+  deviceId: string;
+  deviceName: string;
+  reservedEmployeeId?: string;
+  reservedEmployeeName?: string;
+  reservedTime?: string;
+}
+
+export const mockWaitingDispenses: WaitingDispense[] = [
+  {
+    id: "1",
+    filterBoxCode: "FB20240611001",
+    status: "待领用",
+    batchNo: "B20240611001",
+    storageTime: "2024-06-11 08:00:00",
+    deviceId: "DP001",
+    deviceName: "发放柜A-01",
+  },
+  {
+    id: "2",
+    filterBoxCode: "FB20240611002",
+    status: "已预约",
+    batchNo: "B20240611001",
+    storageTime: "2024-06-11 08:00:00",
+    deviceId: "DP001",
+    deviceName: "发放柜A-01",
+    reservedEmployeeId: "E002",
+    reservedEmployeeName: "李四",
+    reservedTime: "2024-06-11 09:00:00",
+  },
+  {
+    id: "3",
+    filterBoxCode: "FB20240611003",
+    status: "待领用",
+    batchNo: "B20240611001",
+    storageTime: "2024-06-11 08:00:00",
+    deviceId: "DP001",
+    deviceName: "发放柜A-01",
+  },
+  {
+    id: "4",
+    filterBoxCode: "FB20240610001",
+    status: "已预约",
+    batchNo: "B20240610001",
+    storageTime: "2024-06-10 08:00:00",
+    deviceId: "DP002",
+    deviceName: "发放柜A-02",
+    reservedEmployeeId: "E005",
+    reservedEmployeeName: "钱七",
+    reservedTime: "2024-06-10 10:00:00",
+  },
+  {
+    id: "5",
+    filterBoxCode: "FB20240610002",
+    status: "待领用",
+    batchNo: "B20240610001",
+    storageTime: "2024-06-10 08:00:00",
+    deviceId: "DP002",
+    deviceName: "发放柜A-02",
+  },
+];
+
+// 发放设备列表
+export const dispenseDevices = [
+  { id: "DP001", name: "发放柜A-01" },
+  { id: "DP002", name: "发放柜A-02" },
+  { id: "DP003", name: "发放柜B-01" },
+];
