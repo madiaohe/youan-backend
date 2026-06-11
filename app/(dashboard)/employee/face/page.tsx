@@ -55,8 +55,8 @@ export default function FaceManagementPage() {
 
   // 筛选条件
   const [filterKeyword, setFilterKeyword] = useState("");
-  const [filterFaceStatus, setFilterFaceStatus] = useState("");
-  const [filterLoginPermission, setFilterLoginPermission] = useState("");
+  const [filterFaceStatus, setFilterFaceStatus] = useState("all");
+  const [filterLoginPermission, setFilterLoginPermission] = useState("all");
 
   // 筛选员工
   const filteredEmployees = employees.filter((emp) => {
@@ -71,8 +71,8 @@ export default function FaceManagementPage() {
   // 重置筛选
   const handleReset = () => {
     setFilterKeyword("");
-    setFilterFaceStatus("");
-    setFilterLoginPermission("");
+    setFilterFaceStatus("all");
+    setFilterLoginPermission("all");
   };
 
   // 打开摄像头弹窗
@@ -239,7 +239,7 @@ export default function FaceManagementPage() {
                 <SelectValue placeholder="全部" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">全部</SelectItem>
+                <SelectItem value="all">全部</SelectItem>
                 <SelectItem value="hasFace">已录入</SelectItem>
                 <SelectItem value="noFace">未录入</SelectItem>
               </SelectContent>
@@ -252,7 +252,7 @@ export default function FaceManagementPage() {
                 <SelectValue placeholder="全部" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">全部</SelectItem>
+                <SelectItem value="all">全部</SelectItem>
                 <SelectItem value="enabled">允许</SelectItem>
                 <SelectItem value="disabled">禁止</SelectItem>
               </SelectContent>

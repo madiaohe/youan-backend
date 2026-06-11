@@ -66,8 +66,8 @@ export default function EmployeeInfoPage() {
 
   // 筛选条件
   const [filterKeyword, setFilterKeyword] = useState("");
-  const [filterTeam, setFilterTeam] = useState("");
-  const [filterStatus, setFilterStatus] = useState("");
+  const [filterTeam, setFilterTeam] = useState("all");
+  const [filterStatus, setFilterStatus] = useState("all");
 
   // 表单状态
   const [formData, setFormData] = useState({
@@ -86,8 +86,8 @@ export default function EmployeeInfoPage() {
   // 筛选员工
   const filteredEmployees = employees.filter((emp) => {
     if (filterKeyword && !emp.employeeId.includes(filterKeyword) && !emp.name.includes(filterKeyword)) return false;
-    if (filterTeam && emp.teamId !== filterTeam) return false;
-    if (filterStatus && emp.status !== filterStatus) return false;
+    if (filterTeam !== "all" && emp.teamId !== filterTeam) return false;
+    if (filterStatus !== "all" && emp.status !== filterStatus) return false;
     return true;
   });
 
@@ -112,8 +112,8 @@ export default function EmployeeInfoPage() {
   // 重置筛选
   const handleReset = () => {
     setFilterKeyword("");
-    setFilterTeam("");
-    setFilterStatus("");
+    setFilterTeam("all");
+    setFilterStatus("all");
   };
 
   // 打开新增弹窗
@@ -318,7 +318,7 @@ export default function EmployeeInfoPage() {
                 <SelectValue placeholder="全部区队" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">全部区队</SelectItem>
+                <SelectItem value="all">全部区队</SelectItem>
                 {mockTeams.map((team) => (
                   <SelectItem key={team.id} value={team.id}>
                     {team.name}
@@ -334,7 +334,7 @@ export default function EmployeeInfoPage() {
                 <SelectValue placeholder="全部状态" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">全部状态</SelectItem>
+                <SelectItem value="all">全部状态</SelectItem>
                 <SelectItem value="启用">启用</SelectItem>
                 <SelectItem value="禁用">禁用</SelectItem>
               </SelectContent>

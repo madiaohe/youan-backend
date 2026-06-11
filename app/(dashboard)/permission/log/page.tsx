@@ -36,8 +36,8 @@ export default function AdminLogPage() {
 
   // 筛选条件
   const [filterOperator, setFilterOperator] = useState("");
-  const [filterType, setFilterType] = useState("");
-  const [filterModule, setFilterModule] = useState("");
+  const [filterType, setFilterType] = useState("all");
+  const [filterModule, setFilterModule] = useState("all");
   const [filterStartDate, setFilterStartDate] = useState("");
   const [filterEndDate, setFilterEndDate] = useState("");
 
@@ -48,8 +48,8 @@ export default function AdminLogPage() {
   // 筛选日志
   const filteredLogs = logs.filter((log) => {
     if (filterOperator && !log.operator.includes(filterOperator)) return false;
-    if (filterType && log.operationType !== filterType) return false;
-    if (filterModule && log.operationModule !== filterModule) return false;
+    if (filterType !== "all" && log.operationType !== filterType) return false;
+    if (filterModule !== "all" && log.operationModule !== filterModule) return false;
     if (filterStartDate && log.operationTime < filterStartDate) return false;
     if (filterEndDate && log.operationTime > filterEndDate + " 23:59:59") return false;
     return true;
@@ -65,8 +65,8 @@ export default function AdminLogPage() {
   // 重置筛选
   const handleReset = () => {
     setFilterOperator("");
-    setFilterType("");
-    setFilterModule("");
+    setFilterType("all");
+    setFilterModule("all");
     setFilterStartDate("");
     setFilterEndDate("");
     setCurrentPage(1);
@@ -118,7 +118,7 @@ export default function AdminLogPage() {
                 <SelectValue placeholder="全部类型" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">全部类型</SelectItem>
+                <SelectItem value="all">全部类型</SelectItem>
                 {operationTypes.map((type) => (
                   <SelectItem key={type} value={type}>
                     {type}
@@ -134,7 +134,7 @@ export default function AdminLogPage() {
                 <SelectValue placeholder="全部模块" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">全部模块</SelectItem>
+                <SelectItem value="all">全部模块</SelectItem>
                 {operationModules.map((module) => (
                   <SelectItem key={module} value={module}>
                     {module}
