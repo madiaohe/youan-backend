@@ -1205,3 +1205,206 @@ export const dispenseDevices = [
   { id: "DP002", name: "发放柜A-02" },
   { id: "DP003", name: "发放柜B-01" },
 ];
+
+// ========== 设备管理相关 ==========
+
+// 检测回收柜
+export interface DetectorDevice {
+  id: string;
+  code: string;
+  name: string;
+  location: string;
+  status: "在线" | "离线" | "维护中";
+  ipAddress: string;
+  lastHeartbeat: string;
+  detectionCount: number;
+  recycleCount: number;
+  createdAt: string;
+}
+
+export const mockDetectorDevices: DetectorDevice[] = [
+  {
+    id: "D001",
+    code: "JC-A01",
+    name: "检测柜A-01",
+    location: "采煤区一楼",
+    status: "在线",
+    ipAddress: "192.168.1.101",
+    lastHeartbeat: "2024-06-11 15:30:00",
+    detectionCount: 1256,
+    recycleCount: 432,
+    createdAt: "2024-01-15",
+  },
+  {
+    id: "D002",
+    code: "JC-A02",
+    name: "检测柜A-02",
+    location: "采煤区一楼",
+    status: "在线",
+    ipAddress: "192.168.1.102",
+    lastHeartbeat: "2024-06-11 15:30:00",
+    detectionCount: 987,
+    recycleCount: 321,
+    createdAt: "2024-01-15",
+  },
+  {
+    id: "D003",
+    code: "JC-B01",
+    name: "检测柜B-01",
+    location: "掘进区一楼",
+    status: "维护中",
+    ipAddress: "192.168.1.103",
+    lastHeartbeat: "2024-06-11 10:00:00",
+    detectionCount: 856,
+    recycleCount: 278,
+    createdAt: "2024-02-01",
+  },
+  {
+    id: "D004",
+    code: "JC-B02",
+    name: "检测柜B-02",
+    location: "掘进区一楼",
+    status: "离线",
+    ipAddress: "192.168.1.104",
+    lastHeartbeat: "2024-06-10 18:00:00",
+    detectionCount: 654,
+    recycleCount: 189,
+    createdAt: "2024-02-01",
+  },
+];
+
+// 自助发放柜
+export interface DispenserDevice {
+  id: string;
+  code: string;
+  name: string;
+  location: string;
+  status: "在线" | "离线" | "维护中";
+  ipAddress: string;
+  lastHeartbeat: string;
+  stockCount: number;
+  capacity: number;
+  dispenseCount: number;
+  createdAt: string;
+}
+
+export const mockDispenserDevices: DispenserDevice[] = [
+  {
+    id: "DP001",
+    code: "FF-A01",
+    name: "发放柜A-01",
+    location: "采煤区一楼",
+    status: "在线",
+    ipAddress: "192.168.1.111",
+    lastHeartbeat: "2024-06-11 15:30:00",
+    stockCount: 45,
+    capacity: 100,
+    dispenseCount: 567,
+    createdAt: "2024-01-15",
+  },
+  {
+    id: "DP002",
+    code: "FF-A02",
+    name: "发放柜A-02",
+    location: "采煤区一楼",
+    status: "在线",
+    ipAddress: "192.168.1.112",
+    lastHeartbeat: "2024-06-11 15:30:00",
+    stockCount: 78,
+    capacity: 100,
+    dispenseCount: 432,
+    createdAt: "2024-01-15",
+  },
+  {
+    id: "DP003",
+    code: "FF-B01",
+    name: "发放柜B-01",
+    location: "掘进区一楼",
+    status: "在线",
+    ipAddress: "192.168.1.113",
+    lastHeartbeat: "2024-06-11 15:30:00",
+    stockCount: 23,
+    capacity: 100,
+    dispenseCount: 298,
+    createdAt: "2024-02-01",
+  },
+  {
+    id: "DP004",
+    code: "FF-B02",
+    name: "发放柜B-02",
+    location: "掘进区一楼",
+    status: "离线",
+    ipAddress: "192.168.1.114",
+    lastHeartbeat: "2024-06-10 20:00:00",
+    stockCount: 0,
+    capacity: 100,
+    dispenseCount: 156,
+    createdAt: "2024-02-01",
+  },
+];
+
+// WMS同步记录
+export interface WMSSyncRecord {
+  id: string;
+  syncType: "入库同步" | "出库同步" | "库存同步";
+  syncTime: string;
+  status: "成功" | "失败";
+  itemCount: number;
+  errorMessage?: string;
+}
+
+export const mockWMSSyncRecords: WMSSyncRecord[] = [
+  {
+    id: "1",
+    syncType: "入库同步",
+    syncTime: "2024-06-11 08:00:00",
+    status: "成功",
+    itemCount: 50,
+  },
+  {
+    id: "2",
+    syncType: "库存同步",
+    syncTime: "2024-06-11 08:00:00",
+    status: "成功",
+    itemCount: 234,
+  },
+  {
+    id: "3",
+    syncType: "出库同步",
+    syncTime: "2024-06-10 18:00:00",
+    status: "成功",
+    itemCount: 32,
+  },
+  {
+    id: "4",
+    syncType: "入库同步",
+    syncTime: "2024-06-10 08:00:00",
+    status: "失败",
+    itemCount: 0,
+    errorMessage: "WMS服务器连接超时",
+  },
+  {
+    id: "5",
+    syncType: "库存同步",
+    syncTime: "2024-06-10 08:00:00",
+    status: "成功",
+    itemCount: 198,
+  },
+  {
+    id: "6",
+    syncType: "出库同步",
+    syncTime: "2024-06-09 18:00:00",
+    status: "成功",
+    itemCount: 45,
+  },
+  {
+    id: "7",
+    syncType: "入库同步",
+    syncTime: "2024-06-09 08:00:00",
+    status: "成功",
+    itemCount: 100,
+  },
+];
+
+// 设备状态列表
+export const deviceStatuses = ["在线", "离线", "维护中"];
