@@ -17,6 +17,8 @@ import { usePathname } from "next/navigation";
 
 // 菜单路径映射
 const menuMap: Record<string, { title: string; parent?: string }> = {
+  // 工作台
+  "/": { title: "工作台" },
   // 权限管理
   "/permission/admin": { title: "管理员列表", parent: "权限管理" },
   "/permission/role": { title: "角色管理", parent: "权限管理" },
@@ -26,7 +28,7 @@ const menuMap: Record<string, { title: string; parent?: string }> = {
   "/employee/face": { title: "人脸识别管理", parent: "员工管理" },
   "/employee/team": { title: "区队管理", parent: "员工管理" },
   // 检测管理
-  "/detection/params": { title: "检测参数设置", parent: "检测管理" },
+  "/detection/params": { title: "呼吸阻力检测参数设置", parent: "检测管理" },
   "/detection/records": { title: "检测记录查询", parent: "检测管理" },
   "/detection/export": { title: "检测日志导出", parent: "检测管理" },
   // 回收管理

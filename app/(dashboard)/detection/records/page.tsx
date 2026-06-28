@@ -11,7 +11,9 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -19,22 +21,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
-import { Badge } from "@/components/ui/badge";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { DatePicker } from "@/components/ui/date-picker";
 import { toast } from "sonner";
 import {
   mockDetectionRecords,
@@ -43,7 +31,15 @@ import {
   detectionResults,
   type DetectionRecord,
 } from "@/lib/mocks/data";
-import { Search, RotateCcw, Eye, Download } from "lucide-react";
+import {
+  Search,
+  RotateCcw,
+  Download,
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from "lucide-react";
 
 export default function DetectionRecordsPage() {
   const [records] = useState<DetectionRecord[]>(mockDetectionRecords);
@@ -53,16 +49,15 @@ export default function DetectionRecordsPage() {
   const [filterTeam, setFilterTeam] = useState("all");
   const [filterDevice, setFilterDevice] = useState("all");
   const [filterResult, setFilterResult] = useState("all");
-  const [filterStartDate, setFilterStartDate] = useState("");
-  const [filterEndDate, setFilterEndDate] = useState("");
+  const [filterStartDate, setFilterStartDate] = useState<Date | undefined>();
+  const [filterEndDate, setFilterEndDate] = useState<Date | undefined>();
 
   // 分页
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
 
-  // 详情弹窗
-  const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false);
-  const [selectedRecord, setSelectedRecord] = useState<DetectionRecord | null>(null);
+  // 选择
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   // 筛选记录
   const filteredRecords = records.filter((record) => {
@@ -77,211 +72,247 @@ export default function DetectionRecordsPage() {
       return false;
     if (filterDevice !== "all" && record.deviceId !== filterDevice) return false;
     if (filterResult !== "all" && record.result !== filterResult) return false;
-    if (filterStartDate && record.detectionTime < filterStartDate) return false;
-    if (filterEndDate && record.detectionTime > filterEndDate + " 23:59:59") return false;
+    if (filterStartDate) {
+      const recordDate = new Date(record.detectionTime.split(" ")[0]);
+      if (recordDate < filterStartDate) return false;
+    }
+    if (filterEndDate) {
+      const recordDate = new Date(record.detectionTime.split(" ")[0]);
+      const endOfDay = new Date(filterEndDate);
+      endOfDay.setHours(23, 59, 59);
+      if (recordDate > endOfDay) return false;
+    }
     return true;
   });
 
   // 分页数据
-  const totalPages = Math.ceil(filteredRecords.length / pageSize);
+  const pageCount = Math.ceil(filteredRecords.length / pageSize);
   const paginatedRecords = filteredRecords.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize
+    pageIndex * pageSize,
+    (pageIndex + 1) * pageSize
   );
 
+  // 统计
+  const totalCount = filteredRecords.length;
+  const qualifiedCount = filteredRecords.filter((r) => r.result === "合格").length;
+  const unqualifiedCount = filteredRecords.filter((r) => r.result === "不合格").length;
+  const qualifiedRate = totalCount > 0 ? Math.round((qualifiedCount / totalCount) * 100) : 0;
+
   // 重置筛选
-  const handleReset = () => {
+  const handleResetFilter = () => {
     setFilterKeyword("");
     setFilterTeam("all");
     setFilterDevice("all");
     setFilterResult("all");
-    setFilterStartDate("");
-    setFilterEndDate("");
-    setCurrentPage(1);
+    setFilterStartDate(undefined);
+    setFilterEndDate(undefined);
+    setPageIndex(0);
   };
 
-  // 搜索
-  const handleSearch = () => {
-    setCurrentPage(1);
+  // 全选（当前页）
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedIds(paginatedRecords.map((r) => r.id));
+    } else {
+      setSelectedIds([]);
+    }
   };
 
-  // 查看详情
-  const handleViewDetail = (record: DetectionRecord) => {
-    setSelectedRecord(record);
-    setIsDetailDialogOpen(true);
+  // 单选
+  const handleSelect = (id: string, checked: boolean) => {
+    if (checked) {
+      setSelectedIds([...selectedIds, id]);
+    } else {
+      setSelectedIds(selectedIds.filter((i) => i !== id));
+    }
   };
 
   // 导出
   const handleExport = () => {
-    toast.success(`已导出 ${filteredRecords.length} 条检测记录`);
+    const exportCount = selectedIds.length > 0 ? selectedIds.length : filteredRecords.length;
+    toast.success(`已导出 ${exportCount} 条检测记录`);
+    setSelectedIds([]);
   };
 
-  // 统计
-  const qualifiedCount = filteredRecords.filter((r) => r.result === "合格").length;
-  const unqualifiedCount = filteredRecords.filter((r) => r.result === "不合格").length;
-
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">检测记录查询</h1>
-          <p className="text-muted-foreground">查询和管理呼吸阻力检测记录</p>
-        </div>
-        <Button onClick={handleExport}>
-          <Download className="mr-2 h-4 w-4" />
-          导出数据
-        </Button>
-      </div>
-
-      {/* 统计卡片 */}
+    <div className="flex flex-col gap-4">
+      {/* KPI 统计卡片 */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <div className="rounded-md border p-4">
-          <div className="text-sm text-muted-foreground">总检测次数</div>
-          <div className="text-2xl font-bold">{filteredRecords.length}</div>
-        </div>
-        <div className="rounded-md border border-green-200 bg-green-50 p-4">
-          <div className="text-sm text-green-600">合格次数</div>
-          <div className="text-2xl font-bold text-green-700">{qualifiedCount}</div>
-        </div>
-        <div className="rounded-md border border-red-200 bg-red-50 p-4">
-          <div className="text-sm text-red-600">不合格次数</div>
-          <div className="text-2xl font-bold text-red-700">{unqualifiedCount}</div>
-        </div>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              总检测次数
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold tabular-nums">{totalCount}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              筛选条件下的检测总数
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2 flex flex-row items-center justify-between">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              合格次数
+            </CardTitle>
+            <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+              {qualifiedRate}%
+            </span>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold tabular-nums text-green-600">{qualifiedCount}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              合格率表现良好
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2 flex flex-row items-center justify-between">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              不合格次数
+            </CardTitle>
+            <span className="inline-flex items-center rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700">
+              {100 - qualifiedRate}%
+            </span>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold tabular-nums text-red-600">{unqualifiedCount}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              需要关注的检测记录
+            </p>
+          </CardContent>
+        </Card>
       </div>
 
-      {/* 筛选条件 */}
-      <div className="rounded-md border p-4">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-6">
-          <div className="space-y-2">
-            <Label>滤盒编号/员工</Label>
-            <Input
-              placeholder="输入编号或姓名"
-              value={filterKeyword}
-              onChange={(e) => setFilterKeyword(e.target.value)}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label>区队</Label>
-            <Select value={filterTeam} onValueChange={setFilterTeam}>
-              <SelectTrigger>
-                <SelectValue placeholder="全部区队" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">全部区队</SelectItem>
-                {mockTeams.map((team) => (
-                  <SelectItem key={team.id} value={team.id}>
-                    {team.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-2">
-            <Label>检测设备</Label>
-            <Select value={filterDevice} onValueChange={setFilterDevice}>
-              <SelectTrigger>
-                <SelectValue placeholder="全部设备" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">全部设备</SelectItem>
-                {detectionDevices.map((device) => (
-                  <SelectItem key={device.id} value={device.id}>
-                    {device.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-2">
-            <Label>检测结果</Label>
-            <Select value={filterResult} onValueChange={setFilterResult}>
-              <SelectTrigger>
-                <SelectValue placeholder="全部结果" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">全部结果</SelectItem>
-                {detectionResults.map((result) => (
-                  <SelectItem key={result} value={result}>
-                    {result}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-2">
-            <Label>开始日期</Label>
-            <Input
-              type="date"
-              value={filterStartDate}
-              onChange={(e) => setFilterStartDate(e.target.value)}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label>结束日期</Label>
-            <Input
-              type="date"
-              value={filterEndDate}
-              onChange={(e) => setFilterEndDate(e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="mt-4 flex items-end gap-2">
-          <Button onClick={handleSearch}>
-            <Search className="mr-2 h-4 w-4" />
-            查询
+      {/* 工具栏 */}
+      <div className="flex items-center justify-between pt-2">
+        <div className="flex items-center gap-2">
+          <Input
+            placeholder="滤盒编号/员工"
+            value={filterKeyword}
+            onChange={(e) => setFilterKeyword(e.target.value)}
+            className="w-36"
+          />
+          <Select value={filterTeam} onValueChange={setFilterTeam}>
+            <SelectTrigger className="w-28">
+              <SelectValue placeholder="区队" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">全部区队</SelectItem>
+              {mockTeams.map((team) => (
+                <SelectItem key={team.id} value={team.id}>
+                  {team.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={filterDevice} onValueChange={setFilterDevice}>
+            <SelectTrigger className="w-28">
+              <SelectValue placeholder="设备" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">全部设备</SelectItem>
+              {detectionDevices.map((device) => (
+                <SelectItem key={device.id} value={device.id}>
+                  {device.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={filterResult} onValueChange={setFilterResult}>
+            <SelectTrigger className="w-24">
+              <SelectValue placeholder="结果" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">全部</SelectItem>
+              {detectionResults.map((result) => (
+                <SelectItem key={result} value={result}>
+                  {result}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <DatePicker
+            date={filterStartDate}
+            onDateChange={setFilterStartDate}
+            placeholder="开始日期"
+            className="w-32"
+          />
+          <span className="text-muted-foreground text-sm">至</span>
+          <DatePicker
+            date={filterEndDate}
+            onDateChange={setFilterEndDate}
+            placeholder="结束日期"
+            className="w-32"
+          />
+          <Button size="sm">
+            <Search className="h-4 w-4" />
           </Button>
-          <Button variant="outline" onClick={handleReset}>
-            <RotateCcw className="mr-2 h-4 w-4" />
-            重置
+          <Button variant="outline" size="sm" onClick={handleResetFilter}>
+            <RotateCcw className="h-4 w-4" />
+          </Button>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button size="sm" onClick={handleExport}>
+            <Download className="mr-2 h-4 w-4" />
+            导出{selectedIds.length > 0 ? `(${selectedIds.length})` : ""}
           </Button>
         </div>
       </div>
 
       {/* 表格 */}
-      <div className="rounded-md border">
+      <div className="rounded-lg border">
         <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>滤盒编号</TableHead>
-              <TableHead>员工工号</TableHead>
-              <TableHead>员工姓名</TableHead>
-              <TableHead>区队</TableHead>
-              <TableHead>检测设备</TableHead>
-              <TableHead>吸气阻力(Pa)</TableHead>
-              <TableHead>呼气阻力(Pa)</TableHead>
-              <TableHead>流量(L/min)</TableHead>
-              <TableHead>检测结果</TableHead>
-              <TableHead>检测时间</TableHead>
-              <TableHead className="w-20">操作</TableHead>
+          <TableHeader className="sticky top-0 z-10 bg-muted">
+            <TableRow className="hover:bg-transparent">
+              <TableHead className="w-12 h-12 pl-4">
+                <Checkbox
+                  checked={
+                    paginatedRecords.length > 0 &&
+                    selectedIds.length === paginatedRecords.length
+                  }
+                  onCheckedChange={handleSelectAll}
+                  aria-label="全选"
+                />
+              </TableHead>
+              <TableHead className="h-12">员工姓名</TableHead>
+              <TableHead className="h-12">区队</TableHead>
+              <TableHead className="h-12">滤盒编号</TableHead>
+              <TableHead className="h-12">员工工号</TableHead>
+              <TableHead className="h-12">检测设备</TableHead>
+              <TableHead className="h-12">吸气阻力(Pa)</TableHead>
+              <TableHead className="h-12">呼气阻力(Pa)</TableHead>
+              <TableHead className="h-12">流量(L/min)</TableHead>
+              <TableHead className="h-12">检测结果</TableHead>
+              <TableHead className="h-12">检测时间</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {paginatedRecords.length > 0 ? (
               paginatedRecords.map((record) => (
-                <TableRow key={record.id}>
-                  <TableCell className="font-medium">{record.filterBoxCode}</TableCell>
-                  <TableCell>{record.employeeId}</TableCell>
-                  <TableCell>{record.employeeName}</TableCell>
-                  <TableCell>{record.teamName}</TableCell>
-                  <TableCell>{record.deviceName}</TableCell>
-                  <TableCell>{record.inhaleResistance}</TableCell>
-                  <TableCell>{record.exhaleResistance}</TableCell>
-                  <TableCell>{record.flowRate}</TableCell>
-                  <TableCell>
+                <TableRow key={record.id} data-state={selectedIds.includes(record.id) && "selected"}>
+                  <TableCell className="py-3 pl-4">
+                    <Checkbox
+                      checked={selectedIds.includes(record.id)}
+                      onCheckedChange={(checked) => handleSelect(record.id, checked as boolean)}
+                      aria-label="选择行"
+                    />
+                  </TableCell>
+                  <TableCell className="py-3 font-medium">{record.employeeName}</TableCell>
+                  <TableCell className="py-3">{record.teamName}</TableCell>
+                  <TableCell className="py-3">{record.filterBoxCode}</TableCell>
+                  <TableCell className="py-3">{record.employeeId}</TableCell>
+                  <TableCell className="py-3">{record.deviceName}</TableCell>
+                  <TableCell className="py-3">{record.inhaleResistance}</TableCell>
+                  <TableCell className="py-3">{record.exhaleResistance}</TableCell>
+                  <TableCell className="py-3">{record.flowRate}</TableCell>
+                  <TableCell className="py-3">
                     <Badge variant={record.result === "合格" ? "default" : "destructive"}>
                       {record.result}
                     </Badge>
                   </TableCell>
-                  <TableCell>{record.detectionTime}</TableCell>
-                  <TableCell>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => handleViewDetail(record)}
-                    >
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                  </TableCell>
+                  <TableCell className="py-3">{record.detectionTime}</TableCell>
                 </TableRow>
               ))
             ) : (
@@ -296,121 +327,84 @@ export default function DetectionRecordsPage() {
       </div>
 
       {/* 分页 */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-between">
-          <p className="text-sm text-muted-foreground">
-            共 {filteredRecords.length} 条记录
-          </p>
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (currentPage > 1) setCurrentPage(currentPage - 1);
-                  }}
-                  className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
-                />
-              </PaginationItem>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <PaginationItem key={page}>
-                  <PaginationLink
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setCurrentPage(page);
-                    }}
-                    isActive={currentPage === page}
-                  >
-                    {page}
-                  </PaginationLink>
-                </PaginationItem>
-              ))}
-              <PaginationItem>
-                <PaginationNext
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-                  }}
-                  className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </div>
-      )}
-
-      {/* 详情弹窗 */}
-      <Dialog open={isDetailDialogOpen} onOpenChange={setIsDetailDialogOpen}>
-        <DialogContent className="sm:max-w-lg">
-          <DialogHeader>
-            <DialogTitle>检测记录详情</DialogTitle>
-          </DialogHeader>
-          {selectedRecord && (
-            <div className="space-y-4 py-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label className="text-muted-foreground">滤盒编号</Label>
-                  <div className="font-medium">{selectedRecord.filterBoxCode}</div>
-                </div>
-                <div>
-                  <Label className="text-muted-foreground">检测结果</Label>
-                  <div>
-                    <Badge variant={selectedRecord.result === "合格" ? "default" : "destructive"}>
-                      {selectedRecord.result}
-                    </Badge>
-                  </div>
-                </div>
-                <div>
-                  <Label className="text-muted-foreground">员工工号</Label>
-                  <div className="font-medium">{selectedRecord.employeeId}</div>
-                </div>
-                <div>
-                  <Label className="text-muted-foreground">员工姓名</Label>
-                  <div className="font-medium">{selectedRecord.employeeName}</div>
-                </div>
-                <div>
-                  <Label className="text-muted-foreground">所属区队</Label>
-                  <div>{selectedRecord.teamName}</div>
-                </div>
-                <div>
-                  <Label className="text-muted-foreground">检测设备</Label>
-                  <div>{selectedRecord.deviceName}</div>
-                </div>
-                <div>
-                  <Label className="text-muted-foreground">吸气阻力</Label>
-                  <div>{selectedRecord.inhaleResistance} Pa</div>
-                </div>
-                <div>
-                  <Label className="text-muted-foreground">呼气阻力</Label>
-                  <div>{selectedRecord.exhaleResistance} Pa</div>
-                </div>
-                <div>
-                  <Label className="text-muted-foreground">检测流量</Label>
-                  <div>{selectedRecord.flowRate} L/min</div>
-                </div>
-                <div>
-                  <Label className="text-muted-foreground">检测时间</Label>
-                  <div>{selectedRecord.detectionTime}</div>
-                </div>
-              </div>
-              {selectedRecord.remark && (
-                <div>
-                  <Label className="text-muted-foreground">备注</Label>
-                  <div className="text-red-600">{selectedRecord.remark}</div>
-                </div>
-              )}
-            </div>
+      <div className="flex items-center justify-between">
+        <div className="hidden flex-1 text-sm text-muted-foreground lg:flex">
+          {selectedIds.length > 0 && (
+            <span>已选择 {selectedIds.length} 项，</span>
           )}
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsDetailDialogOpen(false)}>
-              关闭
+          共 {filteredRecords.length} 条记录
+        </div>
+        <div className="flex w-full items-center gap-6 lg:w-fit">
+          <div className="hidden items-center gap-2 lg:flex">
+            <Label htmlFor="rows-per-page" className="text-sm">
+              每页行数
+            </Label>
+            <Select
+              value={`${pageSize}`}
+              onValueChange={(value) => {
+                setPageSize(Number(value));
+                setPageIndex(0);
+              }}
+            >
+              <SelectTrigger size="sm" className="w-16" id="rows-per-page">
+                <SelectValue placeholder={pageSize} />
+              </SelectTrigger>
+              <SelectContent side="top">
+                {[10, 20, 30, 40, 50].map((size) => (
+                  <SelectItem key={size} value={`${size}`}>
+                    {size}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex w-fit items-center justify-center text-sm font-medium">
+            第 {pageIndex + 1} / {pageCount || 1} 页
+          </div>
+          <div className="ml-auto flex items-center gap-2 lg:ml-0">
+            <Button
+              variant="outline"
+              className="hidden size-8 lg:flex"
+              size="icon"
+              onClick={() => setPageIndex(0)}
+              disabled={pageIndex === 0}
+            >
+              <span className="sr-only">首页</span>
+              <ChevronsLeft className="h-4 w-4" />
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+            <Button
+              variant="outline"
+              className="size-8"
+              size="icon"
+              onClick={() => setPageIndex(pageIndex - 1)}
+              disabled={pageIndex === 0}
+            >
+              <span className="sr-only">上一页</span>
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="size-8"
+              size="icon"
+              onClick={() => setPageIndex(pageIndex + 1)}
+              disabled={pageIndex >= pageCount - 1}
+            >
+              <span className="sr-only">下一页</span>
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="hidden size-8 lg:flex"
+              size="icon"
+              onClick={() => setPageIndex(pageCount - 1)}
+              disabled={pageIndex >= pageCount - 1}
+            >
+              <span className="sr-only">末页</span>
+              <ChevronsRight className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

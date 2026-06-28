@@ -11,7 +11,16 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
@@ -19,18 +28,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { mockScreenConfigs, type ScreenConfig } from "@/lib/mocks/data";
-import { Plus, Pencil, Monitor, Eye } from "lucide-react";
+import { Plus, Pencil, Monitor, Eye, Info } from "lucide-react";
 
 // 可选展示项
 const availableShowItems = [
@@ -56,6 +59,10 @@ export default function ScreenConfigPage() {
     refreshInterval: 30,
     showItems: [] as string[],
   });
+
+  // 统计
+  const totalCount = configs.length;
+  const enabledCount = configs.filter((c) => c.enabled).length;
 
   // 打开新增弹窗
   const openAddDialog = () => {
@@ -150,86 +157,135 @@ export default function ScreenConfigPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">大屏展示配置</h1>
-          <p className="text-muted-foreground">配置数据大屏展示内容和刷新频率</p>
-        </div>
-        <Button onClick={openAddDialog}>
+    <div className="flex flex-col gap-4">
+      {/* KPI 统计卡片 */}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              配置总数
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold tabular-nums">{totalCount}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              大屏配置数量
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2 flex flex-row items-center justify-between">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              已启用
+            </CardTitle>
+            <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+              {totalCount > 0 ? Math.round((enabledCount / totalCount) * 100) : 0}%
+            </span>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold tabular-nums text-green-600">{enabledCount}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              正在运行的大屏
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              已停用
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold tabular-nums text-gray-500">{totalCount - enabledCount}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              未启用的大屏
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* 说明卡片 */}
+      <Card className="border-blue-200 bg-blue-50/50">
+        <CardContent className="pt-4">
+          <div className="flex items-start gap-3">
+            <Info className="h-5 w-5 text-blue-600 mt-0.5" />
+            <div className="text-sm text-blue-700">
+              <p className="font-medium mb-1">配置说明</p>
+              <ul className="space-y-0.5 text-blue-600">
+                <li>• 大屏配置用于在工厂大屏上展示检测数据和统计信息</li>
+                <li>• 可配置刷新间隔，建议 10-60 秒</li>
+                <li>• 可选择多个展示项，系统会自动布局</li>
+              </ul>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* 工具栏 */}
+      <div className="flex items-center justify-end pt-2">
+        <Button size="sm" onClick={openAddDialog}>
           <Plus className="mr-2 h-4 w-4" />
           新增配置
         </Button>
       </div>
 
-      {/* 说明卡片 */}
-      <div className="rounded-md border border-blue-200 bg-blue-50 p-4">
-        <h3 className="font-medium text-blue-900 mb-2">配置说明</h3>
-        <ul className="text-sm text-blue-700 space-y-1">
-          <li>• 大屏配置用于在工厂大屏上展示检测数据和统计信息</li>
-          <li>• 可配置刷新间隔，建议 10-60 秒</li>
-          <li>• 可选择多个展示项，系统会自动布局</li>
-          <li>• 停用后大屏将停止更新数据</li>
-        </ul>
-      </div>
-
       {/* 配置表格 */}
-      <div className="rounded-md border">
+      <div className="rounded-lg border">
         <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>大屏名称</TableHead>
-              <TableHead>状态</TableHead>
-              <TableHead>刷新间隔</TableHead>
-              <TableHead>展示内容</TableHead>
-              <TableHead>创建时间</TableHead>
-              <TableHead className="w-32">操作</TableHead>
+          <TableHeader className="sticky top-0 z-10 bg-muted">
+            <TableRow className="hover:bg-transparent">
+              <TableHead className="h-12">大屏名称</TableHead>
+              <TableHead className="h-12">状态</TableHead>
+              <TableHead className="h-12">刷新间隔</TableHead>
+              <TableHead className="h-12">展示内容</TableHead>
+              <TableHead className="h-12">创建时间</TableHead>
+              <TableHead className="h-12 w-24">操作</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {configs.map((config) => (
-              <TableRow key={config.id}>
-                <TableCell className="font-medium">
-                  <div className="flex items-center gap-2">
-                    <Monitor className="h-4 w-4 text-muted-foreground" />
-                    {config.name}
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <Switch
-                    checked={config.enabled}
-                    onCheckedChange={() => toggleEnabled(config)}
-                  />
-                </TableCell>
-                <TableCell>{config.refreshInterval} 秒</TableCell>
-                <TableCell>
-                  <div className="max-w-xs truncate text-sm text-muted-foreground">
-                    {getShowItemNames(config.showItems)}
-                  </div>
-                </TableCell>
-                <TableCell>{config.createdAt}</TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-1">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => handlePreview(config)}
-                      title="预览"
-                    >
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => openEditDialog(config)}
-                      title="编辑"
-                    >
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                  </div>
+            {configs.length > 0 ? (
+              configs.map((config) => (
+                <TableRow key={config.id}>
+                  <TableCell className="py-3 font-medium">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 rounded-lg bg-primary/10">
+                        <Monitor className="h-4 w-4 text-primary" />
+                      </div>
+                      {config.name}
+                    </div>
+                  </TableCell>
+                  <TableCell className="py-3">
+                    <Switch
+                      checked={config.enabled}
+                      onCheckedChange={() => toggleEnabled(config)}
+                    />
+                  </TableCell>
+                  <TableCell className="py-3">{config.refreshInterval} 秒</TableCell>
+                  <TableCell className="py-3">
+                    <div className="max-w-xs truncate text-sm text-muted-foreground">
+                      {getShowItemNames(config.showItems)}
+                    </div>
+                  </TableCell>
+                  <TableCell className="py-3">{config.createdAt}</TableCell>
+                  <TableCell className="py-3">
+                    <div className="flex items-center gap-1">
+                      <Button variant="outline" size="sm" onClick={() => handlePreview(config)}>
+                        <Eye className="h-3 w-3" />
+                      </Button>
+                      <Button variant="ghost" size="sm" onClick={() => openEditDialog(config)}>
+                        <Pencil className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={6} className="h-24 text-center">
+                  暂无数据
                 </TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
       </div>
@@ -243,6 +299,7 @@ export default function ScreenConfigPage() {
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>新增大屏配置</DialogTitle>
+            <DialogDescription>配置大屏展示内容和刷新频率</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
@@ -301,6 +358,7 @@ export default function ScreenConfigPage() {
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>编辑大屏配置 - {editingConfig?.name}</DialogTitle>
+            <DialogDescription>修改大屏配置信息</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">

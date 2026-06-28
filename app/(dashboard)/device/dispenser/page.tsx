@@ -11,7 +11,9 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import {
   Select,
   SelectContent,
@@ -19,18 +21,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { mockDispenserDevices, deviceStatuses, type DispenserDevice } from "@/lib/mocks/data";
-import { Search, RotateCcw, Plus, Pencil, RefreshCw } from "lucide-react";
+import { Search, RotateCcw, Plus, Pencil, RefreshCw, Package } from "lucide-react";
 
 export default function DispenserDevicePage() {
   const [devices, setDevices] = useState<DispenserDevice[]>(mockDispenserDevices);
@@ -61,8 +63,15 @@ export default function DispenserDevicePage() {
     return true;
   });
 
+  // 统计
+  const totalCount = devices.length;
+  const onlineCount = devices.filter((d) => d.status === "在线").length;
+  const totalStock = devices.reduce((sum, d) => sum + d.stockCount, 0);
+  const totalCapacity = devices.reduce((sum, d) => sum + d.capacity, 0);
+  const stockRate = totalCapacity > 0 ? Math.round((totalStock / totalCapacity) * 100) : 0;
+
   // 重置筛选
-  const handleReset = () => {
+  const handleResetFilter = () => {
     setFilterKeyword("");
     setFilterStatus("all");
   };
@@ -149,126 +158,168 @@ export default function DispenserDevicePage() {
     return variants[status] || "default";
   };
 
-  // 统计
-  const onlineCount = devices.filter((d) => d.status === "在线").length;
-  const totalStock = devices.reduce((sum, d) => sum + d.stockCount, 0);
-
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">自助发放柜管理</h1>
-          <p className="text-muted-foreground">管理滤盒自助发放设备</p>
+    <div className="flex flex-col gap-4">
+      {/* KPI 统计卡片 */}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              设备总数
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold tabular-nums">{totalCount}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              已注册发放柜数量
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2 flex flex-row items-center justify-between">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              在线设备
+            </CardTitle>
+            <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+              {totalCount > 0 ? Math.round((onlineCount / totalCount) * 100) : 0}%
+            </span>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold tabular-nums text-green-600">{onlineCount}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              正常运行中
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2 flex flex-row items-center justify-between">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              总库存量
+            </CardTitle>
+            <span className="inline-flex items-center rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-700">
+              {stockRate}%
+            </span>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold tabular-nums text-blue-600">{totalStock}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              当前库存总量
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              总容量
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold tabular-nums">{totalCapacity}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              设备总容量
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* 工具栏 */}
+      <div className="flex items-center justify-between pt-2">
+        <div className="flex items-center gap-2">
+          <Input
+            placeholder="设备编码/名称"
+            value={filterKeyword}
+            onChange={(e) => setFilterKeyword(e.target.value)}
+            className="w-40"
+          />
+          <Select value={filterStatus} onValueChange={setFilterStatus}>
+            <SelectTrigger className="w-28">
+              <SelectValue placeholder="状态" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">全部状态</SelectItem>
+              {deviceStatuses.map((status) => (
+                <SelectItem key={status} value={status}>
+                  {status}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Button size="sm">
+            <Search className="h-4 w-4" />
+          </Button>
+          <Button variant="outline" size="sm" onClick={handleResetFilter}>
+            <RotateCcw className="h-4 w-4" />
+          </Button>
         </div>
-        <Button onClick={openAddDialog}>
+        <Button size="sm" onClick={openAddDialog}>
           <Plus className="mr-2 h-4 w-4" />
           新增设备
         </Button>
       </div>
 
-      {/* 统计卡片 */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <div className="rounded-md border p-4">
-          <div className="text-sm text-muted-foreground">设备总数</div>
-          <div className="text-2xl font-bold">{devices.length}</div>
-        </div>
-        <div className="rounded-md border border-green-200 bg-green-50 p-4">
-          <div className="text-sm text-green-600">在线设备</div>
-          <div className="text-2xl font-bold text-green-700">{onlineCount}</div>
-        </div>
-        <div className="rounded-md border border-blue-200 bg-blue-50 p-4">
-          <div className="text-sm text-blue-600">总库存量</div>
-          <div className="text-2xl font-bold text-blue-700">{totalStock}</div>
-        </div>
-      </div>
-
-      {/* 筛选条件 */}
-      <div className="rounded-md border p-4">
-        <div className="flex flex-wrap items-end gap-4">
-          <div className="space-y-2">
-            <Label>设备编码/名称</Label>
-            <Input
-              placeholder="输入编码或名称"
-              value={filterKeyword}
-              onChange={(e) => setFilterKeyword(e.target.value)}
-              className="w-48"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label>状态</Label>
-            <Select value={filterStatus} onValueChange={setFilterStatus}>
-              <SelectTrigger className="w-32">
-                <SelectValue placeholder="全部" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">全部</SelectItem>
-                {deviceStatuses.map((status) => (
-                  <SelectItem key={status} value={status}>
-                    {status}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <Button onClick={() => {}}>
-            <Search className="mr-2 h-4 w-4" />
-            查询
-          </Button>
-          <Button variant="outline" onClick={handleReset}>
-            <RotateCcw className="mr-2 h-4 w-4" />
-            重置
-          </Button>
-        </div>
-      </div>
-
       {/* 表格 */}
-      <div className="rounded-md border">
+      <div className="rounded-lg border">
         <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>设备编码</TableHead>
-              <TableHead>设备名称</TableHead>
-              <TableHead>位置</TableHead>
-              <TableHead>状态</TableHead>
-              <TableHead>IP地址</TableHead>
-              <TableHead>库存</TableHead>
-              <TableHead>发放次数</TableHead>
-              <TableHead>最后心跳</TableHead>
-              <TableHead className="w-24">操作</TableHead>
+          <TableHeader className="sticky top-0 z-10 bg-muted">
+            <TableRow className="hover:bg-transparent">
+              <TableHead className="h-12">设备编码</TableHead>
+              <TableHead className="h-12">设备名称</TableHead>
+              <TableHead className="h-12">位置</TableHead>
+              <TableHead className="h-12">状态</TableHead>
+              <TableHead className="h-12">IP地址</TableHead>
+              <TableHead className="h-12">库存</TableHead>
+              <TableHead className="h-12">发放次数</TableHead>
+              <TableHead className="h-12">最后心跳</TableHead>
+              <TableHead className="h-12 w-24">操作</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredDevices.map((device) => (
-              <TableRow key={device.id}>
-                <TableCell className="font-medium">{device.code}</TableCell>
-                <TableCell>{device.name}</TableCell>
-                <TableCell>{device.location}</TableCell>
-                <TableCell>
-                  <Badge variant={getStatusBadge(device.status)}>{device.status}</Badge>
-                </TableCell>
-                <TableCell className="font-mono text-sm">{device.ipAddress}</TableCell>
-                <TableCell>
-                  <div className="space-y-1">
-                    <div className="flex items-center justify-between text-sm">
-                      <span>{device.stockCount}/{device.capacity}</span>
+            {filteredDevices.length > 0 ? (
+              filteredDevices.map((device) => (
+                <TableRow key={device.id}>
+                  <TableCell className="py-3 font-medium">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 rounded-lg bg-primary/10">
+                        <Package className="h-4 w-4 text-primary" />
+                      </div>
+                      {device.code}
                     </div>
-                    <Progress value={(device.stockCount / device.capacity) * 100} className="h-2" />
-                  </div>
-                </TableCell>
-                <TableCell>{device.dispenseCount}</TableCell>
-                <TableCell>{device.lastHeartbeat}</TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-1">
-                    <Button variant="ghost" size="icon" onClick={() => openEditDialog(device)}>
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="icon" onClick={() => handleSyncStock(device)}>
-                      <RefreshCw className="h-4 w-4" />
-                    </Button>
-                  </div>
+                  </TableCell>
+                  <TableCell className="py-3">{device.name}</TableCell>
+                  <TableCell className="py-3">{device.location}</TableCell>
+                  <TableCell className="py-3">
+                    <Badge variant={getStatusBadge(device.status)}>{device.status}</Badge>
+                  </TableCell>
+                  <TableCell className="py-3 font-mono text-sm">{device.ipAddress}</TableCell>
+                  <TableCell className="py-3">
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between text-sm">
+                        <span>{device.stockCount}/{device.capacity}</span>
+                      </div>
+                      <Progress value={(device.stockCount / device.capacity) * 100} className="h-2" />
+                    </div>
+                  </TableCell>
+                  <TableCell className="py-3">{device.dispenseCount}</TableCell>
+                  <TableCell className="py-3">{device.lastHeartbeat}</TableCell>
+                  <TableCell className="py-3">
+                    <div className="flex items-center gap-1">
+                      <Button variant="outline" size="sm" onClick={() => openEditDialog(device)}>
+                        <Pencil className="h-3 w-3" />
+                      </Button>
+                      <Button variant="ghost" size="sm" onClick={() => handleSyncStock(device)}>
+                        <RefreshCw className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={9} className="h-24 text-center">
+                  暂无数据
                 </TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
       </div>
@@ -280,6 +331,7 @@ export default function DispenserDevicePage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>新增自助发放柜</DialogTitle>
+            <DialogDescription>添加新的发放设备</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="grid grid-cols-2 gap-4">
@@ -339,6 +391,7 @@ export default function DispenserDevicePage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>编辑设备 - {editingDevice?.name}</DialogTitle>
+            <DialogDescription>修改设备信息</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="grid grid-cols-2 gap-4">

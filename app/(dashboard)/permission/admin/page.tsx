@@ -41,15 +41,20 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Select,
   SelectContent,
@@ -60,7 +65,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { mockAdmins, mockRoles, type Admin } from "@/lib/mocks/data";
 import {
@@ -77,7 +81,6 @@ import {
   ChevronsRight,
   GripVertical,
 } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 // 拖拽手柄组件
 function DragHandle({ id }: { id: string }) {
@@ -104,14 +107,12 @@ function DraggableRow({
   onSelect,
   onEdit,
   onDelete,
-  isMobile,
 }: {
   admin: Admin;
   isSelected: boolean;
   onSelect: (checked: boolean) => void;
   onEdit: () => void;
   onDelete: () => void;
-  isMobile: boolean;
 }) {
   const {
     transform,
@@ -131,10 +132,10 @@ function DraggableRow({
         transition: transition,
       }}
     >
-      <TableCell className="w-8">
+      <TableCell className="w-8 py-3">
         <DragHandle id={admin.id} />
       </TableCell>
-      <TableCell>
+      <TableCell className="py-3">
         <div className="flex items-center gap-2">
           <Checkbox
             checked={isSelected}
@@ -144,91 +145,52 @@ function DraggableRow({
           <span className="font-medium">{admin.username}</span>
         </div>
       </TableCell>
-      <TableCell>{admin.name}</TableCell>
-      <TableCell>
+      <TableCell className="py-3">{admin.name}</TableCell>
+      <TableCell className="py-3">
         <Badge variant="outline">{admin.role}</Badge>
       </TableCell>
-      <TableCell>{admin.createdAt}</TableCell>
-      <TableCell>{admin.lastLogin || "-"}</TableCell>
-      <TableCell>
+      <TableCell className="py-3">{admin.createdAt}</TableCell>
+      <TableCell className="py-3">{admin.lastLogin || "-"}</TableCell>
+      <TableCell className="py-3">
         <Badge variant={admin.status === "启用" ? "default" : "secondary"}>
           {admin.status}
         </Badge>
       </TableCell>
-      <TableCell className="w-12">
-        <Drawer direction={isMobile ? "bottom" : "right"}>
-          <DrawerTrigger asChild>
+      <TableCell className="w-12 py-3">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon">
               <MoreVertical className="h-4 w-4" />
+              <span className="sr-only">操作</span>
             </Button>
-          </DrawerTrigger>
-          <DrawerContent>
-            <DrawerHeader>
-              <DrawerTitle>管理员详情</DrawerTitle>
-              <DrawerDescription>
-                查看和管理管理员账号信息
-              </DrawerDescription>
-            </DrawerHeader>
-            <div className="flex flex-col gap-4 overflow-y-auto px-4 text-sm">
-              <Separator />
-              <div className="grid gap-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">用户名</span>
-                  <span className="font-medium">{admin.username}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">姓名</span>
-                  <span>{admin.name}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">角色</span>
-                  <Badge variant="outline">{admin.role}</Badge>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">状态</span>
-                  <Badge variant={admin.status === "启用" ? "default" : "secondary"}>
-                    {admin.status}
-                  </Badge>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">创建时间</span>
-                  <span>{admin.createdAt}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">最后登录</span>
-                  <span>{admin.lastLogin || "-"}</span>
-                </div>
-              </div>
-              <Separator />
-            </div>
-            <DrawerFooter>
-              <Button onClick={onEdit}>
-                <Pencil className="mr-2 h-4 w-4" />
-                编辑
-              </Button>
-              <Button variant="destructive" onClick={onDelete}>
-                <Trash2 className="mr-2 h-4 w-4" />
-                删除
-              </Button>
-              <DrawerClose asChild>
-                <Button variant="outline">关闭</Button>
-              </DrawerClose>
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-32">
+            <DropdownMenuItem onClick={onEdit}>
+              <Pencil className="mr-2 h-4 w-4" />
+              编辑
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              className="text-destructive focus:text-destructive"
+              onClick={onDelete}
+            >
+              <Trash2 className="mr-2 h-4 w-4" />
+              删除
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </TableCell>
     </TableRow>
   );
 }
 
 export default function AdminListPage() {
-  const isMobile = useIsMobile();
   const [admins, setAdmins] = useState<Admin[]>(mockAdmins);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const [isAddDrawerOpen, setIsAddDrawerOpen] = useState(false);
-  const [isEditDrawerOpen, setIsEditDrawerOpen] = useState(false);
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [isBatchRoleDrawerOpen, setIsBatchRoleDrawerOpen] = useState(false);
+  const [isBatchRoleDialogOpen, setIsBatchRoleDialogOpen] = useState(false);
   const [editingAdmin, setEditingAdmin] = useState<Admin | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
@@ -317,8 +279,8 @@ export default function AdminListPage() {
     }
   };
 
-  // 打开新增抽屉
-  const openAddDrawer = () => {
+  // 打开新增弹窗
+  const openAddDialog = () => {
     setFormData({
       username: "",
       name: "",
@@ -326,11 +288,11 @@ export default function AdminListPage() {
       role: "",
       status: true,
     });
-    setIsAddDrawerOpen(true);
+    setIsAddDialogOpen(true);
   };
 
-  // 打开编辑抽屉
-  const openEditDrawer = (admin: Admin) => {
+  // 打开编辑弹窗
+  const openEditDialog = (admin: Admin) => {
     setEditingAdmin(admin);
     setFormData({
       username: admin.username,
@@ -339,7 +301,7 @@ export default function AdminListPage() {
       role: admin.role,
       status: admin.status === "启用",
     });
-    setIsEditDrawerOpen(true);
+    setIsEditDialogOpen(true);
   };
 
   // 打开删除弹窗
@@ -366,7 +328,7 @@ export default function AdminListPage() {
     };
 
     setAdmins([...admins, newAdmin]);
-    setIsAddDrawerOpen(false);
+    setIsAddDialogOpen(false);
     toast.success("新增成功");
   };
 
@@ -386,7 +348,7 @@ export default function AdminListPage() {
           : a
       )
     );
-    setIsEditDrawerOpen(false);
+    setIsEditDialogOpen(false);
     toast.success("修改成功");
   };
 
@@ -429,7 +391,7 @@ export default function AdminListPage() {
     );
     setSelectedIds([]);
     setBatchRole("");
-    setIsBatchRoleDrawerOpen(false);
+    setIsBatchRoleDialogOpen(false);
     toast.success(`成功为 ${selectedIds.length} 人分配角色`);
   };
 
@@ -484,14 +446,14 @@ export default function AdminListPage() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setIsBatchRoleDrawerOpen(true)}
+                onClick={() => setIsBatchRoleDialogOpen(true)}
               >
                 <Users className="mr-2 h-4 w-4" />
                 分配角色
               </Button>
             </>
           )}
-          <Button size="sm" onClick={openAddDrawer}>
+          <Button size="sm" onClick={openAddDialog}>
             <Plus className="mr-2 h-4 w-4" />
             新增管理员
           </Button>
@@ -508,9 +470,9 @@ export default function AdminListPage() {
         >
           <Table>
             <TableHeader className="sticky top-0 z-10 bg-muted">
-              <TableRow>
-                <TableHead className="w-8"></TableHead>
-                <TableHead>
+              <TableRow className="hover:bg-transparent">
+                <TableHead className="w-8 h-12"></TableHead>
+                <TableHead className="h-12">
                   <div className="flex items-center gap-2">
                     <Checkbox
                       checked={
@@ -522,12 +484,12 @@ export default function AdminListPage() {
                     用户名
                   </div>
                 </TableHead>
-                <TableHead>姓名</TableHead>
-                <TableHead>角色</TableHead>
-                <TableHead>创建时间</TableHead>
-                <TableHead>最后登录</TableHead>
-                <TableHead>状态</TableHead>
-                <TableHead className="w-12">操作</TableHead>
+                <TableHead className="h-12">姓名</TableHead>
+                <TableHead className="h-12">角色</TableHead>
+                <TableHead className="h-12">创建时间</TableHead>
+                <TableHead className="h-12">最后登录</TableHead>
+                <TableHead className="h-12">状态</TableHead>
+                <TableHead className="w-12 h-12">操作</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -542,9 +504,8 @@ export default function AdminListPage() {
                       admin={admin}
                       isSelected={selectedIds.includes(admin.id)}
                       onSelect={(checked) => handleSelect(admin.id, checked)}
-                      onEdit={() => openEditDrawer(admin)}
+                      onEdit={() => openEditDialog(admin)}
                       onDelete={() => openDeleteDialog(admin.id)}
-                      isMobile={isMobile}
                     />
                   ))}
                 </SortableContext>
@@ -640,179 +601,165 @@ export default function AdminListPage() {
         </div>
       </div>
 
-      {/* 新增抽屉 */}
-      <Drawer
-        direction={isMobile ? "bottom" : "right"}
-        open={isAddDrawerOpen}
-        onOpenChange={setIsAddDrawerOpen}
-      >
-        <DrawerContent>
-          <DrawerHeader>
-            <DrawerTitle>新增管理员</DrawerTitle>
-            <DrawerDescription>
+      {/* 新增弹窗 */}
+      <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>新增管理员</DialogTitle>
+            <DialogDescription>
               创建新的管理员账号并分配角色权限
-            </DrawerDescription>
-          </DrawerHeader>
-          <div className="flex flex-col gap-4 overflow-y-auto px-4 text-sm">
-            <form className="flex flex-col gap-4">
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="add-username">用户名</Label>
-                <Input
-                  id="add-username"
-                  value={formData.username}
-                  onChange={(e) =>
-                    setFormData({ ...formData, username: e.target.value })
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="add-username">用户名</Label>
+              <Input
+                id="add-username"
+                value={formData.username}
+                onChange={(e) =>
+                  setFormData({ ...formData, username: e.target.value })
+                }
+                placeholder="请输入用户名"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="add-name">姓名</Label>
+              <Input
+                id="add-name"
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
+                placeholder="请输入姓名"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="add-password">密码</Label>
+              <Input
+                id="add-password"
+                type="password"
+                value={formData.password}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
+                placeholder="请输入密码"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="add-role">角色</Label>
+                <Select
+                  value={formData.role}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, role: value })
                   }
-                  placeholder="请输入用户名"
-                />
+                >
+                  <SelectTrigger id="add-role">
+                    <SelectValue placeholder="请选择" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {mockRoles.map((role) => (
+                      <SelectItem key={role.id} value={role.name}>
+                        {role.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="add-name">姓名</Label>
-                <Input
-                  id="add-name"
-                  value={formData.name}
-                  onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
-                  }
-                  placeholder="请输入姓名"
-                />
-              </div>
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="add-password">密码</Label>
-                <Input
-                  id="add-password"
-                  type="password"
-                  value={formData.password}
-                  onChange={(e) =>
-                    setFormData({ ...formData, password: e.target.value })
-                  }
-                  placeholder="请输入密码"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="flex flex-col gap-3">
-                  <Label htmlFor="add-role">角色</Label>
-                  <Select
-                    value={formData.role}
-                    onValueChange={(value) =>
-                      setFormData({ ...formData, role: value })
+              <div className="space-y-2">
+                <Label>状态</Label>
+                <div className="flex h-9 items-center">
+                  <Switch
+                    checked={formData.status}
+                    onCheckedChange={(checked) =>
+                      setFormData({ ...formData, status: checked })
                     }
-                  >
-                    <SelectTrigger id="add-role">
-                      <SelectValue placeholder="请选择" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {mockRoles.map((role) => (
-                        <SelectItem key={role.id} value={role.name}>
-                          {role.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="flex flex-col gap-3">
-                  <Label htmlFor="add-status">状态</Label>
-                  <div className="flex h-9 items-center">
-                    <Switch
-                      id="add-status"
-                      checked={formData.status}
-                      onCheckedChange={(checked) =>
-                        setFormData({ ...formData, status: checked })
-                      }
-                    />
-                    <span className="ml-2 text-sm">
-                      {formData.status ? "启用" : "禁用"}
-                    </span>
-                  </div>
+                  />
+                  <span className="ml-2 text-sm">
+                    {formData.status ? "启用" : "禁用"}
+                  </span>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
-          <DrawerFooter>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
+              取消
+            </Button>
             <Button onClick={handleAdd}>确定</Button>
-            <DrawerClose asChild>
-              <Button variant="outline">取消</Button>
-            </DrawerClose>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
-      {/* 编辑抽屉 */}
-      <Drawer
-        direction={isMobile ? "bottom" : "right"}
-        open={isEditDrawerOpen}
-        onOpenChange={setIsEditDrawerOpen}
-      >
-        <DrawerContent>
-          <DrawerHeader>
-            <DrawerTitle>编辑管理员</DrawerTitle>
-            <DrawerDescription>
+      {/* 编辑弹窗 */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>编辑管理员</DialogTitle>
+            <DialogDescription>
               修改管理员账号信息和权限设置
-            </DrawerDescription>
-          </DrawerHeader>
-          <div className="flex flex-col gap-4 overflow-y-auto px-4 text-sm">
-            <form className="flex flex-col gap-4">
-              <div className="flex flex-col gap-3">
-                <Label>用户名</Label>
-                <Input value={formData.username} disabled />
-              </div>
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="edit-name">姓名</Label>
-                <Input
-                  id="edit-name"
-                  value={formData.name}
-                  onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label>用户名</Label>
+              <Input value={formData.username} disabled />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="edit-name">姓名</Label>
+              <Input
+                id="edit-name"
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="edit-role">角色</Label>
+                <Select
+                  value={formData.role}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, role: value })
                   }
-                />
+                >
+                  <SelectTrigger id="edit-role">
+                    <SelectValue placeholder="请选择" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {mockRoles.map((role) => (
+                      <SelectItem key={role.id} value={role.name}>
+                        {role.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="flex flex-col gap-3">
-                  <Label htmlFor="edit-role">角色</Label>
-                  <Select
-                    value={formData.role}
-                    onValueChange={(value) =>
-                      setFormData({ ...formData, role: value })
+              <div className="space-y-2">
+                <Label>状态</Label>
+                <div className="flex h-9 items-center">
+                  <Switch
+                    checked={formData.status}
+                    onCheckedChange={(checked) =>
+                      setFormData({ ...formData, status: checked })
                     }
-                  >
-                    <SelectTrigger id="edit-role">
-                      <SelectValue placeholder="请选择" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {mockRoles.map((role) => (
-                        <SelectItem key={role.id} value={role.name}>
-                          {role.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="flex flex-col gap-3">
-                  <Label htmlFor="edit-status">状态</Label>
-                  <div className="flex h-9 items-center">
-                    <Switch
-                      id="edit-status"
-                      checked={formData.status}
-                      onCheckedChange={(checked) =>
-                        setFormData({ ...formData, status: checked })
-                      }
-                    />
-                    <span className="ml-2 text-sm">
-                      {formData.status ? "启用" : "禁用"}
-                    </span>
-                  </div>
+                  />
+                  <span className="ml-2 text-sm">
+                    {formData.status ? "启用" : "禁用"}
+                  </span>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
-          <DrawerFooter>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+              取消
+            </Button>
             <Button onClick={handleEdit}>保存</Button>
-            <DrawerClose asChild>
-              <Button variant="outline">取消</Button>
-            </DrawerClose>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* 删除确认弹窗 */}
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
@@ -830,21 +777,17 @@ export default function AdminListPage() {
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* 批量分配角色抽屉 */}
-      <Drawer
-        direction={isMobile ? "bottom" : "right"}
-        open={isBatchRoleDrawerOpen}
-        onOpenChange={setIsBatchRoleDrawerOpen}
-      >
-        <DrawerContent>
-          <DrawerHeader>
-            <DrawerTitle>批量分配角色</DrawerTitle>
-            <DrawerDescription>
+      {/* 批量分配角色弹窗 */}
+      <Dialog open={isBatchRoleDialogOpen} onOpenChange={setIsBatchRoleDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>批量分配角色</DialogTitle>
+            <DialogDescription>
               为已选择的 {selectedIds.length} 个管理员分配角色
-            </DrawerDescription>
-          </DrawerHeader>
-          <div className="flex flex-col gap-4 overflow-y-auto px-4 text-sm">
-            <div className="flex flex-col gap-3">
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
               <Label htmlFor="batch-role">选择角色</Label>
               <Select value={batchRole} onValueChange={setBatchRole}>
                 <SelectTrigger id="batch-role">
@@ -860,14 +803,14 @@ export default function AdminListPage() {
               </Select>
             </div>
           </div>
-          <DrawerFooter>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsBatchRoleDialogOpen(false)}>
+              取消
+            </Button>
             <Button onClick={handleBatchAssignRole}>确定</Button>
-            <DrawerClose asChild>
-              <Button variant="outline">取消</Button>
-            </DrawerClose>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

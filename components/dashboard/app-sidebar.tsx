@@ -48,11 +48,18 @@ import {
   Bell,
   CreditCard,
   MoreVertical,
+  LayoutDashboard,
 } from "lucide-react";
 import { toast } from "sonner";
 
 // 菜单配置
 const menuItems = [
+  {
+    title: "工作台",
+    icon: LayoutDashboard,
+    url: "/",
+    isSingle: true,
+  },
   {
     title: "权限管理",
     icon: Shield,
@@ -75,7 +82,7 @@ const menuItems = [
     title: "检测管理",
     icon: FlaskConical,
     items: [
-      { title: "检测参数设置", url: "/detection/params" },
+      { title: "呼吸阻力检测参数设置", url: "/detection/params" },
       { title: "检测记录查询", url: "/detection/records" },
       { title: "检测日志导出", url: "/detection/export" },
     ],
@@ -139,16 +146,15 @@ export function AppSidebar() {
   const router = useRouter();
   const { isMobile } = useSidebar();
   const [username, setUsername] = useState(userData.name);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const storedUsername =
       localStorage.getItem("username") ||
       sessionStorage.getItem("username") ||
       userData.name;
-    // Use queueMicrotask to defer setState outside of effect body
-    queueMicrotask(() => {
-      setUsername(storedUsername);
-    });
+    setUsername(storedUsername);
   }, []);
 
   const handleLogout = () => {
@@ -184,35 +190,55 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {menuItems.map((menu) => (
-                <Collapsible key={menu.title} asChild defaultOpen={menu.items.some(item => pathname === item.url)}>
-                  <SidebarMenuItem>
-                    <CollapsibleTrigger asChild>
-                      <SidebarMenuButton tooltip={menu.title}>
-                        <menu.icon className="h-4 w-4" />
-                        <span>{menu.title}</span>
-                        <ChevronRight className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-90" />
+              {menuItems.map((menu) => {
+                // 单个菜单项（工作台）
+                if (menu.isSingle && menu.url) {
+                  return (
+                    <SidebarMenuItem key={menu.title}>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={pathname === menu.url}
+                        tooltip={menu.title}
+                      >
+                        <Link href={menu.url}>
+                          <menu.icon className="h-4 w-4" />
+                          <span>{menu.title}</span>
+                        </Link>
                       </SidebarMenuButton>
-                    </CollapsibleTrigger>
-                    <CollapsibleContent>
-                      <SidebarMenuSub>
-                        {menu.items.map((item) => (
-                          <SidebarMenuSubItem key={item.url}>
-                            <SidebarMenuSubButton
-                              asChild
-                              isActive={pathname === item.url}
-                            >
-                              <Link href={item.url}>
-                                <span>{item.title}</span>
-                              </Link>
-                            </SidebarMenuSubButton>
-                          </SidebarMenuSubItem>
-                        ))}
-                      </SidebarMenuSub>
-                    </CollapsibleContent>
-                  </SidebarMenuItem>
-                </Collapsible>
-              ))}
+                    </SidebarMenuItem>
+                  );
+                }
+                // 带子菜单的菜单项
+                return (
+                  <Collapsible key={menu.title} asChild defaultOpen={menu.items?.some(item => pathname === item.url)}>
+                    <SidebarMenuItem>
+                      <CollapsibleTrigger asChild>
+                        <SidebarMenuButton tooltip={menu.title}>
+                          <menu.icon className="h-4 w-4" />
+                          <span>{menu.title}</span>
+                          <ChevronRight className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                        </SidebarMenuButton>
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <SidebarMenuSub>
+                          {menu.items?.map((item) => (
+                            <SidebarMenuSubItem key={item.url}>
+                              <SidebarMenuSubButton
+                                asChild
+                                isActive={pathname === item.url}
+                              >
+                                <Link href={item.url}>
+                                  <span>{item.title}</span>
+                                </Link>
+                              </SidebarMenuSubButton>
+                            </SidebarMenuSubItem>
+                          ))}
+                        </SidebarMenuSub>
+                      </CollapsibleContent>
+                    </SidebarMenuItem>
+                  </Collapsible>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

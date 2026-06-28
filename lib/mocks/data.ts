@@ -952,6 +952,26 @@ export const detectionDevices = [
   { id: "D001", name: "检测柜A-01" },
   { id: "D002", name: "检测柜A-02" },
   { id: "D003", name: "检测柜B-01" },
+  { id: "D004", name: "检测柜B-02" },
+  { id: "D005", name: "检测柜C-01" },
+];
+
+// 检测设备参数配置
+export interface DetectionDeviceParams {
+  deviceId: string;
+  deviceName: string;
+  flowRate: number; // L/min
+  kn95Threshold: number; // Pa
+  kn100Threshold: number; // Pa
+  updatedAt: string;
+}
+
+export const mockDetectionDeviceParams: DetectionDeviceParams[] = [
+  { deviceId: "D001", deviceName: "检测柜A-01", flowRate: 85, kn95Threshold: 300, kn100Threshold: 350, updatedAt: "2024-06-10 14:30:00" },
+  { deviceId: "D002", deviceName: "检测柜A-02", flowRate: 85, kn95Threshold: 300, kn100Threshold: 350, updatedAt: "2024-06-10 14:30:00" },
+  { deviceId: "D003", deviceName: "检测柜B-01", flowRate: 85, kn95Threshold: 300, kn100Threshold: 350, updatedAt: "2024-06-10 14:30:00" },
+  { deviceId: "D004", deviceName: "检测柜B-02", flowRate: 85, kn95Threshold: 300, kn100Threshold: 350, updatedAt: "2024-06-10 14:30:00" },
+  { deviceId: "D005", deviceName: "检测柜C-01", flowRate: 85, kn95Threshold: 300, kn100Threshold: 350, updatedAt: "2024-06-10 14:30:00" },
 ];
 
 // 检测结果类型
@@ -1206,7 +1226,129 @@ export const dispenseDevices = [
   { id: "DP003", name: "发放柜B-01" },
 ];
 
+// 回收箱状态
+export interface RecycleBoxStatus {
+  id: string;
+  deviceId: string;
+  deviceName: string;
+  boxName: string;
+  currentCount: number;
+  capacity: number;
+  status: "正常" | "即将满箱" | "已满箱";
+  lastUpdateTime: string;
+}
+
+export const mockRecycleBoxStatuses: RecycleBoxStatus[] = [
+  {
+    id: "1",
+    deviceId: "D001",
+    deviceName: "检测柜A-01",
+    boxName: "回收箱A1",
+    currentCount: 45,
+    capacity: 60,
+    status: "正常",
+    lastUpdateTime: "2024-06-11 15:30:00",
+  },
+  {
+    id: "2",
+    deviceId: "D001",
+    deviceName: "检测柜A-01",
+    boxName: "回收箱A2",
+    currentCount: 58,
+    capacity: 60,
+    status: "即将满箱",
+    lastUpdateTime: "2024-06-11 15:25:00",
+  },
+  {
+    id: "3",
+    deviceId: "D002",
+    deviceName: "检测柜A-02",
+    boxName: "回收箱B1",
+    currentCount: 32,
+    capacity: 60,
+    status: "正常",
+    lastUpdateTime: "2024-06-11 15:20:00",
+  },
+  {
+    id: "4",
+    deviceId: "D002",
+    deviceName: "检测柜A-02",
+    boxName: "回收箱B2",
+    currentCount: 60,
+    capacity: 60,
+    status: "已满箱",
+    lastUpdateTime: "2024-06-11 14:00:00",
+  },
+  {
+    id: "5",
+    deviceId: "D003",
+    deviceName: "检测柜B-01",
+    boxName: "回收箱C1",
+    currentCount: 18,
+    capacity: 60,
+    status: "正常",
+    lastUpdateTime: "2024-06-11 10:00:00",
+  },
+  {
+    id: "6",
+    deviceId: "D004",
+    deviceName: "检测柜B-02",
+    boxName: "回收箱D1",
+    currentCount: 5,
+    capacity: 60,
+    status: "正常",
+    lastUpdateTime: "2024-06-10 18:00:00",
+  },
+];
+
 // ========== 设备管理相关 ==========
+
+// 传感器状态
+export interface SensorStatus {
+  id: string;
+  deviceId: string;
+  sensorName: string;
+  sensorType: "温度" | "湿度" | "流量" | "压力" | "光栅" | "红外";
+  value: number;
+  unit: string;
+  status: "正常" | "异常" | "离线";
+  lastUpdateTime: string;
+}
+
+export const mockSensorStatuses: SensorStatus[] = [
+  { id: "1", deviceId: "D001", sensorName: "温度传感器A1", sensorType: "温度", value: 25.5, unit: "°C", status: "正常", lastUpdateTime: "2024-06-11 15:30:00" },
+  { id: "2", deviceId: "D001", sensorName: "流量传感器A1", sensorType: "流量", value: 85, unit: "L/min", status: "正常", lastUpdateTime: "2024-06-11 15:30:00" },
+  { id: "3", deviceId: "D001", sensorName: "压力传感器A1", sensorType: "压力", value: 180, unit: "Pa", status: "正常", lastUpdateTime: "2024-06-11 15:30:00" },
+  { id: "4", deviceId: "D001", sensorName: "光栅传感器A1", sensorType: "光栅", value: 1, unit: "", status: "正常", lastUpdateTime: "2024-06-11 15:30:00" },
+  { id: "5", deviceId: "D002", sensorName: "温度传感器B1", sensorType: "温度", value: 26.2, unit: "°C", status: "正常", lastUpdateTime: "2024-06-11 15:30:00" },
+  { id: "6", deviceId: "D002", sensorName: "流量传感器B1", sensorType: "流量", value: 82, unit: "L/min", status: "正常", lastUpdateTime: "2024-06-11 15:30:00" },
+  { id: "7", deviceId: "D002", sensorName: "压力传感器B1", sensorType: "压力", value: 195, unit: "Pa", status: "异常", lastUpdateTime: "2024-06-11 15:30:00" },
+  { id: "8", deviceId: "D003", sensorName: "温度传感器C1", sensorType: "温度", value: 24.8, unit: "°C", status: "正常", lastUpdateTime: "2024-06-11 10:00:00" },
+  { id: "9", deviceId: "D003", sensorName: "光栅传感器C1", sensorType: "光栅", value: 0, unit: "", status: "离线", lastUpdateTime: "2024-06-11 10:00:00" },
+  { id: "10", deviceId: "D004", sensorName: "温度传感器D1", sensorType: "温度", value: 0, unit: "°C", status: "离线", lastUpdateTime: "2024-06-10 18:00:00" },
+];
+
+// 指示灯状态
+export interface IndicatorLight {
+  id: string;
+  deviceId: string;
+  lightName: string;
+  color: "红" | "黄" | "绿";
+  status: "亮" | "灭" | "闪烁";
+  mode: "自动" | "手动";
+}
+
+export const mockIndicatorLights: IndicatorLight[] = [
+  { id: "1", deviceId: "D001", lightName: "运行指示灯", color: "绿", status: "亮", mode: "自动" },
+  { id: "2", deviceId: "D001", lightName: "故障指示灯", color: "红", status: "灭", mode: "自动" },
+  { id: "3", deviceId: "D001", lightName: "满箱指示灯", color: "黄", status: "闪烁", mode: "自动" },
+  { id: "4", deviceId: "D002", lightName: "运行指示灯", color: "绿", status: "亮", mode: "自动" },
+  { id: "5", deviceId: "D002", lightName: "故障指示灯", color: "红", status: "亮", mode: "自动" },
+  { id: "6", deviceId: "D002", lightName: "满箱指示灯", color: "黄", status: "灭", mode: "自动" },
+  { id: "7", deviceId: "D003", lightName: "运行指示灯", color: "黄", status: "闪烁", mode: "手动" },
+  { id: "8", deviceId: "D003", lightName: "故障指示灯", color: "红", status: "灭", mode: "自动" },
+  { id: "9", deviceId: "D004", lightName: "运行指示灯", color: "红", status: "亮", mode: "自动" },
+];
 
 // 检测回收柜
 export interface DetectorDevice {
@@ -1688,6 +1830,22 @@ export const mockDeviceParamConfigs: DeviceParamConfig[] = [
     description: "每日自动同步WMS时间点",
     updatedAt: "2024-05-20 09:00:00",
   },
+  {
+    id: "6",
+    paramName: "光栅计数器灵敏度",
+    paramKey: "grating_sensitivity",
+    paramValue: "80",
+    description: "光栅传感器计数触发灵敏度（0-100），值越高灵敏度越高",
+    updatedAt: "2024-06-10 14:00:00",
+  },
+  {
+    id: "7",
+    paramName: "回收箱满箱阈值",
+    paramKey: "recycle_box_full_threshold",
+    paramValue: "90",
+    description: "回收箱容量达到此百分比时触发满箱预警",
+    updatedAt: "2024-06-10 15:00:00",
+  },
 ];
 
 // 界面与通知配置
@@ -1716,23 +1874,44 @@ export const mockUIConfigs: UIConfig[] = [
   },
   {
     id: "3",
-    configName: "短信通知",
-    configKey: "sms_notification",
+    configName: "新消息通知",
+    configKey: "notification_new_message",
     configValue: "true",
-    description: "是否启用短信通知功能",
+    description: "接收新消息时推送通知",
   },
   {
     id: "4",
-    configName: "邮件通知",
-    configKey: "email_notification",
-    configValue: "false",
-    description: "是否启用邮件通知功能",
+    configName: "回收提醒通知",
+    configKey: "notification_recycle",
+    configValue: "true",
+    description: "滤盒到期回收提醒通知",
   },
   {
     id: "5",
-    configName: "回收提醒提前天数",
+    configName: "回收提醒天数",
     configKey: "recycle_remind_days",
     configValue: "3",
     description: "提前多少天发送回收提醒",
+  },
+  {
+    id: "6",
+    configName: "报警提示音",
+    configKey: "alarm_sound",
+    configValue: "true",
+    description: "设备故障或异常时播放提示音",
+  },
+  {
+    id: "7",
+    configName: "大屏待机视频",
+    configKey: "screen_saver_video",
+    configValue: "/media/screen-saver.mp4",
+    description: "大屏待机时播放的视频文件",
+  },
+  {
+    id: "8",
+    configName: "大屏待机图片",
+    configKey: "screen_saver_image",
+    configValue: "/media/screen-saver.jpg",
+    description: "大屏待机时显示的图片（无视频时）",
   },
 ];

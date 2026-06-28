@@ -11,17 +11,19 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { mockDeviceParamConfigs, type DeviceParamConfig } from "@/lib/mocks/data";
-import { Pencil, Save, RotateCcw, Settings } from "lucide-react";
+import { Pencil, Save, RotateCcw, Settings, Info } from "lucide-react";
 
 export default function DeviceParamPage() {
   const [configs, setConfigs] = useState<DeviceParamConfig[]>(mockDeviceParamConfigs);
@@ -35,6 +37,9 @@ export default function DeviceParamPage() {
     paramValue: "",
     description: "",
   });
+
+  // 统计
+  const totalCount = configs.length;
 
   // 打开编辑弹窗
   const openEditDialog = (config: DeviceParamConfig) => {
@@ -86,63 +91,79 @@ export default function DeviceParamPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">设备参数配置</h1>
-          <p className="text-muted-foreground">配置系统设备的运行参数</p>
-        </div>
-      </div>
-
-      {/* 说明卡片 */}
-      <div className="rounded-md border border-yellow-200 bg-yellow-50 p-4">
-        <div className="flex items-start gap-3">
-          <Settings className="h-5 w-5 text-yellow-600 mt-0.5" />
-          <div>
-            <h3 className="font-medium text-yellow-900">注意事项</h3>
-            <ul className="text-sm text-yellow-700 mt-1 space-y-1">
-              <li>• 修改参数将影响所有设备的运行，请谨慎操作</li>
-              <li>• 参数修改后立即生效，无需重启设备</li>
-              <li>• 如不确定参数含义，请联系技术人员</li>
-            </ul>
-          </div>
-        </div>
+    <div className="flex flex-col gap-4">
+      {/* KPI 统计卡片 */}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              参数总数
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold tabular-nums">{totalCount}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              可配置参数数量
+            </p>
+          </CardContent>
+        </Card>
+        <Card className="border-yellow-200 bg-yellow-50/50">
+          <CardContent className="pt-4">
+            <div className="flex items-start gap-3">
+              <Info className="h-5 w-5 text-yellow-600 mt-0.5" />
+              <div className="text-sm text-yellow-700">
+                <p className="font-medium">注意事项</p>
+                <ul className="mt-1 space-y-0.5 text-yellow-600">
+                  <li>• 修改参数将影响所有设备的运行</li>
+                  <li>• 参数修改后立即生效</li>
+                </ul>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* 参数表格 */}
-      <div className="rounded-md border">
+      <div className="rounded-lg border">
         <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>参数名称</TableHead>
-              <TableHead>参数键</TableHead>
-              <TableHead>参数值</TableHead>
-              <TableHead>说明</TableHead>
-              <TableHead>最后修改</TableHead>
-              <TableHead className="w-24">操作</TableHead>
+          <TableHeader className="sticky top-0 z-10 bg-muted">
+            <TableRow className="hover:bg-transparent">
+              <TableHead className="h-12">参数名称</TableHead>
+              <TableHead className="h-12">参数键</TableHead>
+              <TableHead className="h-12">参数值</TableHead>
+              <TableHead className="h-12">说明</TableHead>
+              <TableHead className="h-12">最后修改</TableHead>
+              <TableHead className="h-12 w-24">操作</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {configs.map((config) => (
               <TableRow key={config.id}>
-                <TableCell className="font-medium">{config.paramName}</TableCell>
-                <TableCell>
-                  <code className="text-xs bg-muted px-1 py-0.5 rounded">
+                <TableCell className="py-3 font-medium">
+                  <div className="flex items-center gap-2">
+                    <div className="p-1.5 rounded-lg bg-primary/10">
+                      <Settings className="h-4 w-4 text-primary" />
+                    </div>
+                    {config.paramName}
+                  </div>
+                </TableCell>
+                <TableCell className="py-3">
+                  <code className="text-xs bg-muted px-1.5 py-0.5 rounded">
                     {config.paramKey}
                   </code>
                 </TableCell>
-                <TableCell>
+                <TableCell className="py-3">
                   <span className="font-mono">{config.paramValue}</span>
                 </TableCell>
-                <TableCell className="text-muted-foreground">{config.description}</TableCell>
-                <TableCell>{config.updatedAt}</TableCell>
-                <TableCell>
+                <TableCell className="py-3 text-muted-foreground">{config.description}</TableCell>
+                <TableCell className="py-3">{config.updatedAt}</TableCell>
+                <TableCell className="py-3">
                   <div className="flex items-center gap-1">
-                    <Button variant="ghost" size="icon" onClick={() => openEditDialog(config)}>
-                      <Pencil className="h-4 w-4" />
+                    <Button variant="outline" size="sm" onClick={() => openEditDialog(config)}>
+                      <Pencil className="h-3 w-3" />
                     </Button>
-                    <Button variant="ghost" size="icon" onClick={() => handleReset(config)} title="重置">
-                      <RotateCcw className="h-4 w-4" />
+                    <Button variant="ghost" size="sm" onClick={() => handleReset(config)} title="重置">
+                      <RotateCcw className="h-3 w-3" />
                     </Button>
                   </div>
                 </TableCell>
@@ -157,6 +178,7 @@ export default function DeviceParamPage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>编辑参数 - {editingConfig?.paramName}</DialogTitle>
+            <DialogDescription>修改设备参数配置</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">

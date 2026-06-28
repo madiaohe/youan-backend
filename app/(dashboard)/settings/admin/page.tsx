@@ -11,7 +11,10 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Switch } from "@/components/ui/switch";
 import {
   Select,
   SelectContent,
@@ -19,11 +22,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-import { Badge } from "@/components/ui/badge";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogFooter,
@@ -40,7 +43,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { mockAdmins, mockRoles, type Admin } from "@/lib/mocks/data";
-import { Plus, Pencil, Trash2, KeyRound, RotateCcw } from "lucide-react";
+import { Plus, Pencil, Trash2, KeyRound, RotateCcw, User, Search } from "lucide-react";
 
 export default function AdminAccountPage() {
   const [admins, setAdmins] = useState<Admin[]>(mockAdmins);
@@ -49,6 +52,9 @@ export default function AdminAccountPage() {
   const [filterKeyword, setFilterKeyword] = useState("");
   const [filterRole, setFilterRole] = useState("all");
   const [filterStatus, setFilterStatus] = useState("all");
+
+  // 选择
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   // 弹窗状态
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
@@ -76,11 +82,34 @@ export default function AdminAccountPage() {
     return true;
   });
 
+  // 统计
+  const totalCount = filteredAdmins.length;
+  const enabledCount = filteredAdmins.filter((a) => a.status === "启用").length;
+  const disabledCount = filteredAdmins.filter((a) => a.status === "禁用").length;
+
   // 重置筛选
-  const handleReset = () => {
+  const handleResetFilter = () => {
     setFilterKeyword("");
     setFilterRole("all");
     setFilterStatus("all");
+  };
+
+  // 全选
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedIds(filteredAdmins.map((a) => a.id));
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  // 单选
+  const handleSelect = (id: string, checked: boolean) => {
+    if (checked) {
+      setSelectedIds([...selectedIds, id]);
+    } else {
+      setSelectedIds(selectedIds.filter((i) => i !== id));
+    }
   };
 
   // 打开新增弹窗
@@ -155,6 +184,7 @@ export default function AdminAccountPage() {
     if (deletingId) {
       setAdmins(admins.filter((a) => a.id !== deletingId));
       setIsDeleteDialogOpen(false);
+      setSelectedIds(selectedIds.filter((id) => id !== deletingId));
       toast.success("删除成功");
     }
   };
@@ -178,123 +208,185 @@ export default function AdminAccountPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">管理员账户管理</h1>
-          <p className="text-muted-foreground">管理系统管理员账户和权限</p>
+    <div className="flex flex-col gap-4">
+      {/* KPI 统计卡片 */}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              管理员总数
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold tabular-nums">{totalCount}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              筛选条件下的管理员数量
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2 flex flex-row items-center justify-between">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              已启用
+            </CardTitle>
+            <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+              {totalCount > 0 ? Math.round((enabledCount / totalCount) * 100) : 0}%
+            </span>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold tabular-nums text-green-600">{enabledCount}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              正常使用账户
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              已禁用
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold tabular-nums text-gray-500">{disabledCount}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              停用账户
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* 工具栏 */}
+      <div className="flex items-center justify-between pt-2">
+        <div className="flex items-center gap-2">
+          <Input
+            placeholder="用户名/姓名"
+            value={filterKeyword}
+            onChange={(e) => setFilterKeyword(e.target.value)}
+            className="w-36"
+          />
+          <Select value={filterRole} onValueChange={setFilterRole}>
+            <SelectTrigger className="w-28">
+              <SelectValue placeholder="角色" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">全部角色</SelectItem>
+              {mockRoles.map((role) => (
+                <SelectItem key={role.id} value={role.name}>{role.name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={filterStatus} onValueChange={setFilterStatus}>
+            <SelectTrigger className="w-24">
+              <SelectValue placeholder="状态" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">全部</SelectItem>
+              <SelectItem value="启用">启用</SelectItem>
+              <SelectItem value="禁用">禁用</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button size="sm">
+            <Search className="h-4 w-4" />
+          </Button>
+          <Button variant="outline" size="sm" onClick={handleResetFilter}>
+            <RotateCcw className="h-4 w-4" />
+          </Button>
         </div>
-        <Button onClick={openAddDialog}>
+        <Button size="sm" onClick={openAddDialog}>
           <Plus className="mr-2 h-4 w-4" />
           新增管理员
         </Button>
       </div>
 
-      {/* 筛选条件 */}
-      <div className="rounded-md border p-4">
-        <div className="flex flex-wrap items-end gap-4">
-          <div className="space-y-2">
-            <Label>用户名/姓名</Label>
-            <Input
-              placeholder="输入用户名或姓名"
-              value={filterKeyword}
-              onChange={(e) => setFilterKeyword(e.target.value)}
-              className="w-48"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label>角色</Label>
-            <Select value={filterRole} onValueChange={setFilterRole}>
-              <SelectTrigger className="w-40">
-                <SelectValue placeholder="全部角色" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">全部角色</SelectItem>
-                {mockRoles.map((role) => (
-                  <SelectItem key={role.id} value={role.name}>{role.name}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-2">
-            <Label>状态</Label>
-            <Select value={filterStatus} onValueChange={setFilterStatus}>
-              <SelectTrigger className="w-32">
-                <SelectValue placeholder="全部状态" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">全部状态</SelectItem>
-                <SelectItem value="启用">启用</SelectItem>
-                <SelectItem value="禁用">禁用</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <Button onClick={() => {}}>
-            查询
-          </Button>
-          <Button variant="outline" onClick={handleReset}>
-            <RotateCcw className="mr-2 h-4 w-4" />
-            重置
-          </Button>
-        </div>
-      </div>
-
       {/* 表格 */}
-      <div className="rounded-md border">
+      <div className="rounded-lg border">
         <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>用户名</TableHead>
-              <TableHead>姓名</TableHead>
-              <TableHead>角色</TableHead>
-              <TableHead>状态</TableHead>
-              <TableHead>创建时间</TableHead>
-              <TableHead>最后登录</TableHead>
-              <TableHead className="w-40">操作</TableHead>
+          <TableHeader className="sticky top-0 z-10 bg-muted">
+            <TableRow className="hover:bg-transparent">
+              <TableHead className="w-12 h-12 pl-4">
+                <Checkbox
+                  checked={filteredAdmins.length > 0 && selectedIds.length === filteredAdmins.length}
+                  onCheckedChange={handleSelectAll}
+                  aria-label="全选"
+                />
+              </TableHead>
+              <TableHead className="h-12">用户名</TableHead>
+              <TableHead className="h-12">姓名</TableHead>
+              <TableHead className="h-12">角色</TableHead>
+              <TableHead className="h-12">状态</TableHead>
+              <TableHead className="h-12">创建时间</TableHead>
+              <TableHead className="h-12">最后登录</TableHead>
+              <TableHead className="h-12 w-28">操作</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredAdmins.map((admin) => (
-              <TableRow key={admin.id}>
-                <TableCell className="font-medium">{admin.username}</TableCell>
-                <TableCell>{admin.name}</TableCell>
-                <TableCell>
-                  <Badge variant="outline">{admin.role}</Badge>
-                </TableCell>
-                <TableCell>
-                  <Switch
-                    checked={admin.status === "启用"}
-                    onCheckedChange={() => toggleStatus(admin)}
-                  />
-                </TableCell>
-                <TableCell>{admin.createdAt}</TableCell>
-                <TableCell>{admin.lastLogin || "-"}</TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-1">
-                    <Button variant="ghost" size="icon" onClick={() => openEditDialog(admin)}>
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="icon" onClick={() => openResetDialog(admin.id)}>
-                      <KeyRound className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="icon" onClick={() => openDeleteDialog(admin.id)}>
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
+            {filteredAdmins.length > 0 ? (
+              filteredAdmins.map((admin) => (
+                <TableRow key={admin.id} data-state={selectedIds.includes(admin.id) && "selected"}>
+                  <TableCell className="py-3 pl-4">
+                    <Checkbox
+                      checked={selectedIds.includes(admin.id)}
+                      onCheckedChange={(checked) => handleSelect(admin.id, checked as boolean)}
+                      aria-label="选择行"
+                    />
+                  </TableCell>
+                  <TableCell className="py-3 font-medium">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 rounded-lg bg-primary/10">
+                        <User className="h-4 w-4 text-primary" />
+                      </div>
+                      {admin.username}
+                    </div>
+                  </TableCell>
+                  <TableCell className="py-3">{admin.name}</TableCell>
+                  <TableCell className="py-3">
+                    <Badge variant="outline">{admin.role}</Badge>
+                  </TableCell>
+                  <TableCell className="py-3">
+                    <Switch
+                      checked={admin.status === "启用"}
+                      onCheckedChange={() => toggleStatus(admin)}
+                    />
+                  </TableCell>
+                  <TableCell className="py-3">{admin.createdAt}</TableCell>
+                  <TableCell className="py-3">{admin.lastLogin || "-"}</TableCell>
+                  <TableCell className="py-3">
+                    <div className="flex items-center gap-1">
+                      <Button variant="outline" size="sm" onClick={() => openEditDialog(admin)}>
+                        <Pencil className="h-3 w-3" />
+                      </Button>
+                      <Button variant="ghost" size="sm" onClick={() => openResetDialog(admin.id)}>
+                        <KeyRound className="h-3 w-3" />
+                      </Button>
+                      <Button variant="ghost" size="sm" onClick={() => openDeleteDialog(admin.id)}>
+                        <Trash2 className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={8} className="h-24 text-center">
+                  暂无数据
                 </TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
       </div>
 
-      <div className="text-sm text-muted-foreground">共 {filteredAdmins.length} 条记录</div>
+      <div className="text-sm text-muted-foreground">
+        {selectedIds.length > 0 && <span>已选择 {selectedIds.length} 项，</span>}
+        共 {filteredAdmins.length} 条记录
+      </div>
 
       {/* 新增弹窗 */}
       <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>新增管理员</DialogTitle>
+            <DialogDescription>添加新的管理员账户</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
@@ -346,6 +438,7 @@ export default function AdminAccountPage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>编辑管理员 - {editingAdmin?.username}</DialogTitle>
+            <DialogDescription>修改管理员信息</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">

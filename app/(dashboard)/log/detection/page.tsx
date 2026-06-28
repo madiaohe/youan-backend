@@ -11,7 +11,9 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -19,18 +21,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
-import { Badge } from "@/components/ui/badge";
+import { Label } from "@/components/ui/label";
+import { DatePicker } from "@/components/ui/date-picker";
 import { toast } from "sonner";
 import { mockDetectionLogs, mockTeams, detectionDevices, type DetectionLog } from "@/lib/mocks/data";
-import { Search, RotateCcw, Download } from "lucide-react";
+import {
+  Search,
+  RotateCcw,
+  Download,
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from "lucide-react";
 
 export default function DetectionLogPage() {
   const [logs] = useState<DetectionLog[]>(mockDetectionLogs);
@@ -40,12 +43,15 @@ export default function DetectionLogPage() {
   const [filterTeam, setFilterTeam] = useState("all");
   const [filterDevice, setFilterDevice] = useState("all");
   const [filterOperationType, setFilterOperationType] = useState("all");
-  const [filterStartDate, setFilterStartDate] = useState("");
-  const [filterEndDate, setFilterEndDate] = useState("");
+  const [filterStartDate, setFilterStartDate] = useState<Date | undefined>();
+  const [filterEndDate, setFilterEndDate] = useState<Date | undefined>();
 
   // 分页
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+
+  // 选择
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   // 筛选日志
   const filteredLogs = logs.filter((log) => {
@@ -55,29 +61,63 @@ export default function DetectionLogPage() {
       return false;
     if (filterDevice !== "all" && log.deviceId !== filterDevice) return false;
     if (filterOperationType !== "all" && log.operationType !== filterOperationType) return false;
-    if (filterStartDate && log.operationTime < filterStartDate) return false;
-    if (filterEndDate && log.operationTime > filterEndDate + " 23:59:59") return false;
+    if (filterStartDate) {
+      const logDate = new Date(log.operationTime.split(" ")[0]);
+      if (logDate < filterStartDate) return false;
+    }
+    if (filterEndDate) {
+      const logDate = new Date(log.operationTime.split(" ")[0]);
+      const endOfDay = new Date(filterEndDate);
+      endOfDay.setHours(23, 59, 59);
+      if (logDate > endOfDay) return false;
+    }
     return true;
   });
 
   // 分页数据
-  const totalPages = Math.ceil(filteredLogs.length / pageSize);
-  const paginatedLogs = filteredLogs.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+  const pageCount = Math.ceil(filteredLogs.length / pageSize);
+  const paginatedLogs = filteredLogs.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
+
+  // 统计
+  const totalCount = filteredLogs.length;
+  const detectionCount = filteredLogs.filter((l) => l.operationType === "检测").length;
+  const recycleCount = filteredLogs.filter((l) => l.operationType === "回收").length;
+  const dispenseCount = filteredLogs.filter((l) => l.operationType === "发放").length;
 
   // 重置筛选
-  const handleReset = () => {
+  const handleResetFilter = () => {
     setFilterKeyword("");
     setFilterTeam("all");
     setFilterDevice("all");
     setFilterOperationType("all");
-    setFilterStartDate("");
-    setFilterEndDate("");
-    setCurrentPage(1);
+    setFilterStartDate(undefined);
+    setFilterEndDate(undefined);
+    setPageIndex(0);
+  };
+
+  // 全选（当前页）
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedIds(paginatedLogs.map((l) => l.id));
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  // 单选
+  const handleSelect = (id: string, checked: boolean) => {
+    if (checked) {
+      setSelectedIds([...selectedIds, id]);
+    } else {
+      setSelectedIds(selectedIds.filter((i) => i !== id));
+    }
   };
 
   // 导出
   const handleExport = () => {
-    toast.success(`已导出 ${filteredLogs.length} 条检测与回收日志`);
+    const exportCount = selectedIds.length > 0 ? selectedIds.length : filteredLogs.length;
+    toast.success(`已导出 ${exportCount} 条检测与回收日志`);
+    setSelectedIds([]);
   };
 
   // 获取操作类型颜色
@@ -93,136 +133,183 @@ export default function DetectionLogPage() {
   const operationTypes = ["检测", "回收", "发放"];
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">检测与回收日志</h1>
-          <p className="text-muted-foreground">查看滤盒检测、回收、发放操作记录</p>
+    <div className="flex flex-col gap-4">
+      {/* KPI 统计卡片 */}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              操作总次数
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold tabular-nums">{totalCount}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              筛选条件下的操作总数
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              检测次数
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold tabular-nums text-blue-600">{detectionCount}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              呼吸阻力检测
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              回收次数
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold tabular-nums text-yellow-600">{recycleCount}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              滤盒回收记录
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              发放次数
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold tabular-nums text-green-600">{dispenseCount}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              滤盒发放记录
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* 工具栏 */}
+      <div className="flex items-center justify-between pt-2">
+        <div className="flex items-center gap-2">
+          <Input
+            placeholder="滤盒编号/员工"
+            value={filterKeyword}
+            onChange={(e) => setFilterKeyword(e.target.value)}
+            className="w-36"
+          />
+          <Select value={filterTeam} onValueChange={setFilterTeam}>
+            <SelectTrigger className="w-28">
+              <SelectValue placeholder="区队" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">全部区队</SelectItem>
+              {mockTeams.map((team) => (
+                <SelectItem key={team.id} value={team.id}>{team.name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={filterDevice} onValueChange={setFilterDevice}>
+            <SelectTrigger className="w-28">
+              <SelectValue placeholder="设备" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">全部设备</SelectItem>
+              {detectionDevices.map((device) => (
+                <SelectItem key={device.id} value={device.id}>{device.name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={filterOperationType} onValueChange={setFilterOperationType}>
+            <SelectTrigger className="w-24">
+              <SelectValue placeholder="类型" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">全部</SelectItem>
+              {operationTypes.map((type) => (
+                <SelectItem key={type} value={type}>{type}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <DatePicker
+            date={filterStartDate}
+            onDateChange={setFilterStartDate}
+            placeholder="开始日期"
+            className="w-32"
+          />
+          <span className="text-muted-foreground text-sm">至</span>
+          <DatePicker
+            date={filterEndDate}
+            onDateChange={setFilterEndDate}
+            placeholder="结束日期"
+            className="w-32"
+          />
+          <Button size="sm">
+            <Search className="h-4 w-4" />
+          </Button>
+          <Button variant="outline" size="sm" onClick={handleResetFilter}>
+            <RotateCcw className="h-4 w-4" />
+          </Button>
         </div>
-        <Button onClick={handleExport}>
+        <Button size="sm" onClick={handleExport}>
           <Download className="mr-2 h-4 w-4" />
-          导出日志
+          导出{selectedIds.length > 0 ? `(${selectedIds.length})` : ""}
         </Button>
       </div>
 
-      {/* 筛选条件 */}
-      <div className="rounded-md border p-4">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-6">
-          <div className="space-y-2">
-            <Label>滤盒编号/员工</Label>
-            <Input
-              placeholder="输入编号或姓名"
-              value={filterKeyword}
-              onChange={(e) => setFilterKeyword(e.target.value)}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label>区队</Label>
-            <Select value={filterTeam} onValueChange={setFilterTeam}>
-              <SelectTrigger>
-                <SelectValue placeholder="全部区队" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">全部区队</SelectItem>
-                {mockTeams.map((team) => (
-                  <SelectItem key={team.id} value={team.id}>{team.name}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-2">
-            <Label>设备</Label>
-            <Select value={filterDevice} onValueChange={setFilterDevice}>
-              <SelectTrigger>
-                <SelectValue placeholder="全部设备" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">全部设备</SelectItem>
-                {detectionDevices.map((device) => (
-                  <SelectItem key={device.id} value={device.id}>{device.name}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-2">
-            <Label>操作类型</Label>
-            <Select value={filterOperationType} onValueChange={setFilterOperationType}>
-              <SelectTrigger>
-                <SelectValue placeholder="全部类型" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">全部类型</SelectItem>
-                {operationTypes.map((type) => (
-                  <SelectItem key={type} value={type}>{type}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-2">
-            <Label>开始日期</Label>
-            <Input
-              type="date"
-              value={filterStartDate}
-              onChange={(e) => setFilterStartDate(e.target.value)}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label>结束日期</Label>
-            <Input
-              type="date"
-              value={filterEndDate}
-              onChange={(e) => setFilterEndDate(e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="mt-4 flex items-end gap-2">
-          <Button onClick={() => setCurrentPage(1)}>
-            <Search className="mr-2 h-4 w-4" />
-            查询
-          </Button>
-          <Button variant="outline" onClick={handleReset}>
-            <RotateCcw className="mr-2 h-4 w-4" />
-            重置
-          </Button>
-        </div>
-      </div>
-
       {/* 表格 */}
-      <div className="rounded-md border">
+      <div className="rounded-lg border">
         <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>滤盒编号</TableHead>
-              <TableHead>员工工号</TableHead>
-              <TableHead>员工姓名</TableHead>
-              <TableHead>区队</TableHead>
-              <TableHead>设备</TableHead>
-              <TableHead>操作类型</TableHead>
-              <TableHead>操作时间</TableHead>
-              <TableHead>结果</TableHead>
-              <TableHead>备注</TableHead>
+          <TableHeader className="sticky top-0 z-10 bg-muted">
+            <TableRow className="hover:bg-transparent">
+              <TableHead className="w-12 h-12 pl-4">
+                <Checkbox
+                  checked={paginatedLogs.length > 0 && selectedIds.length === paginatedLogs.length}
+                  onCheckedChange={handleSelectAll}
+                  aria-label="全选"
+                />
+              </TableHead>
+              <TableHead className="h-12">员工姓名</TableHead>
+              <TableHead className="h-12">区队</TableHead>
+              <TableHead className="h-12">滤盒编号</TableHead>
+              <TableHead className="h-12">员工工号</TableHead>
+              <TableHead className="h-12">设备</TableHead>
+              <TableHead className="h-12">操作类型</TableHead>
+              <TableHead className="h-12">操作时间</TableHead>
+              <TableHead className="h-12">结果</TableHead>
+              <TableHead className="h-12">备注</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {paginatedLogs.length > 0 ? (
               paginatedLogs.map((log) => (
-                <TableRow key={log.id}>
-                  <TableCell className="font-medium">{log.filterBoxCode}</TableCell>
-                  <TableCell>{log.employeeId}</TableCell>
-                  <TableCell>{log.employeeName}</TableCell>
-                  <TableCell>{log.teamName}</TableCell>
-                  <TableCell>{log.deviceName}</TableCell>
-                  <TableCell>
+                <TableRow key={log.id} data-state={selectedIds.includes(log.id) && "selected"}>
+                  <TableCell className="py-3 pl-4">
+                    <Checkbox
+                      checked={selectedIds.includes(log.id)}
+                      onCheckedChange={(checked) => handleSelect(log.id, checked as boolean)}
+                      aria-label="选择行"
+                    />
+                  </TableCell>
+                  <TableCell className="py-3 font-medium">{log.employeeName}</TableCell>
+                  <TableCell className="py-3">{log.teamName}</TableCell>
+                  <TableCell className="py-3">{log.filterBoxCode}</TableCell>
+                  <TableCell className="py-3">{log.employeeId}</TableCell>
+                  <TableCell className="py-3">{log.deviceName}</TableCell>
+                  <TableCell className="py-3">
                     <Badge variant={getTypeBadge(log.operationType)}>{log.operationType}</Badge>
                   </TableCell>
-                  <TableCell>{log.operationTime}</TableCell>
-                  <TableCell>{log.result}</TableCell>
-                  <TableCell>{log.remark || "-"}</TableCell>
+                  <TableCell className="py-3">{log.operationTime}</TableCell>
+                  <TableCell className="py-3">{log.result}</TableCell>
+                  <TableCell className="py-3">{log.remark || "-"}</TableCell>
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={9} className="h-24 text-center">暂无数据</TableCell>
+                <TableCell colSpan={10} className="h-24 text-center">
+                  暂无数据
+                </TableCell>
               </TableRow>
             )}
           </TableBody>
@@ -230,40 +317,82 @@ export default function DetectionLogPage() {
       </div>
 
       {/* 分页 */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-between">
-          <p className="text-sm text-muted-foreground">共 {filteredLogs.length} 条记录</p>
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  href="#"
-                  onClick={(e) => { e.preventDefault(); if (currentPage > 1) setCurrentPage(currentPage - 1); }}
-                  className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
-                />
-              </PaginationItem>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <PaginationItem key={page}>
-                  <PaginationLink
-                    href="#"
-                    onClick={(e) => { e.preventDefault(); setCurrentPage(page); }}
-                    isActive={currentPage === page}
-                  >
-                    {page}
-                  </PaginationLink>
-                </PaginationItem>
-              ))}
-              <PaginationItem>
-                <PaginationNext
-                  href="#"
-                  onClick={(e) => { e.preventDefault(); if (currentPage < totalPages) setCurrentPage(currentPage + 1); }}
-                  className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+      <div className="flex items-center justify-between">
+        <div className="hidden flex-1 text-sm text-muted-foreground lg:flex">
+          {selectedIds.length > 0 && <span>已选择 {selectedIds.length} 项，</span>}
+          共 {filteredLogs.length} 条记录
         </div>
-      )}
+        <div className="flex w-full items-center gap-6 lg:w-fit">
+          <div className="hidden items-center gap-2 lg:flex">
+            <Label htmlFor="rows-per-page" className="text-sm">
+              每页行数
+            </Label>
+            <Select
+              value={`${pageSize}`}
+              onValueChange={(value) => {
+                setPageSize(Number(value));
+                setPageIndex(0);
+              }}
+            >
+              <SelectTrigger size="sm" className="w-16" id="rows-per-page">
+                <SelectValue placeholder={pageSize} />
+              </SelectTrigger>
+              <SelectContent side="top">
+                {[10, 20, 30, 40, 50].map((size) => (
+                  <SelectItem key={size} value={`${size}`}>
+                    {size}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex w-fit items-center justify-center text-sm font-medium">
+            第 {pageIndex + 1} / {pageCount || 1} 页
+          </div>
+          <div className="ml-auto flex items-center gap-2 lg:ml-0">
+            <Button
+              variant="outline"
+              className="hidden size-8 lg:flex"
+              size="icon"
+              onClick={() => setPageIndex(0)}
+              disabled={pageIndex === 0}
+            >
+              <span className="sr-only">首页</span>
+              <ChevronsLeft className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="size-8"
+              size="icon"
+              onClick={() => setPageIndex(pageIndex - 1)}
+              disabled={pageIndex === 0}
+            >
+              <span className="sr-only">上一页</span>
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="size-8"
+              size="icon"
+              onClick={() => setPageIndex(pageIndex + 1)}
+              disabled={pageIndex >= pageCount - 1}
+            >
+              <span className="sr-only">下一页</span>
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="hidden size-8 lg:flex"
+              size="icon"
+              onClick={() => setPageIndex(pageCount - 1)}
+              disabled={pageIndex >= pageCount - 1}
+            >
+              <span className="sr-only">末页</span>
+              <ChevronsRight className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
