@@ -82,17 +82,17 @@ export default function TeamRankingPage() {
 
   // 获取排名徽章
   const getRankBadge = (rank: number) => {
-    if (rank === 1) return <Badge className="bg-yellow-500">🥇 第1名</Badge>;
-    if (rank === 2) return <Badge className="bg-gray-400">🥈 第2名</Badge>;
-    if (rank === 3) return <Badge className="bg-amber-600">🥉 第3名</Badge>;
+    if (rank === 1) return <Badge className="bg-warning">🥇 第1名</Badge>;
+    if (rank === 2) return <Badge className="bg-muted-foreground">🥈 第2名</Badge>;
+    if (rank === 3) return <Badge className="bg-chart-3">🥉 第3名</Badge>;
     return <Badge variant="outline">第{rank}名</Badge>;
   };
 
   // 获取不合格率颜色
   const getRateColor = (rate: number) => {
-    if (rate >= 15) return "text-red-600";
-    if (rate >= 10) return "text-orange-600";
-    return "text-green-600";
+    if (rate >= 15) return "text-destructive";
+    if (rate >= 10) return "text-warning";
+    return "text-success";
   };
 
   return (
@@ -130,12 +130,12 @@ export default function TeamRankingPage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">
               总不合格次数
             </CardTitle>
-            <span className="inline-flex items-center rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700">
+            <span className="inline-flex items-center rounded-full bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive">
               {overallRate}%
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-red-600">{totalStats.unqualifiedCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-destructive">{totalStats.unqualifiedCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               需要关注问题
             </p>
@@ -185,12 +185,12 @@ export default function TeamRankingPage() {
                     <div key={item.week} className="flex-1 flex flex-col items-center gap-1">
                       <div
                         className={`w-full rounded-t transition-all ${
-                          isLowest ? "bg-green-500" : isHighest ? "bg-red-500" : "bg-primary"
+                          isLowest ? "bg-success" : isHighest ? "bg-destructive" : "bg-primary"
                         }`}
                         style={{ height: `${height}%` }}
                       />
                       <span className="text-xs text-muted-foreground">{item.week}</span>
-                      <span className={`text-xs font-medium ${isLowest ? "text-green-600" : isHighest ? "text-red-600" : ""}`}>
+                      <span className={`text-xs font-medium ${isLowest ? "text-success" : isHighest ? "text-destructive" : ""}`}>
                         {item.rate}%
                       </span>
                     </div>
@@ -200,7 +200,7 @@ export default function TeamRankingPage() {
             </div>
             <div className="flex items-center justify-center gap-4 mt-4 text-xs">
               <div className="flex items-center gap-1.5">
-                <div className="w-3 h-3 rounded bg-red-500" />
+                <div className="w-3 h-3 rounded bg-destructive" />
                 <span>最高</span>
               </div>
               <div className="flex items-center gap-1.5">
@@ -208,7 +208,7 @@ export default function TeamRankingPage() {
                 <span>正常</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <div className="w-3 h-3 rounded bg-green-500" />
+                <div className="w-3 h-3 rounded bg-success" />
                 <span>最低</span>
               </div>
             </div>
@@ -219,7 +219,7 @@ export default function TeamRankingPage() {
         <Card>
           <CardHeader className="pb-3">
             <div className="flex items-center gap-2">
-              <BarChart3 className="h-5 w-5 text-purple-500" />
+              <BarChart3 className="h-5 w-5 text-chart-3" />
               <CardTitle className="text-base">AI 预测</CardTitle>
             </div>
           </CardHeader>
@@ -227,16 +227,16 @@ export default function TeamRankingPage() {
             <div className="space-y-4">
               <div className="p-4 rounded-lg bg-muted">
                 <p className="text-sm text-muted-foreground">下周预计不合格率</p>
-                <p className="text-3xl font-bold tabular-nums text-green-600 mt-1">
+                <p className="text-3xl font-bold tabular-nums text-success mt-1">
                   {predictionData.nextWeek}%
                 </p>
               </div>
-              <div className="flex items-center justify-between p-3 rounded-lg bg-green-50 border border-green-200">
+              <div className="flex items-center justify-between p-3 rounded-lg bg-success/10 border border-success/50">
                 <div className="flex items-center gap-2">
                   {predictionData.trend === "down" ? (
-                    <TrendingDown className="h-5 w-5 text-green-600" />
+                    <TrendingDown className="h-5 w-5 text-success" />
                   ) : (
-                    <TrendingUp className="h-5 w-5 text-red-600" />
+                    <TrendingUp className="h-5 w-5 text-destructive" />
                   )}
                   <span className="font-medium">
                     趋势：{predictionData.trend === "down" ? "下降" : "上升"}
@@ -245,7 +245,7 @@ export default function TeamRankingPage() {
               </div>
               <div className="text-center">
                 <p className="text-sm text-muted-foreground">预测置信度</p>
-                <p className="text-lg font-bold text-purple-600">{predictionData.confidence}%</p>
+                <p className="text-lg font-bold text-chart-3">{predictionData.confidence}%</p>
               </div>
               <p className="text-xs text-muted-foreground text-center">
                 * 基于历史数据 AI 预测，仅供参考
@@ -313,11 +313,11 @@ export default function TeamRankingPage() {
           <TableBody>
             {filteredRankings.length > 0 ? (
               filteredRankings.map((item) => (
-                <TableRow key={item.teamId} className={item.rank <= 3 ? "bg-red-50" : ""}>
+                <TableRow key={item.teamId} className={item.rank <= 3 ? "bg-destructive/10" : ""}>
                   <TableCell className="py-3">{getRankBadge(item.rank)}</TableCell>
                   <TableCell className="py-3 font-medium">{item.teamName}</TableCell>
                   <TableCell className="py-3">{item.totalCount}</TableCell>
-                  <TableCell className="py-3 text-red-600">{item.unqualifiedCount}</TableCell>
+                  <TableCell className="py-3 text-destructive">{item.unqualifiedCount}</TableCell>
                   <TableCell className={`py-3 ${getRateColor(item.unqualifiedRate)}`}>
                     {item.unqualifiedRate.toFixed(1)}%
                   </TableCell>

@@ -154,7 +154,7 @@ export default function OperationLogPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-blue-600">{loginCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-primary">{loginCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               系统登录记录
             </p>
@@ -167,7 +167,7 @@ export default function OperationLogPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-green-600">{editCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-success">{editCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               数据修改操作
             </p>
@@ -180,7 +180,7 @@ export default function OperationLogPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-red-600">{deleteCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-destructive">{deleteCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               数据删除操作
             </p>

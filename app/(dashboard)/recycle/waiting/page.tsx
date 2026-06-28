@@ -290,12 +290,12 @@ export default function WaitingDispensePage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">
               可领用
             </CardTitle>
-            <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+            <span className="inline-flex items-center rounded-full bg-success/10 px-2 py-0.5 text-xs font-medium text-success">
               {availableRate}%
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-green-600">{availableCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-success">{availableCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               可直接领用
             </p>
@@ -306,12 +306,12 @@ export default function WaitingDispensePage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">
               已预约
             </CardTitle>
-            <span className="inline-flex items-center rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-700">
+            <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
               {totalCount > 0 ? 100 - availableRate : 0}%
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-blue-600">{reservedCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-primary">{reservedCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               已被预约等待领取
             </p>

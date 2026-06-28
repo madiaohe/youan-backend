@@ -145,7 +145,7 @@ export default function AIRecommendLogPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-purple-600">{avgConfidence}%</div>
+            <div className="text-3xl font-bold tabular-nums text-chart-3">{avgConfidence}%</div>
             <p className="text-xs text-muted-foreground mt-1">
               AI推荐准确度
             </p>
@@ -156,12 +156,12 @@ export default function AIRecommendLogPage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">
               高置信度推荐
             </CardTitle>
-            <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+            <span className="inline-flex items-center rounded-full bg-success/10 px-2 py-0.5 text-xs font-medium text-success">
               {highConfidenceRate}%
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-green-600">{highConfidenceCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-success">{highConfidenceCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               置信度 &gt; 90%
             </p>
@@ -174,7 +174,7 @@ export default function AIRecommendLogPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-orange-600">{totalCount - highConfidenceCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-warning">{totalCount - highConfidenceCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               需要人工确认
             </p>
@@ -282,7 +282,7 @@ export default function AIRecommendLogPage() {
                   <TableCell className="py-3">
                     <div className="flex items-center gap-2">
                       <Progress value={log.confidence} className="h-2 w-16" />
-                      <span className={`text-sm font-medium ${log.confidence >= 90 ? "text-green-600" : "text-orange-600"}`}>
+                      <span className={`text-sm font-medium ${log.confidence >= 90 ? "text-success" : "text-warning"}`}>
                         {log.confidence}%
                       </span>
                     </div>

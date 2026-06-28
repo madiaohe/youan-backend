@@ -164,12 +164,12 @@ export default function RecycleRecordsPage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">
               正常回收
             </CardTitle>
-            <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+            <span className="inline-flex items-center rounded-full bg-success/10 px-2 py-0.5 text-xs font-medium text-success">
               {normalRate}%
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-green-600">{normalCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-success">{normalCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               员工主动回收
             </p>
@@ -180,12 +180,12 @@ export default function RecycleRecordsPage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">
               强制回收
             </CardTitle>
-            <span className="inline-flex items-center rounded-full bg-orange-100 px-2 py-0.5 text-xs font-medium text-orange-700">
+            <span className="inline-flex items-center rounded-full bg-warning/10 px-2 py-0.5 text-xs font-medium text-warning">
               {totalCount > 0 ? 100 - normalRate : 0}%
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-orange-600">{forceCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-warning">{forceCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               系统强制回收
             </p>
@@ -203,15 +203,15 @@ export default function RecycleRecordsPage() {
             </div>
             <div className="flex items-center gap-4 text-sm">
               <div className="flex items-center gap-1.5">
-                <CheckCircle className="h-4 w-4 text-green-500" />
+                <CheckCircle className="h-4 w-4 text-success" />
                 <span>正常 {normalBoxCount}</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                <AlertTriangle className="h-4 w-4 text-warning" />
                 <span>即将满箱 {warningBoxCount}</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <AlertTriangle className="h-4 w-4 text-red-500" />
+                <AlertTriangle className="h-4 w-4 text-destructive" />
                 <span>已满箱 {fullBoxCount}</span>
               </div>
             </div>
@@ -222,14 +222,14 @@ export default function RecycleRecordsPage() {
             {recycleBoxStatuses.map((box) => {
               const percentage = Math.round((box.currentCount / box.capacity) * 100);
               const getStatusColor = () => {
-                if (box.status === "已满箱") return "bg-red-100 border-red-300";
-                if (box.status === "即将满箱") return "bg-yellow-100 border-yellow-300";
-                return "bg-green-50 border-green-200";
+                if (box.status === "已满箱") return "bg-destructive/10 border-destructive/50";
+                if (box.status === "即将满箱") return "bg-warning/10 border-warning/50";
+                return "bg-success/10 border-success/50";
               };
               const getProgressColor = () => {
-                if (box.status === "已满箱") return "bg-red-500";
-                if (box.status === "即将满箱") return "bg-yellow-500";
-                return "bg-green-500";
+                if (box.status === "已满箱") return "bg-destructive";
+                if (box.status === "即将满箱") return "bg-warning";
+                return "bg-success";
               };
               return (
                 <div

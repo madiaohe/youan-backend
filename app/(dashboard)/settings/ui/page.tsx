@@ -184,7 +184,7 @@ export default function UIConfigPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-blue-600">{interfaceCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-primary">{interfaceCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               界面显示相关配置
             </p>
@@ -197,7 +197,7 @@ export default function UIConfigPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-purple-600">{notificationCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-chart-3">{notificationCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               通知开关配置
             </p>
@@ -209,7 +209,7 @@ export default function UIConfigPage() {
       <Card>
         <CardHeader className="pb-3">
           <div className="flex items-center gap-2">
-            <Palette className="h-5 w-5 text-blue-500" />
+            <Palette className="h-5 w-5 text-primary" />
             <CardTitle className="text-base">界面配置</CardTitle>
           </div>
         </CardHeader>
@@ -253,7 +253,7 @@ export default function UIConfigPage() {
       <Card>
         <CardHeader className="pb-3">
           <div className="flex items-center gap-2">
-            <Bell className="h-5 w-5 text-purple-500" />
+            <Bell className="h-5 w-5 text-chart-3" />
             <CardTitle className="text-base">通知配置</CardTitle>
           </div>
         </CardHeader>

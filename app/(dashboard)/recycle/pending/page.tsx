@@ -229,12 +229,12 @@ export default function PendingRecyclePage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">
               待回收
             </CardTitle>
-            <span className="inline-flex items-center rounded-full bg-yellow-100 px-2 py-0.5 text-xs font-medium text-yellow-700">
+            <span className="inline-flex items-center rounded-full bg-warning/10 px-2 py-0.5 text-xs font-medium text-warning">
               {totalCount > 0 ? Math.round((pendingCount / totalCount) * 100) : 0}%
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-yellow-600">{pendingCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-warning">{pendingCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               正常待回收状态
             </p>
@@ -245,12 +245,12 @@ export default function PendingRecyclePage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">
               已超期
             </CardTitle>
-            <span className="inline-flex items-center rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700">
+            <span className="inline-flex items-center rounded-full bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive">
               {overdueRate}%
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-red-600">{overdueCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-destructive">{overdueCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               需要紧急处理
             </p>
@@ -512,7 +512,7 @@ export default function PendingRecyclePage() {
               </div>
             </div>
             <div className="space-y-2">
-              <Label>调整原因 <span className="text-red-500">*</span></Label>
+              <Label>调整原因 <span className="text-destructive">*</span></Label>
               <Input
                 placeholder="请输入调整原因（必填）"
                 value={adjustForm.reason}

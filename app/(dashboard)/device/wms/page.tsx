@@ -166,11 +166,11 @@ export default function WMSPage() {
     <div className="flex flex-col gap-4">
       {/* 同步操作卡片 */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-        <Card className="border-green-200">
+        <Card className="border-success/50">
           <CardHeader className="pb-3">
             <div className="flex items-center gap-2">
-              <div className="p-2 rounded-lg bg-green-100">
-                <Download className="h-5 w-5 text-green-600" />
+              <div className="p-2 rounded-lg bg-success/10">
+                <Download className="h-5 w-5 text-success" />
               </div>
               <div>
                 <CardTitle className="text-base">入库同步</CardTitle>
@@ -191,11 +191,11 @@ export default function WMSPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-blue-200">
+        <Card className="border-primary/50">
           <CardHeader className="pb-3">
             <div className="flex items-center gap-2">
-              <div className="p-2 rounded-lg bg-blue-100">
-                <Upload className="h-5 w-5 text-blue-600" />
+              <div className="p-2 rounded-lg bg-primary/10">
+                <Upload className="h-5 w-5 text-primary" />
               </div>
               <div>
                 <CardTitle className="text-base">出库同步</CardTitle>
@@ -216,11 +216,11 @@ export default function WMSPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-purple-200">
+        <Card className="border-chart-3/50">
           <CardHeader className="pb-3">
             <div className="flex items-center gap-2">
-              <div className="p-2 rounded-lg bg-purple-100">
-                <Database className="h-5 w-5 text-purple-600" />
+              <div className="p-2 rounded-lg bg-chart-3/10">
+                <Database className="h-5 w-5 text-chart-3" />
               </div>
               <div>
                 <CardTitle className="text-base">库存同步</CardTitle>
@@ -241,11 +241,11 @@ export default function WMSPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-orange-200">
+        <Card className="border-warning/50">
           <CardHeader className="pb-3">
             <div className="flex items-center gap-2">
-              <div className="p-2 rounded-lg bg-orange-100">
-                <ArrowLeftRight className="h-5 w-5 text-orange-600" />
+              <div className="p-2 rounded-lg bg-warning/10">
+                <ArrowLeftRight className="h-5 w-5 text-warning" />
               </div>
               <div>
                 <CardTitle className="text-base">手动退库</CardTitle>
@@ -286,12 +286,12 @@ export default function WMSPage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">
               成功次数
             </CardTitle>
-            <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+            <span className="inline-flex items-center rounded-full bg-success/10 px-2 py-0.5 text-xs font-medium text-success">
               {successRate}%
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-green-600">{successCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-success">{successCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               同步成功记录
             </p>
@@ -302,12 +302,12 @@ export default function WMSPage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">
               失败次数
             </CardTitle>
-            <span className="inline-flex items-center rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700">
+            <span className="inline-flex items-center rounded-full bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive">
               {totalCount > 0 ? 100 - successRate : 0}%
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-red-600">{failCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-destructive">{failCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               需要排查问题
             </p>
@@ -320,7 +320,7 @@ export default function WMSPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-blue-600">{totalItems}</div>
+            <div className="text-3xl font-bold tabular-nums text-primary">{totalItems}</div>
             <p className="text-xs text-muted-foreground mt-1">
               累计同步条目
             </p>
@@ -412,7 +412,7 @@ export default function WMSPage() {
                     <Badge variant={getStatusBadge(record.status)}>{record.status}</Badge>
                   </TableCell>
                   <TableCell className="py-3">{record.itemCount}</TableCell>
-                  <TableCell className="py-3 text-red-600">{record.errorMessage || "-"}</TableCell>
+                  <TableCell className="py-3 text-destructive">{record.errorMessage || "-"}</TableCell>
                 </TableRow>
               ))
             ) : (
@@ -532,7 +532,7 @@ export default function WMSPage() {
               </div>
             </div>
             <div className="space-y-2">
-              <Label>退库原因 <span className="text-red-500">*</span></Label>
+              <Label>退库原因 <span className="text-destructive">*</span></Label>
               <Input
                 placeholder="请输入退库原因"
                 value={returnForm.reason}

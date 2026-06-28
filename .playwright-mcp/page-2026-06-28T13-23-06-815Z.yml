@@ -1,0 +1,256 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e5]:
+        - navigation [ref=e6]:
+          - link [ref=e209] [cursor=pointer]:
+            - /url: /
+            - text: Home
+          - link [ref=e210] [cursor=pointer]:
+            - /url: /docs/installation
+            - text: Docs
+          - link [ref=e211] [cursor=pointer]:
+            - /url: /docs/components
+            - text: Components
+          - link [ref=e212] [cursor=pointer]:
+            - /url: /blocks
+            - text: Blocks
+          - link [ref=e213] [cursor=pointer]:
+            - /url: /charts/area
+            - text: Charts
+          - link [ref=e214] [cursor=pointer]:
+            - /url: /docs/directory
+            - text: Directory
+          - link [ref=e215] [cursor=pointer]:
+            - /url: /create
+            - text: Create
+        - generic [ref=e14]:
+          - button [ref=e216]:
+            - generic [ref=e17]: Search...
+          - link [ref=e217] [cursor=pointer]:
+            - /url: https://github.com/shadcn-ui/ui
+            - img
+            - generic [ref=e19]: 118k
+          - button [ref=e218]:
+            - img
+            - generic [ref=e21]: Toggle theme
+          - generic [ref=e22]:
+            - link [ref=e219] [cursor=pointer]:
+              - /url: https://v0.dev/chat/api/open?url=https://ui.shadcn.com/init/v0?preset=b1Ymqvgiu&base=radix&title=New radix-nova project
+              - generic [ref=e24]: Open in
+              - img
+            - button [ref=e220]: Get Code
+    - main [ref=e26]:
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - iframe [ref=e32]:
+            
+          - generic [ref=e33]:
+            - button [ref=e221] [cursor=pointer]: "01"
+            - button [ref=e222] [cursor=pointer]: "02"
+        - generic [ref=e36]:
+          - button [ref=e223]:
+            - generic [ref=e39]: Menu
+            - img [ref=e40]
+          - generic [ref=e42]:
+            - generic [ref=e43]:
+              - button [ref=e224]:
+                - generic [ref=e45]:
+                  - generic [ref=e46]: Style
+                  - generic [ref=e47]: Nova
+                - generic:
+                  - img
+              - button [ref=e225] [cursor=pointer]:
+                - img [ref=e49]
+            - separator [ref=e53]
+            - generic [ref=e54]:
+              - button [ref=e226]:
+                - generic [ref=e56]:
+                  - generic [ref=e57]: Base Color
+                  - generic [ref=e58]: Neutral
+              - button [ref=e227] [cursor=pointer]:
+                - img [ref=e60]
+            - generic [ref=e63]:
+              - button [ref=e228]:
+                - generic [ref=e65]:
+                  - generic [ref=e66]: Theme
+                  - generic [ref=e67]: Blue
+              - button [ref=e229] [cursor=pointer]:
+                - img [ref=e69]
+            - generic [ref=e72]:
+              - button [ref=e230]:
+                - generic [ref=e74]:
+                  - generic [ref=e75]: Chart Color
+                  - generic [ref=e76]: Blue
+              - button [ref=e231] [cursor=pointer]:
+                - img [ref=e78]
+            - separator [ref=e82]
+            - generic [ref=e83]:
+              - button [ref=e232]:
+                - generic [ref=e85]:
+                  - generic [ref=e86]: Heading
+                  - generic [ref=e87]: Inter
+                - generic: Aa
+              - button [ref=e233] [cursor=pointer]:
+                - img [ref=e89]
+            - generic [ref=e92]:
+              - button [ref=e234]:
+                - generic [ref=e94]:
+                  - generic [ref=e95]: Font
+                  - generic [ref=e96]: Inter
+                - generic: Aa
+              - button [ref=e235] [cursor=pointer]:
+                - img [ref=e98]
+            - separator [ref=e102]
+            - generic [ref=e103]:
+              - button [ref=e236]:
+                - generic [ref=e105]:
+                  - generic [ref=e106]: Icon Library
+                  - generic [ref=e107]: Lucide
+                - generic:
+                  - img
+              - button [ref=e237] [cursor=pointer]:
+                - img [ref=e109]
+            - generic [ref=e112]:
+              - button [ref=e238]:
+                - generic [ref=e114]:
+                  - generic [ref=e115]: Radius
+                  - generic [ref=e116]: Default
+                - generic:
+                  - img
+              - button [ref=e239] [cursor=pointer]:
+                - img [ref=e118]
+            - separator [ref=e122]
+            - generic [ref=e123]:
+              - button [ref=e240]:
+                - generic [ref=e125]:
+                  - generic [ref=e126]: Menu
+                  - generic [ref=e127]: Default / Solid
+                - generic:
+                  - img
+              - button [ref=e241] [cursor=pointer]:
+                - img [ref=e129]
+            - generic [ref=e132]:
+              - button [ref=e242]:
+                - generic [ref=e134]:
+                  - generic [ref=e135]: Menu Accent
+                  - generic [ref=e136]: Subtle
+                - generic:
+                  - img
+              - button [ref=e243] [cursor=pointer]:
+                - img [ref=e138]
+          - generic [ref=e141]:
+            - button [ref=e244]:
+              - generic [ref=e143]: "--preset b1Ymqvgiu"
+            - button [ref=e245]: Open Preset
+            - button [ref=e246]:
+              - generic [ref=e146]: Shuffle
+            - generic [ref=e147]:
+              - heading [level=2] [ref=e247]: Command Palette
+              - paragraph [ref=e149]: Search for a command to run...
+          - button [expanded] [ref=e248]: Get Code
+  - region "Notifications alt+T"
+  - alert [ref=e151]
+  - dialog [ref=e252]:
+    - generic [ref=e253]:
+      - group "Project type" [ref=e255]:
+        - button "New Project" [active] [pressed] [ref=e256]
+        - button "Existing Project" [ref=e257]
+        - button "Theme" [ref=e258]
+      - generic [ref=e259]:
+        - generic [ref=e260]:
+          - group [ref=e261]:
+            - generic [ref=e262]: Template
+            - radiogroup [ref=e263]:
+              - group [ref=e265]:
+                - generic [ref=e266]:
+                  - img "Next.js" [ref=e268]
+                  - generic [ref=e270]: Next.js
+                - radio "Next.js Next.js" [checked] [ref=e271]
+                - radio [checked] [ref=e274]
+              - group [ref=e276]:
+                - generic [ref=e277]:
+                  - img [ref=e279]
+                  - generic [ref=e282]: Vite
+                - radio "Vite" [ref=e283]
+                - radio [ref=e284]
+              - group [ref=e286]:
+                - generic [ref=e287]:
+                  - img "TanStack" [ref=e289]
+                  - generic [ref=e291]: TanStack Start
+                - radio "TanStack TanStack Start" [ref=e292]
+                - radio [ref=e293]
+              - group [ref=e295]:
+                - generic [ref=e296]:
+                  - img "Laravel" [ref=e298]
+                  - generic [ref=e300]: Laravel
+                - radio "Laravel Laravel" [ref=e301]
+                - radio [ref=e302]
+              - group [ref=e304]:
+                - generic [ref=e305]:
+                  - img [ref=e307]
+                  - generic [ref=e309]: React Router
+                - radio "React Router" [ref=e310]
+                - radio [ref=e311]
+              - group [ref=e313]:
+                - generic [ref=e314]:
+                  - img "Astro" [ref=e316]
+                  - generic [ref=e318]: Astro
+                - radio "Astro Astro" [ref=e319]
+                - radio [ref=e320]
+          - separator [ref=e322]
+          - group [ref=e323]:
+            - generic [ref=e324]: Base
+            - radiogroup "Base" [ref=e325]:
+              - group [ref=e327]:
+                - generic [ref=e328]:
+                  - img "Radix UI" [ref=e330]
+                  - generic [ref=e332]: Radix UI
+                - radio "Radix UI Radix UI" [checked] [ref=e333]
+                - radio [checked] [ref=e336]
+              - group [ref=e338]:
+                - generic [ref=e339]:
+                  - img [ref=e341]
+                  - generic [ref=e344]: Base UI
+                - radio "Base UI" [ref=e345]
+                - radio [ref=e346]
+          - separator [ref=e348]
+          - group "Options" [ref=e349]:
+            - generic [ref=e350]: Options
+            - group [ref=e351]:
+              - generic [ref=e352]:
+                - img [ref=e353]
+                - text: Use pointer on buttons
+              - switch "Use pointer on buttons" [ref=e355]
+              - checkbox [ref=e356]
+            - separator [ref=e358]
+            - group [ref=e359]:
+              - generic [ref=e360]:
+                - img "Turborepo" [ref=e362]
+                - text: Create a monorepo
+              - switch "Turborepo Create a monorepo" [ref=e364]
+              - checkbox [ref=e365]
+            - separator [ref=e367]
+            - group [ref=e368]:
+              - generic [ref=e369]:
+                - img [ref=e370]
+                - text: Enable RTL support
+              - switch "Enable RTL support" [ref=e373]
+              - checkbox [ref=e374]
+        - generic [ref=e376]:
+          - generic [ref=e377]:
+            - generic [ref=e378]:
+              - tablist [ref=e379]:
+                - tab "pnpm" [selected] [ref=e380]
+                - tab "npm" [ref=e381]
+                - tab "yarn" [ref=e382]
+                - tab "bun" [ref=e383]
+              - button "Copy command" [ref=e384]:
+                - img
+                - generic [ref=e385]: Copy command
+            - tabpanel "pnpm" [ref=e386]:
+              - code [ref=e389]: pnpm dlx shadcn@latest init --preset b1Ymqvgiu --template next
+          - button "Copy Command" [ref=e390]
+    - button "Close" [ref=e391]:
+      - img
+      - generic [ref=e392]: Close

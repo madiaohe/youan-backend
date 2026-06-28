@@ -107,13 +107,13 @@ export default function DeviceParamPage() {
             </p>
           </CardContent>
         </Card>
-        <Card className="border-yellow-200 bg-yellow-50/50">
+        <Card className="border-warning/50 bg-warning/5">
           <CardContent className="pt-4">
             <div className="flex items-start gap-3">
-              <Info className="h-5 w-5 text-yellow-600 mt-0.5" />
-              <div className="text-sm text-yellow-700">
+              <Info className="h-5 w-5 text-warning mt-0.5" />
+              <div className="text-sm text-foreground">
                 <p className="font-medium">注意事项</p>
-                <ul className="mt-1 space-y-0.5 text-yellow-600">
+                <ul className="mt-1 space-y-0.5 text-muted-foreground">
                   <li>• 修改参数将影响所有设备的运行</li>
                   <li>• 参数修改后立即生效</li>
                 </ul>

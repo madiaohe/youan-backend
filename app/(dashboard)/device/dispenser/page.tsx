@@ -180,12 +180,12 @@ export default function DispenserDevicePage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">
               在线设备
             </CardTitle>
-            <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+            <span className="inline-flex items-center rounded-full bg-success/10 px-2 py-0.5 text-xs font-medium text-success">
               {totalCount > 0 ? Math.round((onlineCount / totalCount) * 100) : 0}%
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-green-600">{onlineCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-success">{onlineCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               正常运行中
             </p>
@@ -196,12 +196,12 @@ export default function DispenserDevicePage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">
               总库存量
             </CardTitle>
-            <span className="inline-flex items-center rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-700">
+            <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
               {stockRate}%
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-blue-600">{totalStock}</div>
+            <div className="text-3xl font-bold tabular-nums text-primary">{totalStock}</div>
             <p className="text-xs text-muted-foreground mt-1">
               当前库存总量
             </p>

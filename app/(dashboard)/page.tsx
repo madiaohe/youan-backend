@@ -76,8 +76,8 @@ export default function DashboardPage() {
       change: detectionChange,
       trend: parseFloat(detectionChange) >= 0 ? "up" : "down",
       icon: FlaskConical,
-      color: "text-blue-500",
-      bgColor: "bg-blue-500/10",
+      color: "text-primary",
+      bgColor: "bg-primary/10",
     },
     {
       title: "合格率",
@@ -85,8 +85,8 @@ export default function DashboardPage() {
       change: rateChange.startsWith("-") ? rateChange : `+${rateChange}%`,
       trend: parseFloat(rateChange) >= 0 ? "up" : "down",
       icon: CheckCircle2,
-      color: "text-green-500",
-      bgColor: "bg-green-500/10",
+      color: "text-success",
+      bgColor: "bg-success/10",
     },
     {
       title: "待回收",
@@ -94,8 +94,8 @@ export default function DashboardPage() {
       change: overdueCount > 0 ? `${overdueCount}个已超期` : "",
       trend: "neutral",
       icon: Recycle,
-      color: "text-orange-500",
-      bgColor: "bg-orange-500/10",
+      color: "text-warning",
+      bgColor: "bg-warning/10",
     },
     {
       title: "设备在线率",
@@ -103,8 +103,8 @@ export default function DashboardPage() {
       change: `${onlineDevices}/${totalDevices}`,
       trend: "neutral",
       icon: Server,
-      color: "text-purple-500",
-      bgColor: "bg-purple-500/10",
+      color: "text-chart-3",
+      bgColor: "bg-chart-3/10",
     },
   ];
 
@@ -157,11 +157,11 @@ export default function DashboardPage() {
   const getTypeStyle = (type: PendingItem["type"]) => {
     switch (type) {
       case "待回收":
-        return { icon: Recycle, color: "text-orange-500", bgColor: "bg-orange-500/10" };
+        return { icon: Recycle, color: "text-warning", bgColor: "bg-warning/10" };
       case "设备告警":
-        return { icon: AlertTriangle, color: "text-red-500", bgColor: "bg-red-500/10" };
+        return { icon: AlertTriangle, color: "text-destructive", bgColor: "bg-destructive/10" };
       case "库存预警":
-        return { icon: Package, color: "text-yellow-500", bgColor: "bg-yellow-500/10" };
+        return { icon: Package, color: "text-warning", bgColor: "bg-warning/10" };
     }
   };
 
@@ -183,14 +183,14 @@ export default function DashboardPage() {
               <div className="text-2xl font-bold tabular-nums">{stat.value}</div>
               {stat.change && (
                 <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
-                  {stat.trend === "up" && <TrendingUp className="h-3 w-3 text-green-500" />}
-                  {stat.trend === "down" && <TrendingDown className="h-3 w-3 text-red-500" />}
+                  {stat.trend === "up" && <TrendingUp className="h-3 w-3 text-success" />}
+                  {stat.trend === "down" && <TrendingDown className="h-3 w-3 text-destructive" />}
                   <span
                     className={
                       stat.trend === "up"
-                        ? "text-green-500"
+                        ? "text-success"
                         : stat.trend === "down"
-                        ? "text-red-500"
+                        ? "text-destructive"
                         : ""
                     }
                   >

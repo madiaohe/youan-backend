@@ -225,12 +225,12 @@ export default function DetectorDevicePage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">
               在线设备
             </CardTitle>
-            <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+            <span className="inline-flex items-center rounded-full bg-success/10 px-2 py-0.5 text-xs font-medium text-success">
               {onlineRate}%
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-green-600">{onlineCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-success">{onlineCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               正常运行中
             </p>
@@ -241,12 +241,12 @@ export default function DetectorDevicePage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">
               离线设备
             </CardTitle>
-            <span className="inline-flex items-center rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700">
+            <span className="inline-flex items-center rounded-full bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive">
               {totalCount > 0 ? Math.round((offlineCount / totalCount) * 100) : 0}%
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-red-600">{offlineCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-destructive">{offlineCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               需要排查问题
             </p>
@@ -259,7 +259,7 @@ export default function DetectorDevicePage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-yellow-600">{maintenanceCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-warning">{maintenanceCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               正在维护中
             </p>
@@ -544,7 +544,7 @@ export default function DetectorDevicePage() {
               <Card>
                 <CardHeader className="pb-3">
                   <div className="flex items-center gap-2">
-                    <Lightbulb className="h-4 w-4 text-yellow-500" />
+                    <Lightbulb className="h-4 w-4 text-warning" />
                     <CardTitle className="text-sm">指示灯控制</CardTitle>
                   </div>
                 </CardHeader>
@@ -632,9 +632,9 @@ export default function DetectorDevicePage() {
                           <div
                             key={box.id}
                             className={`p-3 rounded-lg border ${
-                              box.status === "已满箱" ? "bg-red-50 border-red-200" :
-                              box.status === "即将满箱" ? "bg-yellow-50 border-yellow-200" :
-                              "bg-green-50 border-green-200"
+                              box.status === "已满箱" ? "bg-destructive/10 border-destructive/50" :
+                              box.status === "即将满箱" ? "bg-warning/10 border-warning/50" :
+                              "bg-success/10 border-success/50"
                             }`}
                           >
                             <div className="flex items-center justify-between mb-2">

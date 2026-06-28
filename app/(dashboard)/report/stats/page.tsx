@@ -113,12 +113,12 @@ export default function DetectionStatsPage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">
               合格次数
             </CardTitle>
-            <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+            <span className="inline-flex items-center rounded-full bg-success/10 px-2 py-0.5 text-xs font-medium text-success">
               {qualifiedRate}%
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-green-600">{summary.qualifiedCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-success">{summary.qualifiedCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               检测合格总数
             </p>
@@ -129,12 +129,12 @@ export default function DetectionStatsPage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">
               不合格次数
             </CardTitle>
-            <span className="inline-flex items-center rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700">
+            <span className="inline-flex items-center rounded-full bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive">
               {summary.totalCount > 0 ? (100 - parseFloat(qualifiedRate)).toFixed(1) : 0}%
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-red-600">{summary.unqualifiedCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-destructive">{summary.unqualifiedCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               需要关注问题
             </p>
@@ -147,7 +147,7 @@ export default function DetectionStatsPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-yellow-600">{summary.recycleCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-warning">{summary.recycleCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               累计回收数量
             </p>
@@ -160,7 +160,7 @@ export default function DetectionStatsPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-blue-600">{summary.dispenseCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-primary">{summary.dispenseCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               累计发放数量
             </p>
@@ -195,7 +195,7 @@ export default function DetectionStatsPage() {
                       <Badge variant="outline">{item.type}</Badge>
                     </TableCell>
                     <TableCell className="py-2.5">{item.count}</TableCell>
-                    <TableCell className="py-2.5 text-green-600">{item.qualifiedCount}</TableCell>
+                    <TableCell className="py-2.5 text-success">{item.qualifiedCount}</TableCell>
                     <TableCell className="py-2.5">
                       <div className="flex items-center gap-2">
                         <Progress value={item.rate} className="h-2 w-16" />
@@ -213,7 +213,7 @@ export default function DetectionStatsPage() {
         <Card>
           <CardHeader className="pb-3">
             <div className="flex items-center gap-2">
-              <TrendingUp className="h-5 w-5 text-green-500" />
+              <TrendingUp className="h-5 w-5 text-success" />
               <CardTitle className="text-base">AI 预测分析</CardTitle>
             </div>
           </CardHeader>
@@ -226,15 +226,15 @@ export default function DetectionStatsPage() {
                 </div>
                 <div className="p-3 rounded-lg bg-muted">
                   <p className="text-sm text-muted-foreground">预计合格量</p>
-                  <p className="text-2xl font-bold tabular-nums text-green-600 mt-1">{predictionData.nextWeekQualified}</p>
+                  <p className="text-2xl font-bold tabular-nums text-success mt-1">{predictionData.nextWeekQualified}</p>
                 </div>
               </div>
-              <div className="flex items-center justify-between p-3 rounded-lg bg-green-50 border border-green-200">
+              <div className="flex items-center justify-between p-3 rounded-lg bg-success/10 border border-success/50">
                 <div className="flex items-center gap-2">
                   {predictionData.trend === "up" ? (
-                    <TrendingUp className="h-5 w-5 text-green-600" />
+                    <TrendingUp className="h-5 w-5 text-success" />
                   ) : (
-                    <TrendingDown className="h-5 w-5 text-red-600" />
+                    <TrendingDown className="h-5 w-5 text-destructive" />
                   )}
                   <span className="font-medium">
                     趋势：{predictionData.trend === "up" ? "上升" : "下降"}
@@ -331,8 +331,8 @@ export default function DetectionStatsPage() {
                   <TableRow key={item.date}>
                     <TableCell className="py-3 font-medium">{item.date}</TableCell>
                     <TableCell className="py-3">{item.totalCount}</TableCell>
-                    <TableCell className="py-3 text-green-600">{item.qualifiedCount}</TableCell>
-                    <TableCell className="py-3 text-red-600">{item.unqualifiedCount}</TableCell>
+                    <TableCell className="py-3 text-success">{item.qualifiedCount}</TableCell>
+                    <TableCell className="py-3 text-destructive">{item.unqualifiedCount}</TableCell>
                     <TableCell className="py-3">
                       <Badge variant={Number(rate) >= 90 ? "default" : "destructive"}>
                         {rate}%

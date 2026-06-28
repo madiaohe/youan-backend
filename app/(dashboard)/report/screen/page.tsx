@@ -178,12 +178,12 @@ export default function ScreenConfigPage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">
               已启用
             </CardTitle>
-            <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+            <span className="inline-flex items-center rounded-full bg-success/10 px-2 py-0.5 text-xs font-medium text-success">
               {totalCount > 0 ? Math.round((enabledCount / totalCount) * 100) : 0}%
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-green-600">{enabledCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-success">{enabledCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               正在运行的大屏
             </p>
@@ -196,7 +196,7 @@ export default function ScreenConfigPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-gray-500">{totalCount - enabledCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-muted-foreground">{totalCount - enabledCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               未启用的大屏
             </p>
@@ -205,13 +205,13 @@ export default function ScreenConfigPage() {
       </div>
 
       {/* 说明卡片 */}
-      <Card className="border-blue-200 bg-blue-50/50">
+      <Card className="border-primary/50 bg-primary/5">
         <CardContent className="pt-4">
           <div className="flex items-start gap-3">
-            <Info className="h-5 w-5 text-blue-600 mt-0.5" />
-            <div className="text-sm text-blue-700">
+            <Info className="h-5 w-5 text-primary mt-0.5" />
+            <div className="text-sm text-foreground">
               <p className="font-medium mb-1">配置说明</p>
-              <ul className="space-y-0.5 text-blue-600">
+              <ul className="space-y-0.5 text-muted-foreground">
                 <li>• 大屏配置用于在工厂大屏上展示检测数据和统计信息</li>
                 <li>• 可配置刷新间隔，建议 10-60 秒</li>
                 <li>• 可选择多个展示项，系统会自动布局</li>

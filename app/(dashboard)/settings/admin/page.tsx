@@ -229,12 +229,12 @@ export default function AdminAccountPage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">
               已启用
             </CardTitle>
-            <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+            <span className="inline-flex items-center rounded-full bg-success/10 px-2 py-0.5 text-xs font-medium text-success">
               {totalCount > 0 ? Math.round((enabledCount / totalCount) * 100) : 0}%
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-green-600">{enabledCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-success">{enabledCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               正常使用账户
             </p>

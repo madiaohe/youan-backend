@@ -1,0 +1,147 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e5]:
+        - navigation [ref=e6]:
+          - link "Home" [ref=e7] [cursor=pointer]:
+            - /url: /
+          - link "Docs" [ref=e8] [cursor=pointer]:
+            - /url: /docs/installation
+          - link "Components" [ref=e9] [cursor=pointer]:
+            - /url: /docs/components
+          - link "Blocks" [ref=e10] [cursor=pointer]:
+            - /url: /blocks
+          - link "Charts" [ref=e11] [cursor=pointer]:
+            - /url: /charts/area
+          - link "Directory" [ref=e12] [cursor=pointer]:
+            - /url: /docs/directory
+          - link "Create" [ref=e13] [cursor=pointer]:
+            - /url: /create
+        - generic [ref=e14]:
+          - button "Search..." [ref=e16]:
+            - generic [ref=e17]: Search...
+          - link "118k" [ref=e18] [cursor=pointer]:
+            - /url: https://github.com/shadcn-ui/ui
+            - img
+            - generic [ref=e19]: 118k
+          - button "Toggle theme" [ref=e20]:
+            - img
+            - generic [ref=e21]: Toggle theme
+          - generic [ref=e22]:
+            - link "Open in" [ref=e23] [cursor=pointer]:
+              - /url: https://v0.dev/chat/api/open?url=https://ui.shadcn.com/init/v0?preset=b0&base=radix&title=New radix-nova project
+              - generic [ref=e24]: Open in
+              - img
+            - button "Get Code" [ref=e25]
+    - main [ref=e26]:
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - iframe [ref=e32]:
+            
+          - generic [ref=e33]:
+            - button "01" [ref=e34] [cursor=pointer]
+            - button "02" [ref=e35] [cursor=pointer]
+        - generic [ref=e36]:
+          - button "Menu" [ref=e38]:
+            - generic [ref=e39]: Menu
+            - img [ref=e40]
+          - generic [ref=e42]:
+            - generic [ref=e43]:
+              - button "Style Nova" [ref=e44]:
+                - generic [ref=e45]:
+                  - generic [ref=e46]: Style
+                  - generic [ref=e47]: Nova
+                - generic:
+                  - img
+              - button "Lock" [ref=e48] [cursor=pointer]:
+                - img [ref=e49]
+            - separator [ref=e53]
+            - generic [ref=e54]:
+              - button "Base Color Neutral" [ref=e55]:
+                - generic [ref=e56]:
+                  - generic [ref=e57]: Base Color
+                  - generic [ref=e58]: Neutral
+              - button "Lock" [ref=e59] [cursor=pointer]:
+                - img [ref=e60]
+            - generic [ref=e63]:
+              - button "Theme Neutral" [ref=e64]:
+                - generic [ref=e65]:
+                  - generic [ref=e66]: Theme
+                  - generic [ref=e67]: Neutral
+              - button "Lock" [ref=e68] [cursor=pointer]:
+                - img [ref=e69]
+            - generic [ref=e72]:
+              - button "Chart Color Neutral" [ref=e73]:
+                - generic [ref=e74]:
+                  - generic [ref=e75]: Chart Color
+                  - generic [ref=e76]: Neutral
+              - button "Lock" [ref=e77] [cursor=pointer]:
+                - img [ref=e78]
+            - separator [ref=e82]
+            - generic [ref=e83]:
+              - button "Heading Inter Aa" [ref=e84]:
+                - generic [ref=e85]:
+                  - generic [ref=e86]: Heading
+                  - generic [ref=e87]: Inter
+                - generic: Aa
+              - button "Lock" [ref=e88] [cursor=pointer]:
+                - img [ref=e89]
+            - generic [ref=e92]:
+              - button "Font Inter Aa" [ref=e93]:
+                - generic [ref=e94]:
+                  - generic [ref=e95]: Font
+                  - generic [ref=e96]: Inter
+                - generic: Aa
+              - button "Lock" [ref=e97] [cursor=pointer]:
+                - img [ref=e98]
+            - separator [ref=e102]
+            - generic [ref=e103]:
+              - button "Icon Library Lucide" [ref=e104]:
+                - generic [ref=e105]:
+                  - generic [ref=e106]: Icon Library
+                  - generic [ref=e107]: Lucide
+                - generic:
+                  - img
+              - button "Lock" [ref=e108] [cursor=pointer]:
+                - img [ref=e109]
+            - generic [ref=e112]:
+              - button "Radius Default" [ref=e113]:
+                - generic [ref=e114]:
+                  - generic [ref=e115]: Radius
+                  - generic [ref=e116]: Default
+                - generic:
+                  - img
+              - button "Lock" [ref=e117] [cursor=pointer]:
+                - img [ref=e118]
+            - separator [ref=e122]
+            - generic [ref=e123]:
+              - button "Menu Default / Solid" [ref=e124]:
+                - generic [ref=e125]:
+                  - generic [ref=e126]: Menu
+                  - generic [ref=e127]: Default / Solid
+                - generic:
+                  - img
+              - button "Lock" [ref=e128] [cursor=pointer]:
+                - img [ref=e129]
+            - generic [ref=e132]:
+              - button "Menu Accent Subtle" [ref=e133]:
+                - generic [ref=e134]:
+                  - generic [ref=e135]: Menu Accent
+                  - generic [ref=e136]: Subtle
+                - generic:
+                  - img
+              - button "Lock" [ref=e137] [cursor=pointer]:
+                - img [ref=e138]
+          - generic [ref=e141]:
+            - button "--preset b0" [ref=e142]:
+              - generic [ref=e143]: "--preset b0"
+            - button "Open Preset" [ref=e144]
+            - button "Shuffle" [ref=e145]:
+              - generic [ref=e146]: Shuffle
+            - generic [ref=e147]:
+              - heading "Command Palette" [level=2] [ref=e148]
+              - paragraph [ref=e149]: Search for a command to run...
+          - generic [ref=e150]:
+            - button [disabled]: Get Code
+  - region "Notifications alt+T"
+  - alert [ref=e151]

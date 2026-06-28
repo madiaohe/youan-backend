@@ -156,7 +156,7 @@ export default function DetectionLogPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-blue-600">{detectionCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-primary">{detectionCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               呼吸阻力检测
             </p>
@@ -169,7 +169,7 @@ export default function DetectionLogPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-yellow-600">{recycleCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-warning">{recycleCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               滤盒回收记录
             </p>
@@ -182,7 +182,7 @@ export default function DetectionLogPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-green-600">{dispenseCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-success">{dispenseCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               滤盒发放记录
             </p>

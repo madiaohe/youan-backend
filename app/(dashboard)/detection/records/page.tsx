@@ -156,12 +156,12 @@ export default function DetectionRecordsPage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">
               合格次数
             </CardTitle>
-            <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+            <span className="inline-flex items-center rounded-full bg-success/10 px-2 py-0.5 text-xs font-medium text-success">
               {qualifiedRate}%
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-green-600">{qualifiedCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-success">{qualifiedCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               合格率表现良好
             </p>
@@ -172,12 +172,12 @@ export default function DetectionRecordsPage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">
               不合格次数
             </CardTitle>
-            <span className="inline-flex items-center rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700">
+            <span className="inline-flex items-center rounded-full bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive">
               {100 - qualifiedRate}%
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-red-600">{unqualifiedCount}</div>
+            <div className="text-3xl font-bold tabular-nums text-destructive">{unqualifiedCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               需要关注的检测记录
             </p>
