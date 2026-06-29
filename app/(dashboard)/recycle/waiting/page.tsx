@@ -271,21 +271,21 @@ export default function WaitingDispensePage() {
   return (
     <div className="flex flex-col gap-4">
       {/* KPI 统计卡片 */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <Card>
+      <div className="grid gap-4 md:grid-cols-3 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs dark:*:data-[slot=card]:bg-card">
+        <Card className="@container/card">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               总待领用数
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums">{totalCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl">{totalCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               筛选条件下的待领用总数
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="@container/card">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               可领用
@@ -295,13 +295,13 @@ export default function WaitingDispensePage() {
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-success">{availableCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl text-success">{availableCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               可直接领用
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="@container/card">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               已预约
@@ -311,7 +311,7 @@ export default function WaitingDispensePage() {
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-primary">{reservedCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl text-primary">{reservedCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               已被预约等待领取
             </p>

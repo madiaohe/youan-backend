@@ -168,9 +168,9 @@ export default function DashboardPage() {
   return (
     <div className="flex flex-col gap-6">
       {/* KPI 统计卡片 */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs dark:*:data-[slot=card]:bg-card">
         {kpiData.map((stat) => (
-          <Card key={stat.title}>
+          <Card key={stat.title} className="@container/card">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 {stat.title}
@@ -180,7 +180,7 @@ export default function DashboardPage() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold tabular-nums">{stat.value}</div>
+              <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl">{stat.value}</div>
               {stat.change && (
                 <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
                   {stat.trend === "up" && <TrendingUp className="h-3 w-3 text-success" />}
@@ -213,10 +213,9 @@ export default function DashboardPage() {
           <AlertCircle className="h-5 w-5 text-primary" />
           待处理事项
         </h2>
-        <Card>
-          <CardContent className="p-0">
-            <Table>
-            <TableHeader className="bg-muted/50">
+        <div className="overflow-hidden rounded-lg border">
+          <Table>
+            <TableHeader className="bg-muted sticky top-0 z-10">
               <TableRow className="hover:bg-transparent">
                 <TableHead className="h-10 w-24">类型</TableHead>
                 <TableHead className="h-10">内容</TableHead>
@@ -259,8 +258,7 @@ export default function DashboardPage() {
               )}
             </TableBody>
           </Table>
-        </CardContent>
-      </Card>
+        </div>
       </div>
     </div>
   );

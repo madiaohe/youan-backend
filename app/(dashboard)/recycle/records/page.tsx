@@ -145,21 +145,21 @@ export default function RecycleRecordsPage() {
   return (
     <div className="flex flex-col gap-4">
       {/* KPI 统计卡片 */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <Card>
+      <div className="grid gap-4 md:grid-cols-3 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs dark:*:data-[slot=card]:bg-card">
+        <Card className="@container/card">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               总回收次数
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums">{totalCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl">{totalCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               筛选条件下的回收总数
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="@container/card">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               正常回收
@@ -169,13 +169,13 @@ export default function RecycleRecordsPage() {
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-success">{normalCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl text-success">{normalCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               员工主动回收
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="@container/card">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               强制回收
@@ -185,7 +185,7 @@ export default function RecycleRecordsPage() {
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-warning">{forceCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl text-warning">{forceCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               系统强制回收
             </p>

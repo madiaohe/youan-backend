@@ -161,21 +161,21 @@ export default function DispenserDevicePage() {
   return (
     <div className="flex flex-col gap-4">
       {/* KPI 统计卡片 */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-        <Card>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs dark:*:data-[slot=card]:bg-card">
+        <Card className="@container/card">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               设备总数
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums">{totalCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl">{totalCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               已注册发放柜数量
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="@container/card">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               在线设备
@@ -185,13 +185,13 @@ export default function DispenserDevicePage() {
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-success">{onlineCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl text-success">{onlineCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               正常运行中
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="@container/card">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               总库存量
@@ -201,20 +201,20 @@ export default function DispenserDevicePage() {
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-primary">{totalStock}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl text-primary">{totalStock}</div>
             <p className="text-xs text-muted-foreground mt-1">
               当前库存总量
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="@container/card">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               总容量
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums">{totalCapacity}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl">{totalCapacity}</div>
             <p className="text-xs text-muted-foreground mt-1">
               设备总容量
             </p>

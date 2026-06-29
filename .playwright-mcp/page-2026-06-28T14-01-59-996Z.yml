@@ -1,0 +1,540 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e6]:
+      - list [ref=e8]:
+        - listitem [ref=e9]:
+          - link "Acme Inc." [ref=e10] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e11]
+            - generic [ref=e14]: Acme Inc.
+      - generic [ref=e15]:
+        - generic [ref=e17]:
+          - list [ref=e18]:
+            - listitem [ref=e19]:
+              - button "Quick Create" [ref=e20]:
+                - img [ref=e21]
+                - generic [ref=e23]: Quick Create
+              - button "Inbox" [ref=e24]:
+                - img
+                - generic [ref=e25]: Inbox
+          - list [ref=e26]:
+            - listitem [ref=e27]:
+              - button "Dashboard" [ref=e28]:
+                - img [ref=e29]
+                - generic [ref=e33]: Dashboard
+            - listitem [ref=e34]:
+              - button "Lifecycle" [ref=e35]:
+                - img [ref=e36]
+                - generic [ref=e39]: Lifecycle
+            - listitem [ref=e40]:
+              - button "Analytics" [ref=e41]:
+                - img [ref=e42]
+                - generic [ref=e46]: Analytics
+            - listitem [ref=e47]:
+              - button "Projects" [ref=e48]:
+                - img [ref=e49]
+                - generic [ref=e51]: Projects
+            - listitem [ref=e52]:
+              - button "Team" [ref=e53]:
+                - img [ref=e54]
+                - generic [ref=e59]: Team
+        - generic [ref=e60]:
+          - generic [ref=e61]: Documents
+          - list [ref=e62]:
+            - listitem [ref=e63]:
+              - link "Data Library" [ref=e64] [cursor=pointer]:
+                - /url: "#"
+                - img [ref=e65]
+                - generic [ref=e69]: Data Library
+              - button "More" [ref=e70]:
+                - img [ref=e71]
+                - generic [ref=e75]: More
+            - listitem [ref=e76]:
+              - link "Reports" [ref=e77] [cursor=pointer]:
+                - /url: "#"
+                - img [ref=e78]
+                - generic [ref=e84]: Reports
+              - button "More" [ref=e85]:
+                - img [ref=e86]
+                - generic [ref=e90]: More
+            - listitem [ref=e91]:
+              - link "Word Assistant" [ref=e92] [cursor=pointer]:
+                - /url: "#"
+                - img [ref=e93]
+                - generic [ref=e97]: Word Assistant
+              - button "More" [ref=e98]:
+                - img [ref=e99]
+                - generic [ref=e103]: More
+            - listitem [ref=e104]:
+              - button "More" [ref=e105]:
+                - img [ref=e106]
+                - generic [ref=e110]: More
+        - list [ref=e113]:
+          - listitem [ref=e114]:
+            - link "Settings" [ref=e115] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e116]
+              - generic [ref=e119]: Settings
+          - listitem [ref=e120]:
+            - link "Get Help" [ref=e121] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e122]
+              - generic [ref=e125]: Get Help
+          - listitem [ref=e126]:
+            - link "Search" [ref=e127] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e128]
+              - generic [ref=e131]: Search
+      - list [ref=e133]:
+        - listitem [ref=e134]:
+          - button "CN shadcn m@example.com" [ref=e135]:
+            - generic [ref=e137]: CN
+            - generic [ref=e138]:
+              - generic [ref=e139]: shadcn
+              - generic [ref=e140]: m@example.com
+            - img [ref=e141]
+    - main [ref=e145]:
+      - generic [ref=e147]:
+        - button "Toggle Sidebar" [ref=e148]:
+          - img
+          - generic [ref=e149]: Toggle Sidebar
+        - heading "Documents" [level=1] [ref=e150]
+        - link "GitHub" [ref=e152] [cursor=pointer]:
+          - /url: https://github.com/shadcn-ui/ui/tree/main/apps/v4/app/(examples)/dashboard
+      - generic [ref=e155]:
+        - generic [ref=e156]:
+          - generic [ref=e157]:
+            - generic [ref=e158]:
+              - generic [ref=e159]: Total Revenue
+              - generic [ref=e160]: $1,250.00
+              - generic [ref=e162]:
+                - img
+                - text: +12.5%
+            - generic [ref=e163]:
+              - generic [ref=e164]:
+                - text: Trending up this month
+                - img [ref=e165]
+              - generic [ref=e168]: Visitors for the last 6 months
+          - generic [ref=e169]:
+            - generic [ref=e170]:
+              - generic [ref=e171]: New Customers
+              - generic [ref=e172]: 1,234
+              - generic [ref=e174]:
+                - img
+                - text: "-20%"
+            - generic [ref=e175]:
+              - generic [ref=e176]:
+                - text: Down 20% this period
+                - img [ref=e177]
+              - generic [ref=e180]: Acquisition needs attention
+          - generic [ref=e181]:
+            - generic [ref=e182]:
+              - generic [ref=e183]: Active Accounts
+              - generic [ref=e184]: 45,678
+              - generic [ref=e186]:
+                - img
+                - text: +12.5%
+            - generic [ref=e187]:
+              - generic [ref=e188]:
+                - text: Strong user retention
+                - img [ref=e189]
+              - generic [ref=e192]: Engagement exceed targets
+          - generic [ref=e193]:
+            - generic [ref=e194]:
+              - generic [ref=e195]: Growth Rate
+              - generic [ref=e196]: 4.5%
+              - generic [ref=e198]:
+                - img
+                - text: +4.5%
+            - generic [ref=e199]:
+              - generic [ref=e200]:
+                - text: Steady performance increase
+                - img [ref=e201]
+              - generic [ref=e204]: Meets growth projections
+        - generic [ref=e207]:
+          - generic [ref=e208]: Total Visitors
+          - generic [ref=e210]: Total for the last 3 months
+          - generic [ref=e211]:
+            - group [ref=e212]:
+              - radio "Last 3 months" [checked] [ref=e213]
+              - radio "Last 30 days" [ref=e214]
+              - radio "Last 7 days" [ref=e215]
+            - combobox [ref=e216]
+        - generic [ref=e221]:
+          - generic [ref=e222]:
+            - generic [ref=e223]: View
+            - combobox [ref=e224]
+            - tablist [ref=e225]:
+              - tab "Outline" [selected] [ref=e226]
+              - tab "Past Performance 3" [ref=e227]:
+                - text: Past Performance
+                - generic [ref=e228]: "3"
+              - tab "Key Personnel 2" [ref=e229]:
+                - text: Key Personnel
+                - generic [ref=e230]: "2"
+              - tab "Focus Documents" [ref=e231]
+            - generic [ref=e232]:
+              - button "Customize Columns" [ref=e233]:
+                - img
+                - generic [ref=e234]: Customize Columns
+                - img
+              - button "Add Section" [ref=e235]:
+                - img
+                - generic [ref=e236]: Add Section
+          - tabpanel "Outline" [ref=e237]:
+            - table [ref=e240]:
+              - rowgroup [ref=e241]:
+                - row "Select all Header Section Type Status Target Limit Reviewer" [ref=e242]:
+                  - columnheader [ref=e243]
+                  - columnheader "Select all" [ref=e244]:
+                    - generic [ref=e245]:
+                      - checkbox "Select all" [ref=e246]
+                      - checkbox
+                  - columnheader "Header" [ref=e247]
+                  - columnheader "Section Type" [ref=e248]
+                  - columnheader "Status" [ref=e249]
+                  - columnheader "Target" [ref=e250]:
+                    - generic [ref=e251]: Target
+                  - columnheader "Limit" [ref=e252]:
+                    - generic [ref=e253]: Limit
+                  - columnheader "Reviewer" [ref=e254]
+                  - columnheader [ref=e255]
+              - rowgroup [ref=e256]:
+                - row "Drag to reorder Select row Cover page Cover page In Process Target 18 Limit 5 Eddie Lake Open menu" [ref=e257]:
+                  - cell "Drag to reorder" [ref=e258]:
+                    - button "Drag to reorder" [ref=e259]:
+                      - img
+                      - generic [ref=e260]: Drag to reorder
+                  - cell "Select row" [ref=e261]:
+                    - generic [ref=e262]:
+                      - checkbox "Select row" [ref=e263]
+                      - checkbox
+                  - cell "Cover page" [ref=e264]:
+                    - button "Cover page" [ref=e265]
+                  - cell "Cover page" [ref=e266]:
+                    - generic [ref=e268]: Cover page
+                  - cell "In Process" [ref=e269]:
+                    - generic [ref=e270]:
+                      - img
+                      - text: In Process
+                  - cell "Target 18" [ref=e271]:
+                    - generic [ref=e272]:
+                      - generic [ref=e273]: Target
+                      - textbox "Target" [ref=e274]: "18"
+                  - cell "Limit 5" [ref=e275]:
+                    - generic [ref=e276]:
+                      - generic [ref=e277]: Limit
+                      - textbox "Limit" [ref=e278]: "5"
+                  - cell "Eddie Lake" [ref=e279]
+                  - cell "Open menu" [ref=e280]:
+                    - button "Open menu" [ref=e281]:
+                      - img
+                      - generic [ref=e282]: Open menu
+                - row "Drag to reorder Select row Table of contents Table of contents Done Target 29 Limit 24 Eddie Lake Open menu" [ref=e283]:
+                  - cell "Drag to reorder" [ref=e284]:
+                    - button "Drag to reorder" [ref=e285]:
+                      - img
+                      - generic [ref=e286]: Drag to reorder
+                  - cell "Select row" [ref=e287]:
+                    - generic [ref=e288]:
+                      - checkbox "Select row" [ref=e289]
+                      - checkbox
+                  - cell "Table of contents" [ref=e290]:
+                    - button "Table of contents" [ref=e291]
+                  - cell "Table of contents" [ref=e292]:
+                    - generic [ref=e294]: Table of contents
+                  - cell "Done" [ref=e295]:
+                    - generic [ref=e296]:
+                      - img
+                      - text: Done
+                  - cell "Target 29" [ref=e297]:
+                    - generic [ref=e298]:
+                      - generic [ref=e299]: Target
+                      - textbox "Target" [ref=e300]: "29"
+                  - cell "Limit 24" [ref=e301]:
+                    - generic [ref=e302]:
+                      - generic [ref=e303]: Limit
+                      - textbox "Limit" [ref=e304]: "24"
+                  - cell "Eddie Lake" [ref=e305]
+                  - cell "Open menu" [ref=e306]:
+                    - button "Open menu" [ref=e307]:
+                      - img
+                      - generic [ref=e308]: Open menu
+                - row "Drag to reorder Select row Executive summary Narrative Done Target 10 Limit 13 Eddie Lake Open menu" [ref=e309]:
+                  - cell "Drag to reorder" [ref=e310]:
+                    - button "Drag to reorder" [ref=e311]:
+                      - img
+                      - generic [ref=e312]: Drag to reorder
+                  - cell "Select row" [ref=e313]:
+                    - generic [ref=e314]:
+                      - checkbox "Select row" [ref=e315]
+                      - checkbox
+                  - cell "Executive summary" [ref=e316]:
+                    - button "Executive summary" [ref=e317]
+                  - cell "Narrative" [ref=e318]:
+                    - generic [ref=e320]: Narrative
+                  - cell "Done" [ref=e321]:
+                    - generic [ref=e322]:
+                      - img
+                      - text: Done
+                  - cell "Target 10" [ref=e323]:
+                    - generic [ref=e324]:
+                      - generic [ref=e325]: Target
+                      - textbox "Target" [ref=e326]: "10"
+                  - cell "Limit 13" [ref=e327]:
+                    - generic [ref=e328]:
+                      - generic [ref=e329]: Limit
+                      - textbox "Limit" [ref=e330]: "13"
+                  - cell "Eddie Lake" [ref=e331]
+                  - cell "Open menu" [ref=e332]:
+                    - button "Open menu" [ref=e333]:
+                      - img
+                      - generic [ref=e334]: Open menu
+                - row "Drag to reorder Select row Technical approach Narrative Done Target 27 Limit 23 Jamik Tashpulatov Open menu" [ref=e335]:
+                  - cell "Drag to reorder" [ref=e336]:
+                    - button "Drag to reorder" [ref=e337]:
+                      - img
+                      - generic [ref=e338]: Drag to reorder
+                  - cell "Select row" [ref=e339]:
+                    - generic [ref=e340]:
+                      - checkbox "Select row" [ref=e341]
+                      - checkbox
+                  - cell "Technical approach" [ref=e342]:
+                    - button "Technical approach" [ref=e343]
+                  - cell "Narrative" [ref=e344]:
+                    - generic [ref=e346]: Narrative
+                  - cell "Done" [ref=e347]:
+                    - generic [ref=e348]:
+                      - img
+                      - text: Done
+                  - cell "Target 27" [ref=e349]:
+                    - generic [ref=e350]:
+                      - generic [ref=e351]: Target
+                      - textbox "Target" [ref=e352]: "27"
+                  - cell "Limit 23" [ref=e353]:
+                    - generic [ref=e354]:
+                      - generic [ref=e355]: Limit
+                      - textbox "Limit" [ref=e356]: "23"
+                  - cell "Jamik Tashpulatov" [ref=e357]
+                  - cell "Open menu" [ref=e358]:
+                    - button "Open menu" [ref=e359]:
+                      - img
+                      - generic [ref=e360]: Open menu
+                - row "Drag to reorder Select row Design Narrative In Process Target 2 Limit 16 Jamik Tashpulatov Open menu" [ref=e361]:
+                  - cell "Drag to reorder" [ref=e362]:
+                    - button "Drag to reorder" [ref=e363]:
+                      - img
+                      - generic [ref=e364]: Drag to reorder
+                  - cell "Select row" [ref=e365]:
+                    - generic [ref=e366]:
+                      - checkbox "Select row" [ref=e367]
+                      - checkbox
+                  - cell "Design" [ref=e368]:
+                    - button "Design" [ref=e369]
+                  - cell "Narrative" [ref=e370]:
+                    - generic [ref=e372]: Narrative
+                  - cell "In Process" [ref=e373]:
+                    - generic [ref=e374]:
+                      - img
+                      - text: In Process
+                  - cell "Target 2" [ref=e375]:
+                    - generic [ref=e376]:
+                      - generic [ref=e377]: Target
+                      - textbox "Target" [ref=e378]: "2"
+                  - cell "Limit 16" [ref=e379]:
+                    - generic [ref=e380]:
+                      - generic [ref=e381]: Limit
+                      - textbox "Limit" [ref=e382]: "16"
+                  - cell "Jamik Tashpulatov" [ref=e383]
+                  - cell "Open menu" [ref=e384]:
+                    - button "Open menu" [ref=e385]:
+                      - img
+                      - generic [ref=e386]: Open menu
+                - row "Drag to reorder Select row Capabilities Narrative In Process Target 20 Limit 8 Jamik Tashpulatov Open menu" [ref=e387]:
+                  - cell "Drag to reorder" [ref=e388]:
+                    - button "Drag to reorder" [ref=e389]:
+                      - img
+                      - generic [ref=e390]: Drag to reorder
+                  - cell "Select row" [ref=e391]:
+                    - generic [ref=e392]:
+                      - checkbox "Select row" [ref=e393]
+                      - checkbox
+                  - cell "Capabilities" [ref=e394]:
+                    - button "Capabilities" [ref=e395]
+                  - cell "Narrative" [ref=e396]:
+                    - generic [ref=e398]: Narrative
+                  - cell "In Process" [ref=e399]:
+                    - generic [ref=e400]:
+                      - img
+                      - text: In Process
+                  - cell "Target 20" [ref=e401]:
+                    - generic [ref=e402]:
+                      - generic [ref=e403]: Target
+                      - textbox "Target" [ref=e404]: "20"
+                  - cell "Limit 8" [ref=e405]:
+                    - generic [ref=e406]:
+                      - generic [ref=e407]: Limit
+                      - textbox "Limit" [ref=e408]: "8"
+                  - cell "Jamik Tashpulatov" [ref=e409]
+                  - cell "Open menu" [ref=e410]:
+                    - button "Open menu" [ref=e411]:
+                      - img
+                      - generic [ref=e412]: Open menu
+                - row "Drag to reorder Select row Integration with existing systems Narrative In Process Target 19 Limit 21 Jamik Tashpulatov Open menu" [ref=e413]:
+                  - cell "Drag to reorder" [ref=e414]:
+                    - button "Drag to reorder" [ref=e415]:
+                      - img
+                      - generic [ref=e416]: Drag to reorder
+                  - cell "Select row" [ref=e417]:
+                    - generic [ref=e418]:
+                      - checkbox "Select row" [ref=e419]
+                      - checkbox
+                  - cell "Integration with existing systems" [ref=e420]:
+                    - button "Integration with existing systems" [ref=e421]
+                  - cell "Narrative" [ref=e422]:
+                    - generic [ref=e424]: Narrative
+                  - cell "In Process" [ref=e425]:
+                    - generic [ref=e426]:
+                      - img
+                      - text: In Process
+                  - cell "Target 19" [ref=e427]:
+                    - generic [ref=e428]:
+                      - generic [ref=e429]: Target
+                      - textbox "Target" [ref=e430]: "19"
+                  - cell "Limit 21" [ref=e431]:
+                    - generic [ref=e432]:
+                      - generic [ref=e433]: Limit
+                      - textbox "Limit" [ref=e434]: "21"
+                  - cell "Jamik Tashpulatov" [ref=e435]
+                  - cell "Open menu" [ref=e436]:
+                    - button "Open menu" [ref=e437]:
+                      - img
+                      - generic [ref=e438]: Open menu
+                - row "Drag to reorder Select row Innovation and Advantages Narrative Done Target 25 Limit 26 Reviewer Open menu" [ref=e439]:
+                  - cell "Drag to reorder" [ref=e440]:
+                    - button "Drag to reorder" [ref=e441]:
+                      - img
+                      - generic [ref=e442]: Drag to reorder
+                  - cell "Select row" [ref=e443]:
+                    - generic [ref=e444]:
+                      - checkbox "Select row" [ref=e445]
+                      - checkbox
+                  - cell "Innovation and Advantages" [ref=e446]:
+                    - button "Innovation and Advantages" [ref=e447]
+                  - cell "Narrative" [ref=e448]:
+                    - generic [ref=e450]: Narrative
+                  - cell "Done" [ref=e451]:
+                    - generic [ref=e452]:
+                      - img
+                      - text: Done
+                  - cell "Target 25" [ref=e453]:
+                    - generic [ref=e454]:
+                      - generic [ref=e455]: Target
+                      - textbox "Target" [ref=e456]: "25"
+                  - cell "Limit 26" [ref=e457]:
+                    - generic [ref=e458]:
+                      - generic [ref=e459]: Limit
+                      - textbox "Limit" [ref=e460]: "26"
+                  - cell "Reviewer" [ref=e461]:
+                    - generic [ref=e462]: Reviewer
+                    - combobox "Reviewer" [ref=e463]:
+                      - generic: Assign reviewer
+                      - img
+                    - combobox [ref=e464]
+                  - cell "Open menu" [ref=e465]:
+                    - button "Open menu" [ref=e466]:
+                      - img
+                      - generic [ref=e467]: Open menu
+                - row "Drag to reorder Select row Overview of EMR's Innovative Solutions Technical content Done Target 7 Limit 23 Reviewer Open menu" [ref=e468]:
+                  - cell "Drag to reorder" [ref=e469]:
+                    - button "Drag to reorder" [ref=e470]:
+                      - img
+                      - generic [ref=e471]: Drag to reorder
+                  - cell "Select row" [ref=e472]:
+                    - generic [ref=e473]:
+                      - checkbox "Select row" [ref=e474]
+                      - checkbox
+                  - cell "Overview of EMR's Innovative Solutions" [ref=e475]:
+                    - button "Overview of EMR's Innovative Solutions" [ref=e476]
+                  - cell "Technical content" [ref=e477]:
+                    - generic [ref=e479]: Technical content
+                  - cell "Done" [ref=e480]:
+                    - generic [ref=e481]:
+                      - img
+                      - text: Done
+                  - cell "Target 7" [ref=e482]:
+                    - generic [ref=e483]:
+                      - generic [ref=e484]: Target
+                      - textbox "Target" [ref=e485]: "7"
+                  - cell "Limit 23" [ref=e486]:
+                    - generic [ref=e487]:
+                      - generic [ref=e488]: Limit
+                      - textbox "Limit" [ref=e489]: "23"
+                  - cell "Reviewer" [ref=e490]:
+                    - generic [ref=e491]: Reviewer
+                    - combobox "Reviewer" [ref=e492]:
+                      - generic: Assign reviewer
+                      - img
+                    - combobox [ref=e493]
+                  - cell "Open menu" [ref=e494]:
+                    - button "Open menu" [ref=e495]:
+                      - img
+                      - generic [ref=e496]: Open menu
+                - row "Drag to reorder Select row Advanced Algorithms and Machine Learning Narrative Done Target 30 Limit 28 Reviewer Open menu" [ref=e497]:
+                  - cell "Drag to reorder" [ref=e498]:
+                    - button "Drag to reorder" [ref=e499]:
+                      - img
+                      - generic [ref=e500]: Drag to reorder
+                  - cell "Select row" [ref=e501]:
+                    - generic [ref=e502]:
+                      - checkbox "Select row" [ref=e503]
+                      - checkbox
+                  - cell "Advanced Algorithms and Machine Learning" [ref=e504]:
+                    - button "Advanced Algorithms and Machine Learning" [ref=e505]
+                  - cell "Narrative" [ref=e506]:
+                    - generic [ref=e508]: Narrative
+                  - cell "Done" [ref=e509]:
+                    - generic [ref=e510]:
+                      - img
+                      - text: Done
+                  - cell "Target 30" [ref=e511]:
+                    - generic [ref=e512]:
+                      - generic [ref=e513]: Target
+                      - textbox "Target" [ref=e514]: "30"
+                  - cell "Limit 28" [ref=e515]:
+                    - generic [ref=e516]:
+                      - generic [ref=e517]: Limit
+                      - textbox "Limit" [ref=e518]: "28"
+                  - cell "Reviewer" [ref=e519]:
+                    - generic [ref=e520]: Reviewer
+                    - combobox "Reviewer" [ref=e521]:
+                      - generic: Assign reviewer
+                      - img
+                    - combobox [ref=e522]
+                  - cell "Open menu" [ref=e523]:
+                    - button "Open menu" [ref=e524]:
+                      - img
+                      - generic [ref=e525]: Open menu
+            - generic [ref=e526]:
+              - generic [ref=e527]: 0 of 68 row(s) selected.
+              - generic [ref=e528]:
+                - generic [ref=e529]:
+                  - generic [ref=e530]: Rows per page
+                  - combobox "Rows per page" [ref=e531]:
+                    - img
+                  - combobox [ref=e532]
+                - generic [ref=e533]: Page 1 of 7
+                - generic [ref=e534]:
+                  - button "Go to first page" [disabled]:
+                    - generic: Go to first page
+                    - img
+                  - button "Go to previous page" [disabled]:
+                    - generic: Go to previous page
+                    - img
+                  - button "Go to next page" [ref=e535]:
+                    - generic [ref=e536]: Go to next page
+                    - img
+                  - button "Go to last page" [ref=e537]:
+                    - generic [ref=e538]: Go to last page
+                    - img
+  - region "Notifications alt+T"

@@ -133,54 +133,54 @@ export default function OperationLogPage() {
   return (
     <div className="flex flex-col gap-4">
       {/* KPI 统计卡片 */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-        <Card>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs dark:*:data-[slot=card]:bg-card">
+        <Card className="@container/card">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               操作总次数
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums">{totalCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl">{totalCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               筛选条件下的操作总数
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="@container/card">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               登录次数
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-primary">{loginCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl text-primary">{loginCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               系统登录记录
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="@container/card">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               编辑/新增
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-success">{editCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl text-success">{editCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               数据修改操作
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="@container/card">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               删除次数
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-destructive">{deleteCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl text-destructive">{deleteCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               数据删除操作
             </p>

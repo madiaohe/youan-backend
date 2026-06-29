@@ -93,15 +93,15 @@ export default function DeviceParamPage() {
   return (
     <div className="flex flex-col gap-4">
       {/* KPI 统计卡片 */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <Card>
+      <div className="grid gap-4 md:grid-cols-2 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs dark:*:data-[slot=card]:bg-card">
+        <Card className="@container/card">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               参数总数
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums">{totalCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl">{totalCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               可配置参数数量
             </p>

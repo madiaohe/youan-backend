@@ -94,21 +94,21 @@ export default function DetectionStatsPage() {
   return (
     <div className="flex flex-col gap-4">
       {/* KPI 统计卡片 */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5">
-        <Card>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs dark:*:data-[slot=card]:bg-card">
+        <Card className="@container/card">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               检测总数
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums">{summary.totalCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl">{summary.totalCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               筛选期间总检测次数
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="@container/card">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               合格次数
@@ -118,13 +118,13 @@ export default function DetectionStatsPage() {
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-success">{summary.qualifiedCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl text-success">{summary.qualifiedCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               检测合格总数
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="@container/card">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               不合格次数
@@ -134,33 +134,33 @@ export default function DetectionStatsPage() {
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-destructive">{summary.unqualifiedCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl text-destructive">{summary.unqualifiedCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               需要关注问题
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="@container/card">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               回收次数
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-warning">{summary.recycleCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl text-warning">{summary.recycleCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               累计回收数量
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="@container/card">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               发放次数
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-primary">{summary.dispenseCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl text-primary">{summary.dispenseCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               累计发放数量
             </p>

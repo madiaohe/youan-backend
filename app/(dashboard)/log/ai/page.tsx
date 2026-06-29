@@ -124,34 +124,34 @@ export default function AIRecommendLogPage() {
   return (
     <div className="flex flex-col gap-4">
       {/* KPI 统计卡片 */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-        <Card>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs dark:*:data-[slot=card]:bg-card">
+        <Card className="@container/card">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               推荐总次数
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums">{totalCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl">{totalCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               筛选条件下的推荐总数
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="@container/card">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               平均置信度
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-chart-3">{avgConfidence}%</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl text-chart-3">{avgConfidence}%</div>
             <p className="text-xs text-muted-foreground mt-1">
               AI推荐准确度
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="@container/card">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               高置信度推荐
@@ -161,20 +161,20 @@ export default function AIRecommendLogPage() {
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-success">{highConfidenceCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl text-success">{highConfidenceCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               置信度 &gt; 90%
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="@container/card">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               低置信度推荐
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-warning">{totalCount - highConfidenceCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl text-warning">{totalCount - highConfidenceCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               需要人工确认
             </p>

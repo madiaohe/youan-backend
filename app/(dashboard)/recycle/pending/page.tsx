@@ -210,21 +210,21 @@ export default function PendingRecyclePage() {
   return (
     <div className="flex flex-col gap-4">
       {/* KPI 统计卡片 */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <Card>
+      <div className="grid gap-4 md:grid-cols-3 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs dark:*:data-[slot=card]:bg-card">
+        <Card className="@container/card">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               总待回收数
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums">{totalCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl">{totalCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               筛选条件下的待回收总数
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="@container/card">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               待回收
@@ -234,13 +234,13 @@ export default function PendingRecyclePage() {
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-warning">{pendingCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl text-warning">{pendingCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               正常待回收状态
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="@container/card">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               已超期
@@ -250,7 +250,7 @@ export default function PendingRecyclePage() {
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-destructive">{overdueCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl text-destructive">{overdueCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               需要紧急处理
             </p>

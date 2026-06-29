@@ -98,34 +98,34 @@ export default function TeamRankingPage() {
   return (
     <div className="flex flex-col gap-4">
       {/* KPI 统计卡片 */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-        <Card>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs dark:*:data-[slot=card]:bg-card">
+        <Card className="@container/card">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               区队数量
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums">{rankings.length}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl">{rankings.length}</div>
             <p className="text-xs text-muted-foreground mt-1">
               参与排名区队
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="@container/card">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               总检测次数
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums">{totalStats.totalCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl">{totalStats.totalCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               累计检测总数
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="@container/card">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               总不合格次数
@@ -135,20 +135,20 @@ export default function TeamRankingPage() {
             </span>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-destructive">{totalStats.unqualifiedCount}</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl text-destructive">{totalStats.unqualifiedCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
               需要关注问题
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="@container/card">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
               平均不合格率
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums">{overallRate}%</div>
+            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl">{overallRate}%</div>
             <p className="text-xs text-muted-foreground mt-1">
               整体不合格率
             </p>
