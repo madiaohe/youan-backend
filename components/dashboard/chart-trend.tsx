@@ -75,7 +75,7 @@ interface ChartTrendProps {
 }
 
 export function ChartTrend({ className }: ChartTrendProps) {
-  const [timeRange, setTimeRange] = useState<TimeRange>("7d");
+  const [timeRange, setTimeRange] = useState<TimeRange>("90d");
 
   // 预生成所有数据
   const allData = useMemo(() => ({
@@ -161,7 +161,7 @@ export function ChartTrend({ className }: ChartTrendProps) {
           </Select>
         </CardAction>
       </CardHeader>
-      <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
+      <CardContent className="pt-4 sm:pt-6">
         <ChartContainer config={chartConfig} className="aspect-auto h-[300px] w-full">
           <AreaChart
             accessibilityLayer

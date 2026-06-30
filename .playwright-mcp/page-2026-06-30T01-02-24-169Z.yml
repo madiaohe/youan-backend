@@ -1,0 +1,199 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e5]:
+      - list [ref=e7]:
+        - listitem [ref=e8]:
+          - link "滤 滤盒管理系统" [ref=e9] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e10]: 滤
+            - generic [ref=e11]: 滤盒管理系统
+      - list [ref=e15]:
+        - listitem [ref=e16]:
+          - link "工作台" [ref=e17] [cursor=pointer]:
+            - /url: /
+            - img [ref=e18]
+            - generic [ref=e23]: 工作台
+        - listitem [ref=e24]:
+          - button "权限管理" [ref=e25]:
+            - img [ref=e26]
+            - generic [ref=e28]: 权限管理
+            - img [ref=e29]
+        - listitem [ref=e31]:
+          - button "员工管理" [ref=e32]:
+            - img [ref=e33]
+            - generic [ref=e38]: 员工管理
+            - img [ref=e39]
+        - listitem [ref=e41]:
+          - button "检测管理" [ref=e42]:
+            - img [ref=e43]
+            - generic [ref=e45]: 检测管理
+            - img [ref=e46]
+        - listitem [ref=e48]:
+          - button "回收管理" [ref=e49]:
+            - img [ref=e50]
+            - generic [ref=e57]: 回收管理
+            - img [ref=e58]
+        - listitem [ref=e60]:
+          - button "设备管理" [ref=e61]:
+            - img [ref=e62]
+            - generic [ref=e65]: 设备管理
+            - img [ref=e66]
+        - listitem [ref=e68]:
+          - button "报表与统计分析" [expanded] [ref=e69]:
+            - img [ref=e70]
+            - generic [ref=e72]: 报表与统计分析
+            - img [ref=e73]
+          - list [ref=e76]:
+            - listitem [ref=e77]:
+              - link "检测数据统计" [ref=e78] [cursor=pointer]:
+                - /url: /report/stats
+                - generic [ref=e79]: 检测数据统计
+            - listitem [ref=e80]:
+              - link "区队不合格率排名" [ref=e81] [cursor=pointer]:
+                - /url: /report/ranking
+                - generic [ref=e82]: 区队不合格率排名
+            - listitem [ref=e83]:
+              - link "大屏展示配置" [ref=e84] [cursor=pointer]:
+                - /url: /report/screen
+                - generic [ref=e85]: 大屏展示配置
+        - listitem [ref=e86]:
+          - button "日志管理" [ref=e87]:
+            - img [ref=e88]
+            - generic [ref=e91]: 日志管理
+            - img [ref=e92]
+        - listitem [ref=e94]:
+          - button "系统设置" [ref=e95]:
+            - img [ref=e96]
+            - generic [ref=e99]: 系统设置
+            - img [ref=e100]
+      - list [ref=e103]:
+        - listitem [ref=e104]:
+          - button "管 管理员 admin@example.com" [ref=e105]:
+            - generic [ref=e107]: 管
+            - generic [ref=e108]:
+              - generic [ref=e109]: 管理员
+              - generic [ref=e110]: admin@example.com
+            - img [ref=e111]
+    - main [ref=e115]:
+      - generic [ref=e116]:
+        - button "Toggle Sidebar" [ref=e117]:
+          - img
+          - generic [ref=e118]: Toggle Sidebar
+        - navigation "breadcrumb" [ref=e119]:
+          - list [ref=e120]:
+            - listitem [ref=e121]: 报表与统计分析
+            - listitem [ref=e122]:
+              - img [ref=e123]
+            - listitem [ref=e125]:
+              - link "大屏展示配置" [disabled] [ref=e126]
+      - main [ref=e127]:
+        - generic [ref=e128]:
+          - generic [ref=e129]:
+            - generic [ref=e130]:
+              - img [ref=e132]
+              - generic [ref=e136]:
+                - heading "滤盒消耗规律分析大屏" [level=1] [ref=e137]
+                - paragraph [ref=e138]: 公司整体及各区队滤盒消耗数据实时展示
+            - generic [ref=e139]:
+              - generic [ref=e141]:
+                - img [ref=e142]
+                - generic [ref=e147]: "上次更新: --:--:--"
+              - generic [ref=e150]: "--:--:--"
+              - button "设置" [ref=e151]:
+                - img
+                - text: 设置
+          - generic [ref=e152]:
+            - generic [ref=e153]:
+              - generic [ref=e155]:
+                - img [ref=e156]
+                - text: 本月领用总量
+              - generic [ref=e160]:
+                - generic [ref=e161]: "355"
+                - paragraph [ref=e162]: 个滤盒
+            - generic [ref=e163]:
+              - generic [ref=e165]:
+                - img [ref=e166]
+                - text: 本月回收总量
+              - generic [ref=e171]:
+                - generic [ref=e172]: "338"
+                - paragraph [ref=e173]: 个滤盒
+            - generic [ref=e174]:
+              - generic [ref=e176]:
+                - img [ref=e177]
+                - text: 本月判废总量
+              - generic [ref=e179]:
+                - generic [ref=e180]: "70"
+                - paragraph [ref=e181]: 个滤盒
+            - generic [ref=e182]:
+              - generic [ref=e184]:
+                - img [ref=e185]
+                - text: 平均使用寿命
+              - generic [ref=e188]:
+                - generic [ref=e189]: "28.8"
+                - paragraph [ref=e190]: 天
+          - generic [ref=e191]:
+            - generic [ref=e193]:
+              - generic [ref=e194]:
+                - img [ref=e195]
+                - text: 公司整体月度消耗趋势
+              - generic [ref=e198]: 按月统计滤盒的领用、回收和判废数量
+            - generic [ref=e203]:
+              - generic [ref=e204]:
+                - generic [ref=e205]:
+                  - img [ref=e206]
+                  - text: 区队消耗排名
+                - generic [ref=e211]: 按判废数量排名
+              - generic [ref=e213]:
+                - generic [ref=e214]:
+                  - generic [ref=e215]:
+                    - generic [ref=e216]:
+                      - generic [ref=e217]: "1"
+                      - generic [ref=e218]: 采煤一队
+                    - generic [ref=e219]: 12 个
+                  - progressbar [ref=e220]
+                - generic [ref=e222]:
+                  - generic [ref=e223]:
+                    - generic [ref=e224]:
+                      - generic [ref=e225]: "2"
+                      - generic [ref=e226]: 采煤二队
+                    - generic [ref=e227]: 11 个
+                  - progressbar [ref=e228]
+                - generic [ref=e230]:
+                  - generic [ref=e231]:
+                    - generic [ref=e232]:
+                      - generic [ref=e233]: "3"
+                      - generic [ref=e234]: 掘进一队
+                    - generic [ref=e235]: 10 个
+                  - progressbar [ref=e236]
+                - generic [ref=e238]:
+                  - generic [ref=e239]:
+                    - generic [ref=e240]:
+                      - generic [ref=e241]: "4"
+                      - generic [ref=e242]: 掘进二队
+                    - generic [ref=e243]: 9 个
+                  - progressbar [ref=e244]
+                - generic [ref=e246]:
+                  - generic [ref=e247]:
+                    - generic [ref=e248]:
+                      - generic [ref=e249]: "5"
+                      - generic [ref=e250]: 机电队
+                    - generic [ref=e251]: 8 个
+                  - progressbar [ref=e252]
+                - generic [ref=e254]:
+                  - generic [ref=e255]:
+                    - generic [ref=e256]:
+                      - generic [ref=e257]: "6"
+                      - generic [ref=e258]: 通风队
+                    - generic [ref=e259]: 7 个
+                  - progressbar [ref=e260]
+          - generic [ref=e263]:
+            - generic [ref=e264]: 各区队判废趋势对比
+            - generic [ref=e266]: 各区队判废数量柱状图对比
+          - generic [ref=e272]:
+            - generic [ref=e273]:
+              - img [ref=e274]
+              - generic [ref=e277]: 数据每 30 秒自动刷新
+            - generic [ref=e278]: 滤盒全生命周期管理系统 · 数据仅供展示
+    - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e284] [cursor=pointer]:
+    - img [ref=e285]

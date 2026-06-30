@@ -12,7 +12,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
@@ -92,12 +91,6 @@ export default function DetectionRecordsPage() {
     (pageIndex + 1) * pageSize
   );
 
-  // 统计
-  const totalCount = filteredRecords.length;
-  const qualifiedCount = filteredRecords.filter((r) => r.result === "合格").length;
-  const unqualifiedCount = filteredRecords.filter((r) => r.result === "不合格").length;
-  const qualifiedRate = totalCount > 0 ? Math.round((qualifiedCount / totalCount) * 100) : 0;
-
   // 重置筛选
   const handleResetFilter = () => {
     setFilterKeyword("");
@@ -136,55 +129,6 @@ export default function DetectionRecordsPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      {/* KPI 统计卡片 */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              总检测次数
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold tabular-nums">{totalCount}</div>
-            <p className="text-xs text-muted-foreground mt-1">
-              筛选条件下的检测总数
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2 flex flex-row items-center justify-between">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              合格次数
-            </CardTitle>
-            <span className="inline-flex items-center rounded-full bg-success/10 px-2 py-0.5 text-xs font-medium text-success">
-              {qualifiedRate}%
-            </span>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-success">{qualifiedCount}</div>
-            <p className="text-xs text-muted-foreground mt-1">
-              合格率表现良好
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2 flex flex-row items-center justify-between">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              不合格次数
-            </CardTitle>
-            <span className="inline-flex items-center rounded-full bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive">
-              {100 - qualifiedRate}%
-            </span>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold tabular-nums text-destructive">{unqualifiedCount}</div>
-            <p className="text-xs text-muted-foreground mt-1">
-              需要关注的检测记录
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-
       {/* 工具栏 */}
       <div className="flex items-center justify-between pt-2">
         <div className="flex items-center gap-2">

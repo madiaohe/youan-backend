@@ -94,13 +94,6 @@ export default function WMSPage() {
   const pageCount = Math.ceil(filteredRecords.length / pageSize);
   const paginatedRecords = filteredRecords.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
 
-  // 统计
-  const totalCount = syncRecords.length;
-  const successCount = syncRecords.filter((r) => r.status === "成功").length;
-  const failCount = syncRecords.filter((r) => r.status === "失败").length;
-  const totalItems = syncRecords.reduce((sum, r) => sum + r.itemCount, 0);
-  const successRate = totalCount > 0 ? Math.round((successCount / totalCount) * 100) : 0;
-
   // 重置筛选
   const handleResetFilter = () => {
     setFilterType("all");
@@ -262,68 +255,6 @@ export default function WMSPage() {
             >
               办理退库
             </Button>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* KPI 统计卡片 */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs dark:*:data-[slot=card]:bg-card">
-        <Card className="@container/card">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              同步总次数
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl">{totalCount}</div>
-            <p className="text-xs text-muted-foreground mt-1">
-              历史同步总次数
-            </p>
-          </CardContent>
-        </Card>
-        <Card className="@container/card">
-          <CardHeader className="pb-2 flex flex-row items-center justify-between">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              成功次数
-            </CardTitle>
-            <span className="inline-flex items-center rounded-full bg-success/10 px-2 py-0.5 text-xs font-medium text-success">
-              {successRate}%
-            </span>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl text-success">{successCount}</div>
-            <p className="text-xs text-muted-foreground mt-1">
-              同步成功记录
-            </p>
-          </CardContent>
-        </Card>
-        <Card className="@container/card">
-          <CardHeader className="pb-2 flex flex-row items-center justify-between">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              失败次数
-            </CardTitle>
-            <span className="inline-flex items-center rounded-full bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive">
-              {totalCount > 0 ? 100 - successRate : 0}%
-            </span>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl text-destructive">{failCount}</div>
-            <p className="text-xs text-muted-foreground mt-1">
-              需要排查问题
-            </p>
-          </CardContent>
-        </Card>
-        <Card className="@container/card">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              同步数据量
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold tabular-nums @[250px]/card:text-3xl text-primary">{totalItems}</div>
-            <p className="text-xs text-muted-foreground mt-1">
-              累计同步条目
-            </p>
           </CardContent>
         </Card>
       </div>

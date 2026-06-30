@@ -22,6 +22,11 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import { PanelLeftIcon } from "lucide-react"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
@@ -677,6 +682,149 @@ function SidebarMenuSubButton({
   )
 }
 
+// 可折叠菜单组件 - 折叠状态下通过 Popover 显示子菜单
+function SidebarMenuCollapsible({
+  title,
+  icon,
+  isActive,
+  children,
+}: {
+  title: string
+  icon: React.ReactNode
+  isActive?: boolean
+  children: React.ReactNode
+}) {
+  const { state } = useSidebar()
+  const [open, setOpen] = React.useState(false)
+  const timeoutRef = React.useRef<NodeJS.Timeout | null>(null)
+
+  // 清理定时器
+  const clearTimeouts = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
+    }
+  }
+
+  // hover 打开
+  const handleMouseEnter = () => {
+    clearTimeouts()
+    setOpen(true)
+  }
+
+  // hover 关闭（带延迟，方便鼠标移动到 Popover 内容）
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setOpen(false)
+    }, 150)
+  }
+
+  // 折叠状态：使用 Popover 显示子菜单（hover 触发）
+  // 注意：不使用 tooltip，因为 Popover 会显示子菜单
+  if (state === "collapsed") {
+    return (
+      <SidebarMenuItem>
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <SidebarMenuButton
+              isActive={isActive}
+              className="cursor-pointer"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              {icon}
+              <span>{title}</span>
+            </SidebarMenuButton>
+          </PopoverTrigger>
+          <PopoverContent
+            side="right"
+            align="start"
+            className="w-48 p-1"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <div className="px-2 pb-0.5 pt-0.5 text-xs font-medium text-muted-foreground">
+              {title}
+            </div>
+            <div className="flex flex-col gap-0.5">
+              {children}
+            </div>
+          </PopoverContent>
+        </Popover>
+      </SidebarMenuItem>
+    )
+  }
+
+  // 展开状态：使用 Collapsible
+  return (
+    <Collapsible asChild defaultOpen={isActive}>
+      <SidebarMenuItem>
+        <CollapsibleTrigger asChild>
+          <SidebarMenuButton tooltip={title}>
+            {icon}
+            <span>{title}</span>
+            <ChevronRight className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-90" />
+          </SidebarMenuButton>
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <SidebarMenuSub>
+            {children}
+          </SidebarMenuSub>
+        </CollapsibleContent>
+      </SidebarMenuItem>
+    </Collapsible>
+  )
+}
+
+// Popover 中的子菜单项
+function SidebarMenuCollapsibleItem({
+  title,
+  url,
+  isActive,
+  onClick,
+}: {
+  title: string
+  url: string
+  isActive?: boolean
+  onClick?: () => void
+}) {
+  const { state } = useSidebar()
+
+  // 折叠状态下（在 Popover 中）
+  if (state === "collapsed") {
+    return (
+      <a
+        href={url}
+        onClick={onClick}
+        className={cn(
+          "flex h-8 items-center gap-2 rounded-full px-3 text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+          isActive && "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+        )}
+      >
+        <span>{title}</span>
+      </a>
+    )
+  }
+
+  // 展开状态下（在 SidebarMenuSub 中）
+  return (
+    <SidebarMenuSubItem>
+      <SidebarMenuSubButton asChild isActive={isActive}>
+        <a href={url} onClick={onClick}>
+          <span>{title}</span>
+        </a>
+      </SidebarMenuSubButton>
+    </SidebarMenuSubItem>
+  )
+}
+
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible"
+import { ChevronRight } from "lucide-react"
+
 export {
   Sidebar,
   SidebarContent,
@@ -697,6 +845,8 @@ export {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
+  SidebarMenuCollapsible,
+  SidebarMenuCollapsibleItem,
   SidebarProvider,
   SidebarRail,
   SidebarSeparator,

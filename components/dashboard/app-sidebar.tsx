@@ -13,16 +13,10 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
+  SidebarMenuCollapsible,
+  SidebarMenuCollapsibleItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -42,7 +36,6 @@ import {
   BarChart3,
   FileText,
   Settings,
-  ChevronRight,
   LogOut,
   User,
   Bell,
@@ -167,16 +160,17 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar collapsible="offcanvas">
+    <Sidebar collapsible="icon">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
               className="data-[slot=sidebar-menu-button]:p-1.5!"
+              tooltip="滤盒管理系统"
             >
               <Link href="/">
-                <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground text-xs font-bold">
+                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground text-xs font-bold">
                   滤
                 </div>
                 <span className="text-base font-semibold">滤盒管理系统</span>
@@ -208,35 +202,25 @@ export function AppSidebar() {
                     </SidebarMenuItem>
                   );
                 }
+
                 // 带子菜单的菜单项
+                const isActive = menu.items?.some(item => pathname === item.url);
                 return (
-                  <Collapsible key={menu.title} asChild defaultOpen={menu.items?.some(item => pathname === item.url)}>
-                    <SidebarMenuItem>
-                      <CollapsibleTrigger asChild>
-                        <SidebarMenuButton tooltip={menu.title}>
-                          <menu.icon className="h-4 w-4" />
-                          <span>{menu.title}</span>
-                          <ChevronRight className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-90" />
-                        </SidebarMenuButton>
-                      </CollapsibleTrigger>
-                      <CollapsibleContent>
-                        <SidebarMenuSub>
-                          {menu.items?.map((item) => (
-                            <SidebarMenuSubItem key={item.url}>
-                              <SidebarMenuSubButton
-                                asChild
-                                isActive={pathname === item.url}
-                              >
-                                <Link href={item.url}>
-                                  <span>{item.title}</span>
-                                </Link>
-                              </SidebarMenuSubButton>
-                            </SidebarMenuSubItem>
-                          ))}
-                        </SidebarMenuSub>
-                      </CollapsibleContent>
-                    </SidebarMenuItem>
-                  </Collapsible>
+                  <SidebarMenuCollapsible
+                    key={menu.title}
+                    title={menu.title}
+                    icon={<menu.icon className="h-4 w-4" />}
+                    isActive={isActive}
+                  >
+                    {menu.items?.map((item) => (
+                      <SidebarMenuCollapsibleItem
+                        key={item.url}
+                        title={item.title}
+                        url={item.url}
+                        isActive={pathname === item.url}
+                      />
+                    ))}
+                  </SidebarMenuCollapsible>
                 );
               })}
             </SidebarMenu>
@@ -252,6 +236,7 @@ export function AppSidebar() {
                 <SidebarMenuButton
                   size="lg"
                   className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                  tooltip={username}
                 >
                   <Avatar className="h-8 w-8 rounded-lg">
                     <AvatarFallback className="rounded-lg bg-primary text-primary-foreground">

@@ -217,10 +217,10 @@ export default function DashboardPage() {
           <Table>
             <TableHeader className="bg-muted sticky top-0 z-10">
               <TableRow className="hover:bg-transparent">
-                <TableHead className="h-10 w-24">类型</TableHead>
-                <TableHead className="h-10">内容</TableHead>
+                <TableHead className="h-10 pl-6">内容</TableHead>
                 <TableHead className="h-10 w-28">时间</TableHead>
-                <TableHead className="h-10 w-20 text-center">操作</TableHead>
+                <TableHead className="h-10 w-24">类型</TableHead>
+                <TableHead className="h-10 w-24 text-center">建议操作</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -229,6 +229,10 @@ export default function DashboardPage() {
                   const style = getTypeStyle(item.type);
                   return (
                     <TableRow key={item.id}>
+                      <TableCell className="py-3 pl-6 text-sm">{item.content}</TableCell>
+                      <TableCell className="py-3 text-sm text-muted-foreground">
+                        {item.time}
+                      </TableCell>
                       <TableCell className="py-3">
                         <div className="flex items-center gap-2">
                           <div className={`p-1 rounded ${style.bgColor}`}>
@@ -236,10 +240,6 @@ export default function DashboardPage() {
                           </div>
                           <span className="font-medium text-sm">{item.type}</span>
                         </div>
-                      </TableCell>
-                      <TableCell className="py-3 text-sm">{item.content}</TableCell>
-                      <TableCell className="py-3 text-sm text-muted-foreground">
-                        {item.time}
                       </TableCell>
                       <TableCell className="py-3 text-center">
                         <Button variant="ghost" size="sm" className="h-7 px-2 text-xs">

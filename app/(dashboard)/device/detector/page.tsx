@@ -29,6 +29,12 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
 import {
   mockDetectorDevices,
@@ -41,7 +47,7 @@ import {
   type IndicatorLight,
   type RecycleBoxStatus,
 } from "@/lib/mocks/data";
-import { Search, RotateCcw, Plus, Pencil, Power, PowerOff, Server, Settings, Lightbulb, Activity, Trash2 } from "lucide-react";
+import { Search, RotateCcw, Plus, Pencil, Power, PowerOff, Server, Settings, Lightbulb, Activity, Trash2, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, MoreVertical } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 
 export default function DetectorDevicePage() {
@@ -71,6 +77,10 @@ export default function DetectorDevicePage() {
     ipAddress: "",
   });
 
+  // 分页状态
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+
   // 筛选设备
   const filteredDevices = devices.filter((device) => {
     if (filterKeyword && !device.name.includes(filterKeyword) && !device.code.includes(filterKeyword))
@@ -85,6 +95,13 @@ export default function DetectorDevicePage() {
   const offlineCount = devices.filter((d) => d.status === "离线").length;
   const maintenanceCount = devices.filter((d) => d.status === "维护中").length;
   const onlineRate = totalCount > 0 ? Math.round((onlineCount / totalCount) * 100) : 0;
+
+  // 分页数据
+  const pageCount = Math.ceil(filteredDevices.length / pageSize);
+  const paginatedDevices = filteredDevices.slice(
+    pageIndex * pageSize,
+    (pageIndex + 1) * pageSize
+  );
 
   // 重置筛选
   const handleResetFilter = () => {
@@ -203,6 +220,11 @@ export default function DetectorDevicePage() {
     return variants[status] || "default";
   };
 
+  // 获取设备的三色指示灯状态
+  const getDeviceLights = (deviceId: string) => {
+    return indicatorLights.filter((light) => light.deviceId === deviceId);
+  };
+
   return (
     <div className="flex flex-col gap-4">
       {/* KPI 统计卡片 */}
@@ -312,60 +334,116 @@ export default function DetectorDevicePage() {
               <TableHead className="h-12">位置</TableHead>
               <TableHead className="h-12">状态</TableHead>
               <TableHead className="h-12">IP地址</TableHead>
-              <TableHead className="h-12">最后心跳</TableHead>
-              <TableHead className="h-12">检测次数</TableHead>
-              <TableHead className="h-12">回收次数</TableHead>
-              <TableHead className="h-12 w-24">操作</TableHead>
+              <TableHead className="h-12">三色指示灯</TableHead>
+              <TableHead className="h-12 w-16">操作</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredDevices.length > 0 ? (
-              filteredDevices.map((device) => (
-                <TableRow key={device.id}>
-                  <TableCell className="py-3 font-medium">
-                    <div className="flex items-center gap-2">
-                      <div className="p-1.5 rounded-lg bg-primary/10">
-                        <Server className="h-4 w-4 text-primary" />
+            {paginatedDevices.length > 0 ? (
+              paginatedDevices.map((device) => {
+                const lights = getDeviceLights(device.id);
+                const redLight = lights.find((l) => l.color === "红");
+                const yellowLight = lights.find((l) => l.color === "黄");
+                const greenLight = lights.find((l) => l.color === "绿");
+
+                return (
+                  <TableRow key={device.id}>
+                    <TableCell className="py-3 font-medium">
+                      <div className="flex items-center gap-2">
+                        <div className="p-1.5 rounded-lg bg-primary/10">
+                          <Server className="h-4 w-4 text-primary" />
+                        </div>
+                        {device.code}
                       </div>
-                      {device.code}
-                    </div>
-                  </TableCell>
-                  <TableCell className="py-3">{device.name}</TableCell>
-                  <TableCell className="py-3">{device.location}</TableCell>
-                  <TableCell className="py-3">
-                    <Badge variant={getStatusBadge(device.status)}>{device.status}</Badge>
-                  </TableCell>
-                  <TableCell className="py-3 font-mono text-sm">{device.ipAddress}</TableCell>
-                  <TableCell className="py-3">{device.lastHeartbeat}</TableCell>
-                  <TableCell className="py-3">{device.detectionCount}</TableCell>
-                  <TableCell className="py-3">{device.recycleCount}</TableCell>
-                  <TableCell className="py-3">
-                    <div className="flex items-center gap-1">
-                      <Button variant="outline" size="sm" onClick={() => openDetailDialog(device)} title="设备详情">
-                        <Settings className="h-3 w-3" />
-                      </Button>
-                      <Button variant="ghost" size="sm" onClick={() => openEditDialog(device)} title="编辑">
-                        <Pencil className="h-3 w-3" />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => toggleDeviceStatus(device)}
-                        title={device.status === "在线" ? "停机维护" : "启用设备"}
-                      >
-                        {device.status === "在线" ? (
-                          <PowerOff className="h-3 w-3" />
-                        ) : (
-                          <Power className="h-3 w-3" />
-                        )}
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))
+                    </TableCell>
+                    <TableCell className="py-3">{device.name}</TableCell>
+                    <TableCell className="py-3">{device.location}</TableCell>
+                    <TableCell className="py-3">
+                      <Badge variant={getStatusBadge(device.status)}>{device.status}</Badge>
+                    </TableCell>
+                    <TableCell className="py-3 font-mono text-sm">{device.ipAddress}</TableCell>
+                    <TableCell className="py-3">
+                      <div className="flex items-center gap-2">
+                        {/* 红灯 */}
+                        <div className="flex items-center gap-1">
+                          <div
+                            className={`w-3 h-3 rounded-full ${
+                              redLight?.status === "亮" ? "bg-red-500 shadow-sm shadow-red-500" :
+                              redLight?.status === "闪烁" ? "bg-red-500 animate-pulse" :
+                              "bg-red-500/30"
+                            }`}
+                          />
+                          <span className="text-xs text-muted-foreground">
+                            {redLight?.status === "亮" ? "故障" : redLight?.status === "闪烁" ? "告警" : "正常"}
+                          </span>
+                        </div>
+                        {/* 黄灯 */}
+                        <div className="flex items-center gap-1">
+                          <div
+                            className={`w-3 h-3 rounded-full ${
+                              yellowLight?.status === "亮" ? "bg-yellow-500 shadow-sm shadow-yellow-500" :
+                              yellowLight?.status === "闪烁" ? "bg-yellow-500 animate-pulse" :
+                              "bg-yellow-500/30"
+                            }`}
+                          />
+                          <span className="text-xs text-muted-foreground">
+                            {yellowLight?.status === "亮" ? "满箱" : yellowLight?.status === "闪烁" ? "将满" : "空闲"}
+                          </span>
+                        </div>
+                        {/* 绿灯 */}
+                        <div className="flex items-center gap-1">
+                          <div
+                            className={`w-3 h-3 rounded-full ${
+                              greenLight?.status === "亮" ? "bg-green-500 shadow-sm shadow-green-500" :
+                              greenLight?.status === "闪烁" ? "bg-green-500 animate-pulse" :
+                              "bg-green-500/30"
+                            }`}
+                          />
+                          <span className="text-xs text-muted-foreground">
+                            {greenLight?.status === "亮" ? "运行" : greenLight?.status === "闪烁" ? "待机" : "停止"}
+                          </span>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell className="py-3">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                            <MoreVertical className="h-4 w-4" />
+                            <span className="sr-only">操作</span>
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-36">
+                          <DropdownMenuItem onClick={() => openDetailDialog(device)}>
+                            <Settings className="mr-2 h-4 w-4" />
+                            设备详情
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => openEditDialog(device)}>
+                            <Pencil className="mr-2 h-4 w-4" />
+                            编辑
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => toggleDeviceStatus(device)}>
+                            {device.status === "在线" ? (
+                              <>
+                                <PowerOff className="mr-2 h-4 w-4" />
+                                停机维护
+                              </>
+                            ) : (
+                              <>
+                                <Power className="mr-2 h-4 w-4" />
+                                启用设备
+                              </>
+                            )}
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                );
+              })
             ) : (
               <TableRow>
-                <TableCell colSpan={9} className="h-24 text-center">
+                <TableCell colSpan={7} className="h-24 text-center">
                   暂无数据
                 </TableCell>
               </TableRow>
@@ -374,7 +452,82 @@ export default function DetectorDevicePage() {
         </Table>
       </div>
 
-      <div className="text-sm text-muted-foreground">共 {filteredDevices.length} 台设备</div>
+      {/* 分页 */}
+      <div className="flex items-center justify-between">
+        <div className="hidden flex-1 text-sm text-muted-foreground lg:flex">
+          共 {filteredDevices.length} 台设备
+        </div>
+        <div className="flex w-full items-center gap-6 lg:w-fit">
+          <div className="hidden items-center gap-2 lg:flex">
+            <Label htmlFor="rows-per-page" className="text-sm">
+              每页行数
+            </Label>
+            <Select
+              value={`${pageSize}`}
+              onValueChange={(value) => {
+                setPageSize(Number(value));
+                setPageIndex(0);
+              }}
+            >
+              <SelectTrigger size="sm" className="w-16" id="rows-per-page">
+                <SelectValue placeholder={pageSize} />
+              </SelectTrigger>
+              <SelectContent side="top">
+                {[10, 20, 30, 40, 50].map((size) => (
+                  <SelectItem key={size} value={`${size}`}>
+                    {size}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex w-fit items-center justify-center text-sm font-medium">
+            第 {pageIndex + 1} / {pageCount || 1} 页
+          </div>
+          <div className="ml-auto flex items-center gap-2 lg:ml-0">
+            <Button
+              variant="outline"
+              className="hidden size-8 lg:flex"
+              size="icon"
+              onClick={() => setPageIndex(0)}
+              disabled={pageIndex === 0}
+            >
+              <span className="sr-only">首页</span>
+              <ChevronsLeft className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="size-8"
+              size="icon"
+              onClick={() => setPageIndex(pageIndex - 1)}
+              disabled={pageIndex === 0}
+            >
+              <span className="sr-only">上一页</span>
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="size-8"
+              size="icon"
+              onClick={() => setPageIndex(pageIndex + 1)}
+              disabled={pageIndex >= pageCount - 1}
+            >
+              <span className="sr-only">下一页</span>
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="hidden size-8 lg:flex"
+              size="icon"
+              onClick={() => setPageIndex(pageCount - 1)}
+              disabled={pageIndex >= pageCount - 1}
+            >
+              <span className="sr-only">末页</span>
+              <ChevronsRight className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      </div>
 
       {/* 新增弹窗 */}
       <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>

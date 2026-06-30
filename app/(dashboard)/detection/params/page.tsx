@@ -13,6 +13,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
@@ -27,7 +34,7 @@ import {
   mockDetectionDeviceParams,
   type DetectionDeviceParams,
 } from "@/lib/mocks/data";
-import { Settings2, Pencil, Gauge } from "lucide-react";
+import { Settings2, Pencil, Gauge, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
 
 // 默认参数值
 const DEFAULT_PARAMS = {
@@ -40,6 +47,17 @@ export default function DetectionParamsPage() {
   // 设备参数列表
   const [deviceParams, setDeviceParams] = useState<DetectionDeviceParams[]>(
     mockDetectionDeviceParams
+  );
+
+  // 分页状态
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+
+  // 分页数据
+  const pageCount = Math.ceil(deviceParams.length / pageSize);
+  const paginatedParams = deviceParams.slice(
+    pageIndex * pageSize,
+    (pageIndex + 1) * pageSize
   );
 
   // 编辑对话框
@@ -109,7 +127,7 @@ export default function DetectionParamsPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {deviceParams.map((device) => (
+            {paginatedParams.map((device) => (
               <TableRow key={device.deviceId}>
                 <TableCell className="py-3 font-medium">
                   <div className="flex items-center gap-2">
@@ -150,6 +168,83 @@ export default function DetectionParamsPage() {
             ))}
           </TableBody>
         </Table>
+      </div>
+
+      {/* 分页 */}
+      <div className="flex items-center justify-between">
+        <div className="hidden flex-1 text-sm text-muted-foreground lg:flex">
+          共 {deviceParams.length} 条记录
+        </div>
+        <div className="flex w-full items-center gap-6 lg:w-fit">
+          <div className="hidden items-center gap-2 lg:flex">
+            <Label htmlFor="rows-per-page" className="text-sm">
+              每页行数
+            </Label>
+            <Select
+              value={`${pageSize}`}
+              onValueChange={(value) => {
+                setPageSize(Number(value));
+                setPageIndex(0);
+              }}
+            >
+              <SelectTrigger size="sm" className="w-16" id="rows-per-page">
+                <SelectValue placeholder={pageSize} />
+              </SelectTrigger>
+              <SelectContent side="top">
+                {[10, 20, 30, 40, 50].map((size) => (
+                  <SelectItem key={size} value={`${size}`}>
+                    {size}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex w-fit items-center justify-center text-sm font-medium">
+            第 {pageIndex + 1} / {pageCount || 1} 页
+          </div>
+          <div className="ml-auto flex items-center gap-2 lg:ml-0">
+            <Button
+              variant="outline"
+              className="hidden size-8 lg:flex"
+              size="icon"
+              onClick={() => setPageIndex(0)}
+              disabled={pageIndex === 0}
+            >
+              <span className="sr-only">首页</span>
+              <ChevronsLeft className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="size-8"
+              size="icon"
+              onClick={() => setPageIndex(pageIndex - 1)}
+              disabled={pageIndex === 0}
+            >
+              <span className="sr-only">上一页</span>
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="size-8"
+              size="icon"
+              onClick={() => setPageIndex(pageIndex + 1)}
+              disabled={pageIndex >= pageCount - 1}
+            >
+              <span className="sr-only">下一页</span>
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="hidden size-8 lg:flex"
+              size="icon"
+              onClick={() => setPageIndex(pageCount - 1)}
+              disabled={pageIndex >= pageCount - 1}
+            >
+              <span className="sr-only">末页</span>
+              <ChevronsRight className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
       </div>
 
       {/* 编辑对话框 */}

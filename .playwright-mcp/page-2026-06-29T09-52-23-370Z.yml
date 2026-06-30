@@ -1,0 +1,307 @@
+- generic:
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - list:
+              - listitem:
+                - link:
+                  - /url: /
+                  - generic: 滤
+                  - generic: 滤盒管理系统
+          - generic:
+            - generic:
+              - generic:
+                - list:
+                  - listitem:
+                    - link:
+                      - /url: /
+                      - img
+                      - generic: 工作台
+                  - listitem:
+                    - button:
+                      - img
+                      - generic: 权限管理
+                      - img
+                  - listitem:
+                    - button:
+                      - img
+                      - generic: 员工管理
+                      - img
+                  - listitem:
+                    - button:
+                      - img
+                      - generic: 检测管理
+                      - img
+                  - listitem:
+                    - button:
+                      - img
+                      - generic: 回收管理
+                      - img
+                  - listitem:
+                    - button:
+                      - img
+                      - generic: 设备管理
+                      - img
+                  - listitem:
+                    - button [expanded]:
+                      - img
+                      - generic: 报表与统计分析
+                      - img
+                    - generic:
+                      - list:
+                        - listitem:
+                          - link:
+                            - /url: /report/stats
+                            - generic: 检测数据统计
+                        - listitem:
+                          - link:
+                            - /url: /report/ranking
+                            - generic: 区队不合格率排名
+                        - listitem:
+                          - link:
+                            - /url: /report/screen
+                            - generic: 大屏展示配置
+                  - listitem:
+                    - button:
+                      - img
+                      - generic: 日志管理
+                      - img
+                  - listitem:
+                    - button:
+                      - img
+                      - generic: 系统设置
+                      - img
+          - generic:
+            - list:
+              - listitem:
+                - button:
+                  - generic:
+                    - generic: 管
+                  - generic:
+                    - generic: 管理员
+                    - generic: admin@example.com
+                  - img
+    - main:
+      - generic:
+        - button:
+          - img
+          - generic: Toggle Sidebar
+        - navigation:
+          - list:
+            - listitem: 报表与统计分析
+            - listitem:
+              - img
+            - listitem:
+              - link [disabled]: 大屏展示配置
+      - main:
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - img
+              - generic:
+                - heading [level=1]: 滤盒消耗规律分析大屏
+                - paragraph: 公司整体及各区队滤盒消耗数据实时展示
+            - generic:
+              - generic:
+                - img
+                - generic: "上次更新: 17:52:12"
+              - generic:
+                - generic: 17:52:22
+                - generic: 2026年6月29日星期一
+              - button [expanded]:
+                - img
+                - text: 设置
+          - generic:
+            - generic:
+              - generic:
+                - img
+                - generic: 本月领用总量
+              - generic: "355"
+              - generic: 个滤盒
+            - generic:
+              - generic:
+                - img
+                - generic: 本月回收总量
+              - generic: "338"
+              - generic: 个滤盒
+            - generic:
+              - generic:
+                - img
+                - generic: 本月判废总量
+              - generic: "70"
+              - generic: 个滤盒
+            - generic:
+              - generic:
+                - img
+                - generic: 平均使用寿命
+              - generic: "28.8"
+              - generic: 天
+          - generic:
+            - generic:
+              - heading [level=2]:
+                - img
+                - text: 公司整体月度消耗趋势
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic: 判废数量
+                        - generic: 回收数量
+                        - generic: 领用数量
+                    - application:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: 1月
+                          - generic:
+                            - generic: 2月
+                          - generic:
+                            - generic: 3月
+                          - generic:
+                            - generic: 4月
+                          - generic:
+                            - generic: 5月
+                          - generic:
+                            - generic: 6月
+                        - generic:
+                          - generic:
+                            - generic: "0"
+                          - generic:
+                            - generic: "75"
+                          - generic:
+                            - generic: "150"
+                          - generic:
+                            - generic: "225"
+                          - generic:
+                            - generic: "300"
+            - generic:
+              - heading [level=2]:
+                - img
+                - text: 区队消耗排名
+              - generic:
+                - generic:
+                  - generic: "1"
+                  - generic:
+                    - generic:
+                      - generic: 采煤一队
+                      - generic: 12 个
+                - generic:
+                  - generic: "2"
+                  - generic:
+                    - generic:
+                      - generic: 采煤二队
+                      - generic: 11 个
+                - generic:
+                  - generic: "3"
+                  - generic:
+                    - generic:
+                      - generic: 掘进一队
+                      - generic: 10 个
+                - generic:
+                  - generic: "4"
+                  - generic:
+                    - generic:
+                      - generic: 掘进二队
+                      - generic: 9 个
+                - generic:
+                  - generic: "5"
+                  - generic:
+                    - generic:
+                      - generic: 机电队
+                      - generic: 8 个
+                - generic:
+                  - generic: "6"
+                  - generic:
+                    - generic:
+                      - generic: 通风队
+                      - generic: 7 个
+          - generic:
+            - heading [level=2]: 各区队判废趋势对比
+            - generic:
+              - generic:
+                - generic:
+                  - application:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic: 机电队
+                        - generic:
+                          - generic: 通风队
+                        - generic:
+                          - generic: 采煤一队
+                        - generic:
+                          - generic: 采煤二队
+                        - generic:
+                          - generic: 掘进一队
+                        - generic:
+                          - generic: 掘进二队
+                        - generic:
+                          - generic: 运输队
+                        - generic:
+                          - generic: 机电二队
+                      - generic:
+                        - generic:
+                          - generic: "0"
+                        - generic:
+                          - generic: "3"
+                        - generic:
+                          - generic: "6"
+                        - generic:
+                          - generic: "9"
+                        - generic:
+                          - generic: "12"
+          - generic:
+            - generic: 数据每 30 秒自动刷新
+            - generic: 滤盒全生命周期管理系统 · 数据仅供展示
+    - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e366] [cursor=pointer]:
+    - img [ref=e367]
+  - alert
+  - generic: "3"
+  - dialog "展示设置" [ref=e496]:
+    - heading "展示设置" [level=2] [ref=e498]
+    - generic [ref=e499]:
+      - generic [ref=e500]:
+        - generic [ref=e501]: 刷新频率
+        - combobox [active] [ref=e502]:
+          - generic: 30 秒
+          - img
+      - generic [ref=e503]:
+        - generic [ref=e504]: 展示指标
+        - generic [ref=e505]:
+          - generic [ref=e506]:
+            - checkbox "领用数量" [checked] [ref=e507]:
+              - generic:
+                - img
+            - generic [ref=e508] [cursor=pointer]:
+              - img [ref=e509]
+              - text: 领用数量
+          - generic [ref=e513]:
+            - checkbox "回收数量" [checked] [ref=e514]:
+              - generic:
+                - img
+            - generic [ref=e515] [cursor=pointer]:
+              - img [ref=e516]
+              - text: 回收数量
+          - generic [ref=e521]:
+            - checkbox "判废数量" [checked] [ref=e522]:
+              - generic:
+                - img
+            - generic [ref=e523] [cursor=pointer]:
+              - img [ref=e524]
+              - text: 判废数量
+          - generic [ref=e526]:
+            - checkbox "使用寿命" [ref=e527]
+            - generic [ref=e528] [cursor=pointer]:
+              - img [ref=e529]
+              - text: 使用寿命
+      - button "立即刷新" [ref=e532]:
+        - img
+        - text: 立即刷新
+    - button "Close" [ref=e533]:
+      - img
+      - generic [ref=e534]: Close
